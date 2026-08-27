@@ -1,0 +1,60 @@
+.chatbot-proposal {
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    background-color: var(--bs-light);
+    border: 1px solid var(--bs-border-color);
+
+    &__title {
+        font-size: 0.875rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        color: var(--bs-body-color);
+    }
+
+    &__content {
+        background-color: var(--lys-color-bg-secondary);
+        border: 1px solid var(--bs-border-color);
+        border-radius: 0.375rem;
+        padding: 0.5rem 0.75rem;
+        margin-bottom: 0.75rem;
+        font-size: 0.875rem;
+        line-height: 1.4;
+        color: var(--bs-body-color);
+
+        &--readonly {
+            background-color: var(--bs-gray-100);
+        }
+    }
+
+    &__textarea {
+        width: 100%;
+        min-height: 60px;
+        resize: vertical;
+        border: none;
+        outline: none;
+        font-size: 0.875rem;
+        line-height: 1.4;
+        font-family: inherit;
+        background-color: transparent;
+
+        &:focus {
+            outline: none;
+        }
+    }
+
+    &__actions {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+    }
+
+    &__company,
+    &__year {
+        margin-bottom: 0.75rem;
+    }
+
+    &__button {
+        font-size: 0.8125rem;
+        padding: 0.375rem 0.75rem;
+    }
+}

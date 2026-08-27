@@ -1,0 +1,21 @@
+{% extends "_base.html" %}
+{% block title %}Paiement réussi{% endblock %}
+{% block theme_color %}#198754{% endblock %}
+{% block heading %}Paiement réussi{% endblock %}
+{% block greeting %}Bonjour {{ private_data.first_name }},{% endblock %}
+{% block intro %}Votre paiement d'abonnement a été traité avec succès.{% endblock %}
+{% block info_box %}
+        <div style="background-color: #ffffff; padding: 15px; border-left: 4px solid #198754; margin: 20px 0;">
+            <p style="margin: 0;"><strong>Organisation :</strong> {{ client_name }}</p>
+            <p style="margin: 10px 0 0 0;"><strong>Plan :</strong> {{ plan_name }}</p>
+            <p style="margin: 10px 0 0 0;"><strong>Montant :</strong> {{ amount }} {{ currency }}</p>
+            <p style="margin: 10px 0 0 0;"><strong>Facturation :</strong> {{ billing_period }}</p>
+            <p style="margin: 10px 0 0 0;"><strong>Prochaine facturation :</strong> {{ next_billing_date }}</p>
+        </div>
+{% endblock %}
+{% block body %}
+        <p>Votre abonnement est maintenant actif. Merci de votre confiance !</p>
+{% endblock %}
+{% block cta_color %}#198754{% endblock %}
+{% block cta_text %}Accéder à la plateforme{% endblock %}
+{% block footer %}Si vous avez des questions concernant votre abonnement, veuillez contacter votre administrateur.{% endblock %}

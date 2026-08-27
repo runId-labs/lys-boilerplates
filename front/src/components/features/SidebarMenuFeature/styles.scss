@@ -1,0 +1,101 @@
+/**
+ * SidebarMenuFeature styles
+ * Floating chatbot button (bottom-left) + chatbot panel
+ */
+
+.sidebar-menu-feature {
+    // Chatbot mode - docked panel (fills height, flush)
+    &.chatbot-mode {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        overflow-y: auto;
+        overflow-x: hidden;
+        background-color: var(--lys-color-surface-glass);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border-radius: 0;
+        border: none;
+        border-right: 1px solid var(--lys-color-border-default);
+        box-shadow: none;
+        width: 100%;
+        z-index: var(--bs-offcanvas-zindex);
+    }
+
+    // Enlarged "dialog" mode: drop the backdrop-filter so the escaped, fixed-positioned
+    // chatbot resolves against the VIEWPORT (a non-none backdrop-filter creates a
+    // containing block for position: fixed descendants, which otherwise traps the panel
+    // inside the sidebar). This is the only such trigger in the chatbot's ancestor chain.
+    &.chatbot-mode.is-expanded {
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+    }
+
+    // Collapsed state - floating chatbot button
+    &.collapsed {
+        position: fixed;
+        bottom: 24px;
+        left: 24px;
+        z-index: 1040;
+        width: auto;
+        height: auto;
+        background: none;
+        border: none;
+        box-shadow: none;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        border-radius: 0;
+
+        .sidebar-icons {
+            display: flex;
+            width: auto;
+            height: auto;
+            padding: 0;
+
+            .sidebar-icon {
+                width: auto;
+                height: auto;
+                cursor: pointer;
+                transition: transform 0.25s ease;
+                background-color: transparent;
+
+                &:hover {
+                    transform: scale(1.1);
+                    background-color: transparent;
+                }
+            }
+        }
+
+        .chatbot-icon i {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            color: #FFFFFF;
+            background-color: var(--lys-color-primary);
+            flex-shrink: 0;
+            box-shadow: var(--lys-shadow-md);
+            transition: box-shadow 0.25s ease, transform 0.25s ease;
+
+            &:hover {
+                box-shadow: var(--lys-shadow-lg);
+            }
+        }
+
+        .chatbot-icon {
+            margin-top: 0;
+            border-top: none;
+        }
+    }
+}
+
+// Backdrop behind the enlarged chatbot ("dialog" mode). Click to collapse.
+.chatbot-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 1055;
+}

@@ -1,0 +1,231 @@
+services:
+  database:
+    container_name: myapp-db
+    image: postgres:17-alpine
+    env_file:
+      - .env
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=${DB_PWD:-password}
+      - POSTGRES_USER=${DB_USER:-myapp}
+      - POSTGRES_DB=${DB_NAME:-myapp}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-myapp} -d ${DB_NAME:-myapp}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    restart: unless-stopped
+
+  redis:
+    container_name: myapp-redis
+    image: redis:7-alpine
+    env_file:
+      - .env
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - ./data/redis:/data
+    command: redis-server --appendonly yes
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    restart: unless-stopped
+
+  mailhog:
+    container_name: myapp-mailhog
+    image: mailhog/mailhog:latest
+    env_file:
+      - .env
+    ports:
+      - "${SMTP_PORT:-1025}:1025"  # SMTP server
+      - "8025:8025"                 # Web UI
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:8025"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    restart: unless-stopped
+
+  minio:
+    container_name: myapp-minio
+    image: minio/minio:latest
+    env_file:
+      - .env
+    ports:
+      - "${MINIO_API_PORT:-9000}:9000"     # API
+      - "${MINIO_CONSOLE_PORT:-9001}:9001" # Console UI
+    volumes:
+      - ./data/minio:/data
+    environment:
+      - MINIO_ROOT_USER=${MINIO_ROOT_USER:-minioadmin}
+      - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD:-minioadmin}
+    command: server /data --console-address ":9001"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:9000/minio/health/live || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    restart: unless-stopped
+
+  minio-init:
+    container_name: myapp-minio-init
+    image: minio/mc:latest
+    depends_on:
+      minio:
+        condition: service_healthy
+    entrypoint: >
+      /bin/sh -c "
+      mc alias set minio http://minio:9000 $${MINIO_ROOT_USER:-minioadmin} $${MINIO_ROOT_PASSWORD:-minioadmin};
+      mc mb --ignore-existing minio/$${S3_BUCKET:-app-files};
+      exit 0;
+      "
+
+  # Mock OIDC provider for local SSO testing (Microsoft + Google).
+  # Point the SSO issuer URLs at it (see api/.env.example SSO section).
+  mock-oauth2:
+    container_name: myapp-mock-oauth2
+    image: ghcr.io/navikt/mock-oauth2-server:2.1.10
+    ports:
+      - "8080:8080"
+    environment:
+      - SERVER_PORT=8080
+      - JSON_CONFIG={"interactiveLogin":true,"httpServer":"NettyWrapper","tokenCallbacks":[{"issuerId":"default","tokenExpiry":3600,"requestMappings":[{"requestParam":"scope","match":"openid","claims":{"sub":"mock-user-id-001","oid":"mock-oid-001","email":"user@example.com","given_name":"Test","family_name":"User","preferred_username":"user@example.com"}}]},{"issuerId":"google","tokenExpiry":3600,"requestMappings":[{"requestParam":"scope","match":"openid","claims":{"sub":"mock-google-user-001","email":"google-user@example.com","given_name":"Google","family_name":"User","email_verified":true}}]}]}
+    restart: unless-stopped
+
+  # Local error tracking (Sentry-compatible). Create a project at http://localhost:3000
+  # and paste its DSN into api/.env (SENTRY_DSN) to test error reporting end to end.
+  glitchtip:
+    container_name: myapp-glitchtip
+    image: glitchtip/glitchtip
+    command: bin/run-all-in-one.sh
+    ports:
+      - "3000:8000"
+    environment:
+      DATABASE_URL: postgres://${DB_USER:-myapp}:${DB_PWD:-password}@database:5432/glitchtip
+      SECRET_KEY: glitchtip-dev-secret-key
+      GLITCHTIP_DOMAIN: http://localhost:3000
+      DEFAULT_FROM_EMAIL: glitchtip@localhost
+      EMAIL_URL: smtp://mailhog:1025
+      CELERY_WORKER_AUTOSCALE: "1,3"
+      ENABLE_USER_REGISTRATION: "true"
+    depends_on:
+      glitchtip-init:
+        condition: service_completed_successfully
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:8000/_health/')\""]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    restart: unless-stopped
+
+  glitchtip-init:
+    container_name: myapp-glitchtip-init
+    image: postgres:17-alpine
+    depends_on:
+      database:
+        condition: service_healthy
+    entrypoint:
+      - sh
+      - -c
+      - |
+        PGPASSWORD=${DB_PWD:-password} psql -h database -U ${DB_USER:-myapp} -d ${DB_NAME:-myapp} -tc "SELECT 1 FROM pg_database WHERE datname = 'glitchtip'" | grep -q 1 || PGPASSWORD=${DB_PWD:-password} psql -h database -U ${DB_USER:-myapp} -d ${DB_NAME:-myapp} -c "CREATE DATABASE glitchtip"
+
+
+# ============================================================================
+# Applications — hot reload on code changes:
+# - api:     reload handled by the lys launcher (main.py run --reload)
+# - worker:  watchfiles restarts celery on Python file changes
+# - front:   Vite HMR (polling enabled for reliable events on macOS mounts)
+#
+# Source directories are volume-mounted; the container-internal hostnames
+# below override the localhost values of the mounted .env files (python-dotenv
+# never overrides existing environment variables).
+# ============================================================================
+
+  api:
+    container_name: myapp-api
+    build:
+      context: .
+      dockerfile: api/Dockerfile
+      target: dev
+    environment:
+      - DB_HOST=database
+      - REDIS_URL=redis://redis:6379/0
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+      - S3_ENDPOINT_URL=http://minio:9000
+      - SMTP_SERVER=mailhog
+      - FRONT_URL=http://localhost:5173
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./api:/app/api
+      # Shared with the front container for in-container schema export
+      # (./bin/generate-schema.sh)
+      - ./front/schema.graphql:/app/schema.graphql
+    depends_on:
+      database:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+    restart: unless-stopped
+
+  worker:
+    container_name: myapp-worker
+    build:
+      context: .
+      dockerfile: worker/Dockerfile
+      target: dev
+    environment:
+      - DB_HOST=database
+      - REDIS_URL=redis://redis:6379/0
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+      - S3_ENDPOINT_URL=http://minio:9000
+      - SMTP_SERVER=mailhog
+    volumes:
+      - ./worker:/app/worker
+    depends_on:
+      database:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+
+  front:
+    container_name: myapp-front
+    build:
+      context: ./front
+      dockerfile: Dockerfile
+      target: dev
+    volumes:
+      - ./front:/app
+      - /app/node_modules
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+      - API_PROXY_TARGET=http://api:8000
+      - S3_PROXY_TARGET=http://minio:9000
+    ports:
+      - "5173:5173"
+    depends_on:
+      - api
+    restart: unless-stopped
+
+
+networks:
+  default:
+    name: myapp_network

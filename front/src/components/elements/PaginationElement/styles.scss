@@ -1,0 +1,105 @@
+/**
+ * PaginationElement styles
+ * Provides clean pagination controls styling
+ */
+
+.pagination-element {
+    padding: 1.5rem 0 1rem;
+    flex-wrap: wrap;
+    gap: 1rem !important;
+    border-top: 1px solid var(--bs-border-color);
+    margin-top: 1rem;
+
+    // Items per page section
+    .d-flex.align-items-center.gap-2 {
+        label {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--bs-body-color);
+        }
+    }
+
+    .items-per-page-select {
+        width: auto;
+        min-width: 90px;
+        font-size: 0.875rem;
+        border-color: var(--bs-border-color);
+        transition: border-color 0.2s ease;
+
+        &:hover:not(:disabled) {
+            border-color: var(--lys-color-accent);
+        }
+
+        &:focus {
+            border-color: var(--bs-primary);
+            box-shadow: 0 0 0 0.2rem rgba(var(--bs-primary-rgb), 0.25);
+        }
+    }
+
+    // Showing text
+    .text-muted {
+        font-size: 0.875rem;
+        font-weight: 500;
+    }
+
+    // Navigation buttons
+    .pagination-buttons {
+        .button-element {
+            min-width: 100px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+
+            &:hover:not(:disabled) {
+                background-color: var(--bs-primary);
+                border-color: var(--bs-primary);
+                color: white;
+                transform: translateY(-1px);
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            }
+
+            &:active:not(:disabled) {
+                transform: translateY(0);
+            }
+
+            &:disabled {
+                opacity: 0.5;
+                cursor: not-allowed;
+            }
+        }
+    }
+
+    // Mobile responsive
+    @media (max-width: 768px) {
+        gap: 0.75rem !important;
+
+        .d-flex.align-items-center.gap-2,
+        .pagination-buttons {
+            width: 100%;
+            justify-content: center;
+        }
+
+        .items-per-page-select {
+            flex: 1;
+            max-width: 150px;
+        }
+
+        .text-muted {
+            text-align: center;
+            width: 100%;
+        }
+    }
+
+    @media (max-width: 576px) {
+        padding: 1rem 0;
+
+        .pagination-buttons {
+            flex-direction: row;
+            gap: 0.5rem;
+
+            .button-element {
+                flex: 1;
+                min-width: auto;
+            }
+        }
+    }
+}

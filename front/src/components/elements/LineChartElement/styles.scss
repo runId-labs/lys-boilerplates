@@ -1,0 +1,30 @@
+.line-chart-element {
+    width: 100%;
+
+    // Recharts overrides
+    .recharts-cartesian-grid-horizontal line,
+    .recharts-cartesian-grid-vertical line {
+        stroke: var(--bs-border-color);
+    }
+
+    .recharts-tooltip-wrapper {
+        z-index: 10;
+    }
+
+    .recharts-legend-wrapper {
+        padding-top: 0.5rem !important;
+    }
+
+    .recharts-legend-item {
+        margin-right: 1rem !important;
+
+        .recharts-legend-item-text {
+            color: var(--bs-body-color) !important;
+            font-size: 0.8125rem;
+        }
+    }
+
+    .recharts-reference-line-label {
+        font-size: 11px;
+    }
+}

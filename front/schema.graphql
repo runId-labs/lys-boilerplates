@@ -1,0 +1,2796 @@
+directive @oneOf on INPUT_OBJECT
+
+input AIMessageInput {
+  message: String!
+  conversationId: String = null
+  context: PageContextInput = null
+}
+
+type AIMessageNode {
+  content: String!
+  conversationId: String
+  toolCallsCount: Int!
+  toolResults: [AIToolResult!]
+  frontendActions: [FrontendAction!]
+  message: String!
+}
+
+type AIToolResult {
+  toolName: String!
+  result: String!
+  success: Boolean!
+}
+
+type AccessLevelNode implements Node {
+  """The Globally Unique ID of this object"""
+  id: ID!
+  code: String!
+  enabled: Boolean!
+  description: String
+  createdAt: DateTime!
+  updatedAt: DateTime
+}
+
+"""An edge in a connection."""
+type AccessLevelNodeEdge {
+  """A cursor for use in pagination"""
+  cursor: String!
+
+  """The item at the end of the edge"""
+  node: AccessLevelNode!
+}
+
+type AccessLevelNodeListConnection {
+  """Pagination data for this connection"""
+  pageInfo: LysPageInfo!
+
+  """Contains the nodes in this connection"""
+  edges: [AccessLevelNodeEdge!]!
+}
+
+input AccessLevelNodeOderByType @oneOf {
+  code: Boolean
+  createdAt: Boolean
+}
+
+type AccessedWebserviceNode implements Node {
+  """The Globally Unique ID of this object"""
+  id: ID!
+  code: String!
+  enabled: Boolean!
+  createdAt: DateTime!
+  updatedAt: DateTime
+  isPublic: Boolean!
+
+  """
+  Access levels through which the current user can access this webservice
+  """
+  userAccessLevels: [AccessLevelNode!]!
+}
+
+"""An edge in a connection."""
+type AccessedWebserviceNodeEdge {
+  """A cursor for use in pagination"""
+  cursor: String!
+
+  """The item at the end of the edge"""
+  node: AccessedWebserviceNode!
+}
+
+type AccessedWebserviceNodeListConnection {
+  """Pagination data for this connection"""
+  pageInfo: LysPageInfo!
+
+  """Contains the nodes in this connection"""
+  edges: [AccessedWebserviceNodeEdge!]!
+}
+
+input AccessedWebserviceNodeOderByType @oneOf {
+  code: Boolean
+  createdAt: Boolean
+}
+
+input ActivateUserInput {
+  """One-time activation token from invitation email"""
+  token: String!
+
+  """
+  New password (min 8 chars, must contain at least one letter and one digit)
+  """
+  newPassword: String!
+}
+
+type ActivateUserNode {
+  success: Boolean!
+  message: String!
+}
+
+type ActiveFileImportsCountNode {
+  activeCount: Int!
+}
+
+input AnonymizeUserInput {
+  """
+  Reason for anonymization (min 10 chars, required for audit). IRREVERSIBLE operation.
+  """
+  reason: String!
+}
+
+type AnonymizeUserNode {
+  success: Boolean!
+  message: String!
+}
+
+type AnonymizedUserNode implements Node {
+  """The Globally Unique ID of this object"""
+  id: ID!
+
+  """When the user's private data was anonymized."""
+  anonymizedAt: DateTime
+}
+
+"""An edge in a connection."""
+type AnonymizedUserNodeEdge {
+  """A cursor for use in pagination"""
+  cursor: String!
+
+  """The item at the end of the edge"""
+  node: AnonymizedUserNode!
+}
+
+type AnonymizedUserNodeListConnection {
+  """Pagination data for this connection"""
+  pageInfo: LysPageInfo!
+
+  """Contains the nodes in this connection"""
+  edges: [AnonymizedUserNodeEdge!]!
+}
+
+input AnonymizedUserNodeOderByType @oneOf {
+  createdAt: Boolean
+}
+
+enum BillingPeriod {
+  MONTHLY
+  YEARLY
+}
+
+type CancelSubscriptionResultNode {
+  success: Boolean!
+  effectiveDate: DateTime
+  error: String
+}
+
+type ClientNode implements Node {
+  """The Globally Unique ID of this object"""
+  id: ID!
+  name: String!
+  createdAt: DateTime!
+  updatedAt: DateTime
+  ownerId: ID!
+
+  """Current subscription for this client"""
+  subscription: SubscriptionNode
+
+  """Current license plan for this client"""
+  licensePlan: LicensePlanNode
+}
+
+"""An edge in a connection."""
+type ClientNodeEdge {
+  """A cursor for use in pagination"""
+  cursor: String!
+
+  """The item at the end of the edge"""
+  node: ClientNode!
+}
+
+type ClientNodeListConnection {
+  """Pagination data for this connection"""
+  pageInfo: LysPageInfo!
+
+  """Contains the nodes in this connection"""
+  edges: [ClientNodeEdge!]!
+}
+
+input ClientNodeOderByType @oneOf {
+  createdAt: Boolean
+  updatedAt: Boolean
+  name: Boolean
+}
+
+type ConfigurableEventChannelNode {
+  default: Boolean!
+  configurable: Boolean!
+}
+
+type ConfigurableEventNode {
+  eventType: String!
+  email: ConfigurableEventChannelNode!
+  notification: ConfigurableEventChannelNode!
+}
+
+type ConfigurableEventsNode {
+  events: [ConfigurableEventNode!]!
+}
+
+input CreateClientInput {
+  """First name (GDPR-protected)"""
+  firstName: String = null
+
+  """Last name (GDPR-protected)"""
+  lastName: String = null
+
+  """Gender code (MALE, FEMALE, OTHER)"""
+  genderCode: String = null
+
+  """Email address for the new user (will be normalized to lowercase)"""
+  email: String!
+
+  """Password (min 8 chars, must contain at least one letter and one digit)"""
+  password: String!
+
+  """Language code in format 'en' or 'en-US'"""
+  languageCode: String!
+
+  """Name of the client organization"""
+  clientName: String!
+}
+
+input CreateClientUserInput {
+  """First name (GDPR-protected)"""
+  firstName: String = null
+
+  """Last name (GDPR-protected)"""
+  lastName: String = null
+
+  """Gender code (MALE, FEMALE, OTHER)"""
+  genderCode: String = null
+
+  """Email address for the new user (will be normalized to lowercase)"""
+  email: String!
+
+  """Password (min 8 chars, must contain at least one letter and one digit)"""
+  password: String!
+
+  """Language code in format 'en' or 'en-US'"""
+  languageCode: String!
+
+  """Optional list of role codes to assign to the user"""
+  roleCodes: [String!] = null
+
+  """Client ID to associate the user with"""
+  clientId: ID!
+}
+
+input CreateClientWithSSOInput {
+  """First name (GDPR-protected)"""
+  firstName: String = null
+
+  """Last name (GDPR-protected)"""
+  lastName: String = null
+
+  """Gender code (MALE, FEMALE, OTHER)"""
+  genderCode: String = null
+
+  """SSO session token from signup flow"""
+  ssoToken: String!
+
+  """Name of the client organization"""
+  clientName: String!
+
+  """Language code in format 'en' or 'en-US'"""
+  languageCode: String!
+}
+
+input CreateDiscountInput {
+  """Business code of the discount, upper case"""
+  code: String!
+
+  """How much is taken off, read in the unit"""
+  value: Int!
+  unitId: String! = "PERCENT"
+  grantId: String!
+  description: String = null
+}
+
+input CreatePlanVersionInput {
+  planId: String!
+  prices: [PlanVersionPriceInput!]! = []
+  rules: [PlanVersionRuleInput!]!
+}
+
+input CreateSuperUserInput {
+  """First name (GDPR-protected)"""
+  firstName: String = null
+
+  """Last name (GDPR-protected)"""
+  lastName: String = null
+
+  """Gender code (MALE, FEMALE, OTHER)"""
+  genderCode: String = null
+
+  """Email address for the new user (will be normalized to lowercase)"""
+  email: String!
+
+  """Password (min 8 chars, must contain at least one letter and one digit)"""
+  password: String!
+
+  """Language code in format 'en' or 'en-US'"""
+  languageCode: String!
+}
+
+input CreateUserObservationInput {
+  """ID of the user to create observation for"""
+  targetUserId: ID!
+
+  """Observation message (min 10 characters)"""
+  message: String!
+}
+
+input CreateUserWithRolesInput {
+  """First name (GDPR-protected)"""
+  firstName: String = null
+
+  """Last name (GDPR-protected)"""
+  lastName: String = null
+
+  """Gender code (MALE, FEMALE, OTHER)"""
+  genderCode: String = null
+
+  """Email address for the new user (will be normalized to lowercase)"""
+  email: String!
+
+  """Password (min 8 chars, must contain at least one letter and one digit)"""
+  password: String!
+
+  """Language code in format 'en' or 'en-US'"""
+  languageCode: String!
+
+  """Optional list of role codes to assign to the user"""
+  roleCodes: [String!] = null
+}
+
+"""Date with time (isoformat)"""
+scalar DateTime
+
+type DeleteUserObservationNode {
+  success: Boolean!
+  message: String!
+}
+
+type FileImportNode implements Node {
+  """The Globally Unique ID of this object"""
+  id: ID!
+  clientId: String!
+  statusId: String!
+  typeId: String!
+  totalRows: Int
+  processedRows: Int
+  successRows: Int
+  errorRows: Int
+  extraData: JSON
+  startedAt: DateTime
+  completedAt: DateTime
+  createdAt: DateTime!
+  updatedAt: DateTime
+
+  """The uploaded file metadata"""
+  storedFile: StoredFileNode
+
+  """Import type (e.g. DSN_FINANCIAL_IMPORT, FEC_IMPORT)"""
+  type: FileImportTypeNode
+
+  """Import status (PENDING, PROCESSING, COMPLETED, FAILED)"""
+  status: FileImportStatusNode
+}
+
+"""An edge in a connection."""
+type FileImportNodeEdge {
+  """A cursor for use in pagination"""
+  cursor: String!
+
+  """The item at the end of the edge"""
+  node: FileImportNode!
+}
+
+type FileImportNodeListConnection {
+  """Pagination data for this connection"""
+  pageInfo: LysPageInfo!
+
+  """Contains the nodes in this connection"""
+  edges: [FileImportNodeEdge!]!
+}
+
+input FileImportNodeOderByType @oneOf {
+  createdAt: Boolean
+}
+
+type FileImportStatusNode implements Node {
+  """The Globally Unique ID of this object"""
+  id: ID!
+  enabled: Boolean!
+  description: String
+}
+
+type FileImportTypeNode implements Node {
+  """The Globally Unique ID of this object"""
+  id: ID!
+  enabled: Boolean!
+  description: String
+}
+
+type FrontendAction {
+  type: String!
+  path: String
+  params: JSON
+  nodes: [String!]
+  continueAction: Boolean
+}
+
+type GenderNode implements Node {
+  """The Globally Unique ID of this object"""
+  id: ID!
+  code: String!
+  enabled: Boolean!
+  description: String
+  createdAt: DateTime!
+  updatedAt: DateTime
+}
+
+"""An edge in a connection."""
+type GenderNodeEdge {
+  """A cursor for use in pagination"""
+  cursor: String!
+
+  """The item at the end of the edge"""
+  node: GenderNode!
+}
+
+type GenderNodeListConnection {
+  """Pagination data for this connection"""
+  pageInfo: LysPageInfo!
+
+  """Contains the nodes in this connection"""
+  edges: [GenderNodeEdge!]!
+}
+
+input GenderNodeOderByType @oneOf {
+  code: Boolean
+  createdAt: Boolean
+}
+
+input ImproveTextInput {
+  text: String!
+  context: String = null
+  language: String! = "fr"
+  maxLength: Int = null
+}
+
+type ImprovedTextNode {
+  improvedText: String!
+  message: String!
+}
+
+"""
+The `JSON` scalar type represents JSON values as specified by [ECMA-404](https://ecma-international.org/wp-content/uploads/ECMA-404_2nd_edition_december_2017.pdf).
+"""
+scalar JSON @specifiedBy(url: "https://ecma-international.org/wp-content/uploads/ECMA-404_2nd_edition_december_2017.pdf")
+
+type LanguageNode implements Node {
+  """The Globally Unique ID of this object"""
+  id: ID!
+  code: String!
+  enabled: Boolean!
+  description: String
+  createdAt: DateTime!
+  updatedAt: DateTime
+}
+
+"""An edge in a connection."""
+type LanguageNodeEdge {
+  """A cursor for use in pagination"""
+  cursor: String!
+
+  """The item at the end of the edge"""
+  node: LanguageNode!
+}
+
+type LanguageNodeListConnection {
+  """Pagination data for this connection"""
+  pageInfo: LysPageInfo!
+
+  """Contains the nodes in this connection"""
+  edges: [LanguageNodeEdge!]!
+}
+
+input LanguageNodeOderByType @oneOf {
+  code: Boolean
+  createdAt: Boolean
+}
+
+type LegalDocumentAcceptanceNode implements Node {
+  """The Globally Unique ID of this object"""
+  id: ID!
+  versionId: String!
+  acceptedByEmail: String!
+  acceptedByName: String
+  createdAt: DateTime!
+
+  """The accepted legal document version."""
+  version: LegalDocumentVersionNode
+}
+
+"""An edge in a connection."""
+type LegalDocumentAcceptanceNodeEdge {
+  """A cursor for use in pagination"""
+  cursor: String!
+
+  """The item at the end of the edge"""
+  node: LegalDocumentAcceptanceNode!
+}
+
+type LegalDocumentAcceptanceNodeListConnection {
+  """Pagination data for this connection"""
+  pageInfo: LysPageInfo!
+
+  """Contains the nodes in this connection"""
+  edges: [LegalDocumentAcceptanceNodeEdge!]!
+}
+
+input LegalDocumentAcceptanceNodeOderByType @oneOf {
+  createdAt: Boolean
+}
+
+type LegalDocumentVersionNode implements Node {
+  """The Globally Unique ID of this object"""
+  id: ID!
+  typeId: String!
+  languageId: String!
+  versionNumber: Int!
+  markdownHash: String!
+  pdfHash: String!
+  effectiveDate: DateTime!
+  createdAt: DateTime!
+  updatedAt: DateTime
+
+  """Stable public URL of the immutable PDF for this version."""
+  pdfUrl: String!
+}
+
+type LicenseBillingModeNode implements Node {
+  """The Globally Unique ID of this object"""
+  id: ID!
+  code: String!
+  description: String
+  enabled: Boolean!
+  createdAt: DateTime!
+  updatedAt: DateTime
+}
+
+type LicenseCommitmentNode implements Node {
+  """The Globally Unique ID of this object"""
+  id: ID!
+  code: String!
+  description: String
+  enabled: Boolean!
+  durationMonths: Int!
+  renewalMonths: Int!
+  noticeMonths: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime
+
+  """Whether this commitment binds the client for a duration"""
+  isBinding: Boolean!
+
+  """Whether this commitment is tacitly renewed at its term"""
+  isRenewable: Boolean!
+}
+
+type LicenseCurrencyNode implements Node {
+  """The Globally Unique ID of this object"""
+  id: ID!
+  code: String!
+  description: String
+  enabled: Boolean!
+  minorUnit: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime
+}
+
+type LicenseDiscountGrantNode implements Node {
+  """The Globally Unique ID of this object"""
+  id: ID!
+  code: String!
+  description: String
+  enabled: Boolean!
+  createdAt: DateTime!
+  updatedAt: DateTime
+}
+
+type LicenseDiscountNode implements Node {
+  """The Globally Unique ID of this object"""
+  id: ID!
+  code: String!
+  description: String
+  enabled: Boolean!
+  value: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime
+
+  """How the value is expressed"""
+  unit: LicenseDiscountUnitNode!
+
+  """Who may offer this discount"""
+  grant: LicenseDiscountGrantNode!
+}
+
+"""An edge in a connection."""
+type LicenseDiscountNodeEdge {
+  """A cursor for use in pagination"""
+  cursor: String!
+
+  """The item at the end of the edge"""
+  node: LicenseDiscountNode!
+}
+
+type LicenseDiscountNodeListConnection {
+  """Pagination data for this connection"""
+  pageInfo: LysPageInfo!
+
+  """Contains the nodes in this connection"""
+  edges: [LicenseDiscountNodeEdge!]!
+}
+
+input LicenseDiscountNodeOderByType @oneOf {
+  createdAt: Boolean
+}
+
+type LicenseDiscountUnitNode implements Node {
+  """The Globally Unique ID of this object"""
+  id: ID!
+  code: String!
+  description: String
+  enabled: Boolean!
+  createdAt: DateTime!
+  updatedAt: DateTime
+}
+
+type LicensePlanNode implements Node {
+  """The Globally Unique ID of this object"""
+  id: ID!
+  code: String!
+  description: String
+  enabled: Boolean!
+  createdAt: DateTime!
+  updatedAt: DateTime
+
+  """Client ID for custom plans (null for global plans)"""
+  clientId: ID
+
+  """Whether this is a custom plan for a specific client"""
+  isCustom: Boolean!
+
+  """Current enabled version of this plan"""
+  currentVersion: LicensePlanVersionNode
+
+  """All versions of this plan"""
+  versions: [LicensePlanVersionNode!]!
+}
+
+"""An edge in a connection."""
+type LicensePlanNodeEdge {
+  """A cursor for use in pagination"""
+  cursor: String!
+
+  """The item at the end of the edge"""
+  node: LicensePlanNode!
+}
+
+type LicensePlanNodeListConnection {
+  """Pagination data for this connection"""
+  pageInfo: LysPageInfo!
+
+  """Contains the nodes in this connection"""
+  edges: [LicensePlanNodeEdge!]!
+}
+
+input LicensePlanNodeOderByType @oneOf {
+  createdAt: Boolean
+}
+
+type LicensePlanVersionNode implements Node {
+  """The Globally Unique ID of this object"""
+  id: ID!
+  version: Int!
+  enabled: Boolean!
+  createdAt: DateTime!
+  updatedAt: DateTime
+
+  """The parent license plan ID"""
+  planId: ID!
+
+  """The parent license plan"""
+  plan: LicensePlanNode!
+
+  """Whether this is a free plan (no pricing)"""
+  isFree: Boolean!
+
+  """Rules associated with this version"""
+  rules: [LicensePlanVersionRuleNode!]!
+
+  """Prices of this version, one per periodicity and currency"""
+  prices: [LicensePlanVersionPriceNode!]!
+}
+
+"""An edge in a connection."""
+type LicensePlanVersionNodeEdge {
+  """A cursor for use in pagination"""
+  cursor: String!
+
+  """The item at the end of the edge"""
+  node: LicensePlanVersionNode!
+}
+
+type LicensePlanVersionNodeListConnection {
+  """Pagination data for this connection"""
+  pageInfo: LysPageInfo!
+
+  """Contains the nodes in this connection"""
+  edges: [LicensePlanVersionNodeEdge!]!
+}
+
+input LicensePlanVersionNodeOderByType @oneOf {
+  createdAt: Boolean
+}
+
+type LicensePlanVersionPriceNode implements Node {
+  """The Globally Unique ID of this object"""
+  id: ID!
+  amount: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime
+
+  """The billing periodicity this price applies to"""
+  period: LicensePricePeriodNode!
+
+  """The currency this price is expressed in"""
+  currency: LicenseCurrencyNode!
+
+  """The commitment this price is offered against"""
+  commitment: LicenseCommitmentNode!
+
+  """Human-readable amount (e.g., '49.00 EUR')"""
+  formatted: String!
+}
+
+type LicensePlanVersionRuleNode implements Node {
+  """The Globally Unique ID of this object"""
+  id: ID!
+  limitValue: Int
+  createdAt: DateTime!
+  updatedAt: DateTime
+
+  """The rule ID"""
+  ruleId: ID!
+
+  """The rule definition"""
+  rule: LicenseRuleNode!
+
+  """Whether this is a quota rule (has limit) or feature toggle"""
+  isQuota: Boolean!
+
+  """Whether this rule grants unlimited access (quota with no limit)"""
+  isUnlimited: Boolean!
+}
+
+type LicensePricePeriodNode implements Node {
+  """The Globally Unique ID of this object"""
+  id: ID!
+  code: String!
+  description: String
+  enabled: Boolean!
+  intervalMonths: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime
+}
+
+type LicenseRuleNode implements Node {
+  """The Globally Unique ID of this object"""
+  id: ID!
+  code: String!
+  enabled: Boolean!
+  description: String
+  createdAt: DateTime!
+  updatedAt: DateTime
+}
+
+type LogNode implements Node {
+  """The Globally Unique ID of this object"""
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime
+  message: String!
+  fileName: String!
+  line: Int!
+  traceback: String!
+  context: JSON
+}
+
+"""An edge in a connection."""
+type LogNodeEdge {
+  """A cursor for use in pagination"""
+  cursor: String!
+
+  """The item at the end of the edge"""
+  node: LogNode!
+}
+
+type LogNodeListConnection {
+  """Pagination data for this connection"""
+  pageInfo: LysPageInfo!
+
+  """Contains the nodes in this connection"""
+  edges: [LogNodeEdge!]!
+}
+
+input LogNodeOderByType @oneOf {
+  createdAt: Boolean
+}
+
+input LoginInput {
+  """User login (email address or username)"""
+  login: String!
+
+  """User password"""
+  password: String!
+}
+
+type LoginNode {
+  success: Boolean!
+  message: String!
+  accessTokenExpireIn: Int!
+  xsrfToken: String!
+}
+
+type LogoutNode {
+  succeed: Boolean!
+  message: String!
+}
+
+"""Information to aid in pagination."""
+type LysPageInfo {
+  """When paginating forwards, are there more items?"""
+  hasNextPage: Boolean!
+
+  """When paginating backwards, are there more items?"""
+  hasPreviousPage: Boolean!
+
+  """When paginating backwards, the cursor to continue."""
+  startCursor: String
+
+  """When paginating forwards, the cursor to continue."""
+  endCursor: String
+
+  """Without pagination object count"""
+  totalCount: Int
+}
+
+type MarkNotificationsReadNode {
+  unreadCount: Int!
+}
+
+type Mutation {
+  """
+  Improve text using AI (fix spelling, clarify, keep meaning).
+  ACCESS LEVELS: CONNECTED
+  LICENCE FREE
+  """
+  improveText(inputs: ImproveTextInput!): ImprovedTextNode!
+
+  """
+  Send a message to the AI assistant. Returns AI response with optional tool execution results.
+  ACCESS LEVELS: CONNECTED
+  LICENCE FREE
+  """
+  sendAiMessage(inputs: AIMessageInput!): AIMessageNode!
+
+  """
+  Record the connected user's consent for the specific version shown.
+  ACCESS LEVELS: CONNECTED
+  LICENCE FREE
+  """
+  acceptLegalDocument(versionId: ID!): LegalDocumentAcceptanceNode!
+
+  """
+  Add a user to their organization's subscription (grant license). Accessible to license administrators.
+  ACCESS LEVELS: ROLE, ORGANIZATION_ROLE
+  LICENCE FREE
+  """
+  addClientUserToSubscription(id: ID!): UserNode!
+
+  """
+  Remove a user from their organization's subscription (revoke license). Accessible to license administrators.
+  ACCESS LEVELS: ROLE, ORGANIZATION_ROLE
+  LICENCE FREE
+  """
+  removeClientUserFromSubscription(id: ID!): UserNode!
+
+  """
+  Remove the discount a subscription benefits from
+  ACCESS LEVELS: ROLE
+  LICENCE FREE
+  """
+  revokeSubscriptionDiscount(id: ID!): SubscriptionNode!
+
+  """
+  Place a subscription on a plan billed outside the application
+  ACCESS LEVELS: ROLE
+  LICENCE FREE
+  """
+  subscribeClientManually(id: ID!, input: SubscribeManuallyInput!): SubscriptionNode!
+
+  """
+  Change how a subscription is collected
+  ACCESS LEVELS: ROLE
+  LICENCE FREE
+  """
+  setSubscriptionBillingMode(id: ID!, billingModeId: String!): SubscriptionNode!
+
+  """
+  Subscribe to a plan (handles new subscription, upgrade, and downgrade)
+  ACCESS LEVELS: ROLE, ORGANIZATION_ROLE
+  LICENCE FREE
+  """
+  subscribeToPlan(input: SubscribeToPlanInput!): SubscribeToPlanResultNode!
+
+  """
+  Cancel subscription (takes effect at end of current period)
+  ACCESS LEVELS: ROLE, ORGANIZATION_ROLE
+  LICENCE FREE
+  """
+  cancelSubscription: CancelSubscriptionResultNode!
+
+  """
+  Declare a discount the catalogue can offer
+  ACCESS LEVELS: ROLE
+  LICENCE FREE
+  """
+  createLicenseDiscount(input: CreateDiscountInput!): LicenseDiscountNode!
+
+  """
+  Offer or withdraw a discount
+  ACCESS LEVELS: ROLE
+  LICENCE FREE
+  """
+  setLicenseDiscountEnabled(id: ID!, enabled: Boolean!): LicenseDiscountNode!
+
+  """
+  Publish a new version of a plan, with its prices
+  ACCESS LEVELS: ROLE
+  LICENCE FREE
+  """
+  createLicensePlanVersion(input: CreatePlanVersionInput!): LicensePlanVersionNode!
+
+  """
+  Set the limit of a rule on a plan version
+  ACCESS LEVELS: ROLE
+  LICENCE FREE
+  """
+  setLicensePlanVersionRule(input: SetPlanVersionRuleInput!): LicensePlanVersionRuleNode!
+
+  """
+  Enable or disable a plan version
+  ACCESS LEVELS: ROLE
+  LICENCE FREE
+  """
+  setLicensePlanVersionEnabled(id: ID!, enabled: Boolean!): LicensePlanVersionNode!
+
+  """
+  Remove an SSO link by ID. Only the owning user can delete their own links.
+  ACCESS LEVELS: OWNER
+  LICENCE FREE
+  ACCESS LEVELS: OWNER
+  LICENCE FREE
+  """
+  deleteSsoLink(id: ID!): SuccessNode!
+
+  """
+  Create a new organization with owner account. Required: client_name, email, password, language_code. Optional: first_name, last_name, gender_code.
+  PUBLIC
+  LICENCE FREE
+  """
+  createClient(inputs: CreateClientInput!): ClientNode!
+
+  """
+  Create a new organization with SSO-authenticated owner. Required: sso_token, client_name, language_code.
+  PUBLIC
+  LICENCE FREE
+  """
+  createClientWithSso(inputs: CreateClientWithSSOInput!): ClientNode!
+
+  """
+  Update organization name. Required: id (organization ID), inputs.name (new name).
+  ACCESS LEVELS: ROLE, ORGANIZATION_ROLE
+  LICENCE FREE
+  """
+  updateClient(id: ID!, inputs: UpdateClientInput!): ClientNode!
+
+  """
+  Update user email within organization. Required: id (user ID), inputs.new_email.
+  ACCESS LEVELS: ROLE, ORGANIZATION_ROLE
+  LICENCE FREE
+  """
+  updateClientUserEmail(id: ID!, inputs: UpdateClientUserEmailInput!): UserNode!
+
+  """
+  Update user profile within organization. Required: id. Optional inputs: first_name, last_name, gender_code, language_code.
+  ACCESS LEVELS: ROLE, ORGANIZATION_ROLE
+  LICENCE FREE
+  """
+  updateClientUserPrivateData(id: ID!, inputs: UpdateClientUserPrivateDataInput!): UserNode!
+
+  """
+  Update user's organization roles. Required: id (user ID), inputs.role_codes (list of role codes). Empty list removes all roles.
+  ACCESS LEVELS: ROLE, ORGANIZATION_ROLE
+  LICENCE FREE
+  """
+  updateClientUserRoles(id: ID!, inputs: UpdateClientUserRolesInput!): UserNode!
+
+  """
+  Create a new user in an organization. Required: client_id, email, password, language_code. Optional: first_name, last_name, gender_code, role_codes.
+  ACCESS LEVELS: ROLE, ORGANIZATION_ROLE
+  LICENCE FREE
+  """
+  createClientUser(inputs: CreateClientUserInput!): UserNode!
+
+  """
+  Create a new user with global roles. Required: email, password, language_code. Optional: first_name, last_name, gender_code, role_codes.
+  ACCESS LEVELS: ROLE
+  LICENCE FREE
+  """
+  createUser(inputs: CreateUserWithRolesInput!): UserNode!
+
+  """
+  Update user's global roles. Required: id (user ID), inputs.role_codes (list of role codes). Empty list removes all roles.
+  ACCESS LEVELS: ROLE
+  LICENCE FREE
+  """
+  updateUserRoles(id: ID!, inputs: UpdateUserRolesInput!): UserNode!
+
+  """
+  Authenticate user with email/username and password. Returns access token and session info.
+  PUBLIC
+  LICENCE FREE
+  """
+  login(inputs: LoginInput!): LoginNode!
+
+  """
+  Refresh expired access token using refresh token from cookie. Returns new access token.
+  PUBLIC
+  LICENCE FREE
+  """
+  refreshAccessToken: LoginNode!
+
+  """
+  Log out current user by invalidating refresh token and clearing authentication cookies.
+  PUBLIC
+  LICENCE FREE
+  """
+  logout: LogoutNode!
+
+  """
+  Create user observation (manual audit log). Only accessible to super users and USER_ADMIN role.
+  ONLY FOR SUPER USER
+  LICENCE FREE
+  """
+  createUserObservation(inputs: CreateUserObservationInput!): UserAuditLogNode!
+
+  """
+  Update user audit log (OBSERVATION only). Only owner and super users can update.
+  ACCESS LEVELS: OWNER
+  LICENCE FREE
+  """
+  updateUserAuditLog(id: ID!, inputs: UpdateUserAuditLogInput!): UserAuditLogNode!
+
+  """
+  Delete user observation (soft delete). Only owner and super users can delete.
+  ACCESS LEVELS: OWNER
+  LICENCE FREE
+  """
+  deleteUserObservation(id: ID!): DeleteUserObservationNode!
+
+  """
+  Send a password reset email to the user.
+  PUBLIC
+  LICENCE FREE
+  """
+  requestPasswordReset(inputs: RequestPasswordResetInput!): PasswordResetRequestNode!
+
+  """
+  Reset user password using a one-time token from email.
+  PUBLIC
+  LICENCE FREE
+  """
+  resetPassword(inputs: ResetPasswordInput!): ResetPasswordNode!
+
+  """
+  Verify user email address using a one-time token from email.
+  PUBLIC
+  LICENCE FREE
+  """
+  verifyEmail(inputs: VerifyEmailInput!): VerifyEmailNode!
+
+  """
+  Activate an invited user by setting their password and validating their email.
+  PUBLIC
+  LICENCE FREE
+  """
+  activateUser(inputs: ActivateUserInput!): ActivateUserNode!
+
+  """
+  Send email verification to a user. Only accessible to super users.
+  ONLY FOR SUPER USER
+  LICENCE FREE
+  """
+  sendEmailVerification(id: ID!): UserNode!
+
+  """
+  Create a new super user. Required: email, password, language_code. Optional: first_name, last_name, gender_code. Super users only.
+  ONLY FOR SUPER USER
+  LICENCE FREE
+  """
+  createSuperUser(inputs: CreateSuperUserInput!): UserNode!
+
+  """
+  Update user email address. Only the owner can update their own email.
+  ACCESS LEVELS: OWNER
+  LICENCE FREE
+  """
+  updateUserEmail(id: ID!, inputs: UpdateUserEmailInput!): UserNode!
+
+  """
+  Update user password. Only the owner can update their own password.
+  ACCESS LEVELS: OWNER
+  LICENCE FREE
+  """
+  updatePassword(id: ID!, inputs: UpdatePasswordInput!): UserNode!
+
+  """
+  Update user profile (first_name, last_name, gender, language). Owner access only.
+  ACCESS LEVELS: OWNER
+  LICENCE FREE
+  """
+  updateUserPrivateData(id: ID!, inputs: UpdateUserPrivateDataInput!): UserNode!
+
+  """
+  Update super user email address. Only accessible to super users.
+  ONLY FOR SUPER USER
+  LICENCE FREE
+  """
+  updateSuperUserEmail(id: ID!, inputs: UpdateUserEmailInput!): UserNode!
+
+  """
+  Update super user profile (first_name, last_name, gender, language). Only accessible to super users.
+  ONLY FOR SUPER USER
+  LICENCE FREE
+  """
+  updateSuperUserPrivateData(id: ID!, inputs: UpdateUserPrivateDataInput!): UserNode!
+
+  """
+  Update user status (ACTIVE, INACTIVE, SUSPENDED). Required: id, inputs.status_code, inputs.reason. Creates audit log. Cannot set DELETED (use anonymize_user).
+  ONLY FOR SUPER USER
+  LICENCE FREE
+  """
+  updateUserStatus(id: ID!, inputs: UpdateUserStatusInput!): UserNode!
+
+  """
+  Anonymize user data (GDPR). Only accessible to super users. IRREVERSIBLE.
+  ONLY FOR SUPER USER
+  LICENCE FREE
+  """
+  anonymizeUser(userId: ID!, inputs: AnonymizeUserInput!): AnonymizeUserNode!
+
+  """
+  Create or update an event preference for the current user.
+  ACCESS LEVELS: CONNECTED
+  LICENCE FREE
+  """
+  setEventPreference(inputs: SetEventPreferenceInput!): UserEventPreferenceNode!
+
+  """
+  Dispatch a notification batch to recipients based on roles and organization scoping. Internal service use only.
+  ACCESS LEVELS: INTERNAL_SERVICE
+  LICENCE FREE
+  """
+  dispatchNotificationBatch(typeId: String!, data: JSON = null, triggeredByUserId: String = null, additionalUserIds: [String!] = null, organizationData: JSON = null): NotificationBatchNode!
+
+  """
+  Mark multiple notifications as read in bulk. Returns remaining unread count.
+  ACCESS LEVELS: CONNECTED
+  LICENCE FREE
+  """
+  markNotificationsAsRead(ids: [ID!]!): MarkNotificationsReadNode!
+
+  """
+  Mark all of the current user's unread notifications as read. Returns remaining unread count (0).
+  ACCESS LEVELS: CONNECTED
+  LICENCE FREE
+  """
+  markAllNotificationsAsRead: MarkNotificationsReadNode!
+
+  """
+  Register webservices from a business microservice. Called at microservice startup.
+  ACCESS LEVELS: INTERNAL_SERVICE
+  LICENCE FREE
+  """
+  registerWebservices(webservices: [WebserviceFixturesInput!]!): RegisterWebservicesNode!
+}
+
+"""An object with a Globally Unique ID"""
+interface Node {
+  """The Globally Unique ID of this object"""
+  id: ID!
+}
+
+type NotificationBatchNode implements Node {
+  """The Globally Unique ID of this object"""
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime
+  data: JSON
+
+  """The notification type, with its severity"""
+  type: NotificationTypeNode!
+}
+
+type NotificationNode implements Node {
+  """The Globally Unique ID of this object"""
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime
+  userId: String!
+  isRead: Boolean!
+
+  """The notification batch containing type and data"""
+  batch: NotificationBatchNode!
+}
+
+"""An edge in a connection."""
+type NotificationNodeEdge {
+  """A cursor for use in pagination"""
+  cursor: String!
+
+  """The item at the end of the edge"""
+  node: NotificationNode!
+}
+
+type NotificationNodeListConnection {
+  """Pagination data for this connection"""
+  pageInfo: LysPageInfo!
+
+  """Contains the nodes in this connection"""
+  edges: [NotificationNodeEdge!]!
+}
+
+input NotificationNodeOderByType @oneOf {
+  createdAt: Boolean
+}
+
+type NotificationSeverityNode implements Node {
+  """The Globally Unique ID of this object"""
+  id: ID!
+  code: String!
+  enabled: Boolean!
+  description: String
+  createdAt: DateTime!
+  updatedAt: DateTime
+}
+
+"""An edge in a connection."""
+type NotificationSeverityNodeEdge {
+  """A cursor for use in pagination"""
+  cursor: String!
+
+  """The item at the end of the edge"""
+  node: NotificationSeverityNode!
+}
+
+type NotificationSeverityNodeListConnection {
+  """Pagination data for this connection"""
+  pageInfo: LysPageInfo!
+
+  """Contains the nodes in this connection"""
+  edges: [NotificationSeverityNodeEdge!]!
+}
+
+input NotificationSeverityNodeOderByType @oneOf {
+  code: Boolean
+  createdAt: Boolean
+}
+
+type NotificationTypeNode implements Node {
+  """The Globally Unique ID of this object"""
+  id: ID!
+  code: String!
+  createdAt: DateTime!
+  updatedAt: DateTime
+  severityId: String!
+
+  """The severity level of this notification type"""
+  severity: NotificationSeverityNode!
+}
+
+type OutstandingLegalAcceptancesNode {
+  typeIds: [String!]!
+}
+
+input PageContextInput {
+  pageName: String!
+  params: JSON = null
+}
+
+type PasswordResetRequestNode {
+  success: Boolean!
+  message: String!
+}
+
+input PlanVersionPriceInput {
+  periodId: String!
+  amount: Int!
+  currencyId: String! = "EUR"
+  commitmentId: String! = "NO_COMMITMENT"
+}
+
+input PlanVersionRuleInput {
+  ruleId: String!
+  limitValue: Int = null
+}
+
+type Query {
+  _service: _Service!
+
+  """
+  List all file imports with optional filters, ordered by creation date (newest first).
+  ACCESS LEVELS: ROLE, ORGANIZATION_ROLE
+  LICENCE FREE
+  """
+  allFileImports(
+    clientId: ID = null
+    statusId: String = null
+    typeId: String = null
+
+    """
+    Sort results by field. Available: created_at. Use true for ASC, false for DESC
+    """
+    orderBy: FileImportNodeOderByType = null
+
+    """Maximum number of results to return"""
+    limit: Int = null
+
+    """Returns the items in the list that come before the specified cursor."""
+    before: String = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    after: String = null
+
+    """Returns the first n items from the list."""
+    first: Int = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    last: Int = null
+  ): FileImportNodeListConnection!
+
+  """
+  Get the count of active file imports (PENDING or PROCESSING).
+  ACCESS LEVELS: ROLE, ORGANIZATION_ROLE
+  LICENCE FREE
+  """
+  activeFileImportsCount: ActiveFileImportsCountNode!
+
+  """
+  Read the current legal document version for a (type, language). Public: terms must be readable before acceptance / at signup.
+  PUBLIC
+  LICENCE FREE
+  """
+  currentLegalDocument(typeId: String!, languageId: String!): LegalDocumentVersionNode!
+
+  """
+  List the acceptance proofs recorded for the users of a client, most recent first. Use 'type_id' to restrict to one document type.
+  ACCESS LEVELS: ROLE
+  LICENCE FREE
+  """
+  allClientLegalAcceptances(
+    clientId: ID!
+    typeId: String = null
+
+    """
+    Sort results by field. Available: created_at. Use true for ASC, false for DESC
+    """
+    orderBy: LegalDocumentAcceptanceNodeOderByType = null
+
+    """Maximum number of results to return"""
+    limit: Int = null
+
+    """Returns the items in the list that come before the specified cursor."""
+    before: String = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    after: String = null
+
+    """Returns the first n items from the list."""
+    first: Int = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    last: Int = null
+  ): LegalDocumentAcceptanceNodeListConnection!
+
+  """
+  Type codes the connected user still owes acceptance for (drives the re-consent gate).
+  ACCESS LEVELS: CONNECTED
+  LICENCE FREE
+  """
+  outstandingLegalAcceptances: OutstandingLegalAcceptancesNode!
+
+  """
+  Search client users (excludes owners) with license filtering. Filter by client_id, role, or license status.
+  ACCESS LEVELS: ROLE, ORGANIZATION_ROLE
+  LICENCE FREE
+  """
+  allClientUsers(
+    """Filter by organization/client ID"""
+    clientId: ID = null
+
+    """Search by user email, first name, or last name"""
+    search: String = null
+
+    """Filter by organization role code"""
+    roleCode: String = null
+
+    """Filter by license status: true=licensed, false=unlicensed"""
+    isLicensed: Boolean = null
+
+    """
+    Sort results by field. Available: created_at, email_address, first_name, last_name. Use true for ASC, false for DESC
+    """
+    orderBy: UserNodeOderByType = null
+
+    """Maximum number of results to return"""
+    limit: Int = null
+
+    """Returns the items in the list that come before the specified cursor."""
+    before: String = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    after: String = null
+
+    """Returns the first n items from the list."""
+    first: Int = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    last: Int = null
+  ): UserNodeListConnection!
+
+  """
+  Get a specific subscription by ID. Accessible to license administrators.
+  ACCESS LEVELS: ROLE, ORGANIZATION_ROLE
+  LICENCE FREE
+  """
+  subscription(id: ID!): SubscriptionNode!
+
+  """
+  List the discounts that can be claimed when subscribing.
+  ACCESS LEVELS: CONNECTED
+  LICENCE FREE
+  """
+  allClaimableLicenseDiscounts(
+    """
+    Sort results by field. Available: created_at. Use true for ASC, false for DESC
+    """
+    orderBy: LicenseDiscountNodeOderByType = null
+
+    """Maximum number of results to return"""
+    limit: Int = null
+
+    """Returns the items in the list that come before the specified cursor."""
+    before: String = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    after: String = null
+
+    """Returns the first n items from the list."""
+    first: Int = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    last: Int = null
+  ): LicenseDiscountNodeListConnection!
+
+  """
+  List discounts for catalogue administration, withdrawn ones included. Use 'enabled' to filter by availability.
+  ACCESS LEVELS: ROLE
+  LICENCE FREE
+  """
+  allLicenseDiscounts(
+    """Filter by availability for new grants"""
+    enabled: Boolean = null
+
+    """
+    Sort results by field. Available: created_at. Use true for ASC, false for DESC
+    """
+    orderBy: LicenseDiscountNodeOderByType = null
+
+    """Maximum number of results to return"""
+    limit: Int = null
+
+    """Returns the items in the list that come before the specified cursor."""
+    before: String = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    after: String = null
+
+    """Returns the first n items from the list."""
+    first: Int = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    last: Int = null
+  ): LicenseDiscountNodeListConnection!
+
+  """
+  List all active license plans with their current version and pricing.
+  ACCESS LEVELS: CONNECTED
+  LICENCE FREE
+  """
+  allActiveLicensePlans(
+    """
+    Sort results by field. Available: created_at. Use true for ASC, false for DESC
+    """
+    orderBy: LicensePlanNodeOderByType = null
+
+    """Maximum number of results to return"""
+    limit: Int = null
+
+    """Returns the items in the list that come before the specified cursor."""
+    before: String = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    after: String = null
+
+    """Returns the first n items from the list."""
+    first: Int = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    last: Int = null
+  ): LicensePlanNodeListConnection!
+
+  """
+  List plans for catalogue administration, disabled and client-specific ones included. Use 'enabled' to filter by availability and 'client_id' to filter by the client a custom plan was negotiated with.
+  ACCESS LEVELS: ROLE
+  LICENCE FREE
+  """
+  allLicensePlans(
+    """Filter by availability for new subscriptions"""
+    enabled: Boolean = null
+
+    """Filter by the client a custom plan belongs to"""
+    clientId: ID = null
+
+    """
+    Sort results by field. Available: created_at. Use true for ASC, false for DESC
+    """
+    orderBy: LicensePlanNodeOderByType = null
+
+    """Maximum number of results to return"""
+    limit: Int = null
+
+    """Returns the items in the list that come before the specified cursor."""
+    before: String = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    after: String = null
+
+    """Returns the first n items from the list."""
+    first: Int = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    last: Int = null
+  ): LicensePlanNodeListConnection!
+
+  """
+  List plan versions, disabled ones included. Use 'plan_id' to filter by plan and 'enabled' to filter by availability.
+  ACCESS LEVELS: ROLE
+  LICENCE FREE
+  """
+  allLicensePlanVersions(
+    """Filter by plan (e.g., 'PRO')"""
+    planId: String = null
+
+    """Filter by availability for new subscriptions"""
+    enabled: Boolean = null
+
+    """
+    Sort results by field. Available: created_at. Use true for ASC, false for DESC
+    """
+    orderBy: LicensePlanVersionNodeOderByType = null
+
+    """Maximum number of results to return"""
+    limit: Int = null
+
+    """Returns the items in the list that come before the specified cursor."""
+    before: String = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    after: String = null
+
+    """Returns the first n items from the list."""
+    first: Int = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    last: Int = null
+  ): LicensePlanVersionNodeListConnection!
+
+  """
+  List SSO links for the connected user.
+  ACCESS LEVELS: CONNECTED
+  LICENCE FREE
+  """
+  mySsoLinks: UserSSOLinksNode!
+
+  """
+  Get SSO session data for pre-filling signup form.
+  PUBLIC
+  LICENCE FREE
+  """
+  ssoSession(token: String!): SSOSessionNode
+
+  """
+  List configured SSO providers for login/signup buttons, and for a connected user to link/unlink.
+  PUBLIC
+  LICENCE FREE
+  """
+  ssoProviders: SSOProvidersNode!
+
+  """
+  Search and list all organizations/clients. Use 'search' to filter by name. Supervisor only.
+  ACCESS LEVELS: ROLE
+  LICENCE FREE
+  """
+  allClients(
+    """Search term to filter by client name"""
+    search: String = null
+
+    """
+    Sort results by field. Available: created_at, updated_at, name. Use true for ASC, false for DESC
+    """
+    orderBy: ClientNodeOderByType = null
+
+    """Maximum number of results to return"""
+    limit: Int = null
+
+    """Returns the items in the list that come before the specified cursor."""
+    before: String = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    after: String = null
+
+    """Returns the first n items from the list."""
+    first: Int = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    last: Int = null
+  ): ClientNodeListConnection!
+
+  """
+  Get organization/client details by ID. Returns name, owner, and creation date.
+  ACCESS LEVELS: ROLE, ORGANIZATION_ROLE
+  LICENCE FREE
+  """
+  client(id: ID!): ClientNode!
+
+  """
+  Search and list all regular users (excludes super users). Use 'search' to filter by name or email, 'is_client_user' to filter by organization membership (true=in org, false=not in org), 'role_code' to filter by role.
+  ACCESS LEVELS: ROLE
+  LICENCE FREE
+  """
+  allUsers(
+    """Search term to filter by email, first name, or last name"""
+    search: String = null
+
+    """Filter by organization membership: true=with org, false=without org"""
+    isClientUser: Boolean = null
+
+    """Filter by role code (e.g., 'ADMIN', 'USER_ADMIN')"""
+    roleCode: String = null
+
+    """
+    Sort results by field. Available: created_at, email_address, first_name, last_name. Use true for ASC, false for DESC
+    """
+    orderBy: UserNodeOderByType = null
+
+    """Maximum number of results to return"""
+    limit: Int = null
+
+    """Returns the items in the list that come before the specified cursor."""
+    before: String = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    after: String = null
+
+    """Returns the first n items from the list."""
+    first: Int = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    last: Int = null
+  ): UserNodeListConnection!
+
+  """
+  Get user details within an organization by user ID. Returns user profile, email, and organization roles.
+  ACCESS LEVELS: ROLE, ORGANIZATION_ROLE
+  LICENCE FREE
+  """
+  clientUser(id: ID!): UserNode!
+
+  """
+  Get all accessible webservices by a user. Optionally filter by role code.
+  PUBLIC
+  LICENCE FREE
+  """
+  allAccessibleWebservices(
+    """Filter webservices assigned to this role code"""
+    roleCode: String = null
+
+    """
+    Sort results by field. Available: code, created_at. Use true for ASC, false for DESC
+    """
+    orderBy: AccessedWebserviceNodeOderByType = null
+
+    """Maximum number of results to return"""
+    limit: Int = null
+
+    """Returns the items in the list that come before the specified cursor."""
+    before: String = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    after: String = null
+
+    """Returns the first n items from the list."""
+    first: Int = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    last: Int = null
+  ): AccessedWebserviceNodeListConnection!
+
+  """
+  List all available roles for user assignment. Filter by 'enabled' and 'supervisorOnly' status.
+  ACCESS LEVELS: CONNECTED
+  LICENCE FREE
+  """
+  allRoles(
+    """Filter by enabled status: true=active roles, false=disabled roles"""
+    enabled: Boolean = null
+
+    """
+    Filter by supervisor_only: true=supervisor-only roles, false=roles assignable to client users
+    """
+    supervisorOnly: Boolean = null
+
+    """
+    Sort results by field. Available: code, created_at. Use true for ASC, false for DESC
+    """
+    orderBy: RoleNodeOderByType = null
+
+    """Maximum number of results to return"""
+    limit: Int = null
+
+    """Returns the items in the list that come before the specified cursor."""
+    before: String = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    after: String = null
+
+    """Returns the first n items from the list."""
+    first: Int = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    last: Int = null
+  ): RoleNodeListConnection!
+
+  """
+  Search audit logs by type (STATUS_CHANGE, ANONYMIZATION, OBSERVATION), email, or user. Filter by author or target user.
+  ONLY FOR SUPER USER
+  LICENCE FREE
+  """
+  listUserAuditLogs(
+    """Filter by log type: STATUS_CHANGE, ANONYMIZATION, or OBSERVATION"""
+    logTypeCode: String = null
+
+    """Search in target or author email addresses"""
+    emailSearch: String = null
+
+    """Filter by user role: 'author', 'target', or null for both"""
+    userFilter: String = null
+
+    """Include soft-deleted observations"""
+    includeDeleted: Boolean = false
+
+    """
+    Sort results by field. Available: created_at, log_type. Use true for ASC, false for DESC
+    """
+    orderBy: UserAuditLogNodeOderByType = null
+
+    """Maximum number of results to return"""
+    limit: Int = null
+
+    """Returns the items in the list that come before the specified cursor."""
+    before: String = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    after: String = null
+
+    """Returns the first n items from the list."""
+    first: Int = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    last: Int = null
+  ): UserAuditLogNodeListConnection!
+
+  """
+  List one-time tokens (password reset, email verification) with filters by status, type, user, or date range.
+  ONLY FOR SUPER USER
+  LICENCE FREE
+  """
+  allUserOneTimeTokens(
+    statusId: String = null
+    typeId: String = null
+    userId: String = null
+    startDate: DateTime = null
+    endDate: DateTime = null
+
+    """
+    Sort results by field. Available: created_at. Use true for ASC, false for DESC
+    """
+    orderBy: UserOneTimeTokenNodeOderByType = null
+
+    """Maximum number of results to return"""
+    limit: Int = null
+
+    """Returns the items in the list that come before the specified cursor."""
+    before: String = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    after: String = null
+
+    """Returns the first n items from the list."""
+    first: Int = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    last: Int = null
+  ): UserOneTimeTokenNodeListConnection!
+
+  """
+  List all gender options (MALE, FEMALE, OTHER). Use to get valid gender codes for user creation.
+  PUBLIC
+  LICENCE FREE
+  """
+  allGenders(
+    """
+    Sort results by field. Available: code, created_at. Use true for ASC, false for DESC
+    """
+    orderBy: GenderNodeOderByType = null
+
+    """Maximum number of results to return"""
+    limit: Int = null
+
+    """Returns the items in the list that come before the specified cursor."""
+    before: String = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    after: String = null
+
+    """Returns the first n items from the list."""
+    first: Int = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    last: Int = null
+  ): GenderNodeListConnection!
+
+  """
+  List all user status types (ACTIVE, INACTIVE, SUSPENDED, DELETED). Use to get valid status codes.
+  PUBLIC
+  LICENCE FREE
+  """
+  allUserStatuses(
+    """Filter by enabled status: true=active statuses, false=disabled"""
+    enabled: Boolean = null
+
+    """
+    Sort results by field. Available: code, created_at. Use true for ASC, false for DESC
+    """
+    orderBy: UserStatusNodeOderByType = null
+
+    """Maximum number of results to return"""
+    limit: Int = null
+
+    """Returns the items in the list that come before the specified cursor."""
+    before: String = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    after: String = null
+
+    """Returns the first n items from the list."""
+    first: Int = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    last: Int = null
+  ): UserStatusNodeListConnection!
+
+  """
+  Get the currently authenticated user's profile, email, and roles. Returns null if not logged in. No parameters needed.
+  PUBLIC
+  LICENCE FREE
+  """
+  connectedUser: UserNode
+
+  """
+  Get a specific user by ID. Returns user profile with email, status, and private data.
+  ACCESS LEVELS: OWNER
+  LICENCE FREE
+  """
+  user(id: ID!): UserNode!
+
+  """
+  Get super user details by ID. Returns profile, email, status. Super users only.
+  ONLY FOR SUPER USER
+  LICENCE FREE
+  """
+  superUser(id: ID!): UserNode!
+
+  """
+  Search and list all super users by name or email. Use 'search' parameter to filter. Super users only.
+  ONLY FOR SUPER USER
+  LICENCE FREE
+  """
+  allSuperUsers(
+    """Search by email, first name, or last name"""
+    search: String = null
+
+    """
+    Sort results by field. Available: created_at, email_address, first_name, last_name. Use true for ASC, false for DESC
+    """
+    orderBy: UserNodeOderByType = null
+
+    """Maximum number of results to return"""
+    limit: Int = null
+
+    """Returns the items in the list that come before the specified cursor."""
+    before: String = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    after: String = null
+
+    """Returns the first n items from the list."""
+    first: Int = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    last: Int = null
+  ): UserNodeListConnection!
+
+  """
+  Internal service-to-service feed: users anonymized since a timestamp (id + anonymized_at), paginated. Consumed by the legal app's reconciliation task.
+  ACCESS LEVELS: INTERNAL_SERVICE
+  LICENCE FREE
+  """
+  anonymizedUsers(
+    since: DateTime!
+
+    """
+    Sort results by field. Available: created_at. Use true for ASC, false for DESC
+    """
+    orderBy: AnonymizedUserNodeOderByType = null
+
+    """Maximum number of results to return"""
+    limit: Int = null
+
+    """Returns the items in the list that come before the specified cursor."""
+    before: String = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    after: String = null
+
+    """Returns the first n items from the list."""
+    first: Int = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    last: Int = null
+  ): AnonymizedUserNodeListConnection!
+
+  """
+  Get all event preferences for the current user.
+  ACCESS LEVELS: OWNER
+  LICENCE FREE
+  """
+  myEventPreferences: UserEventPreferencesNode!
+
+  """
+  Get all configurable events for the preferences page.
+  ACCESS LEVELS: CONNECTED
+  LICENCE FREE
+  """
+  configurableEvents: ConfigurableEventsNode!
+
+  """
+  List all notification severities (INFO, SUCCESS, WARNING, ERROR).
+  PUBLIC
+  LICENCE FREE
+  """
+  allNotificationSeverities(
+    """
+    Sort results by field. Available: code, created_at. Use true for ASC, false for DESC
+    """
+    orderBy: NotificationSeverityNodeOderByType = null
+
+    """Maximum number of results to return"""
+    limit: Int = null
+
+    """Returns the items in the list that come before the specified cursor."""
+    before: String = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    after: String = null
+
+    """Returns the first n items from the list."""
+    first: Int = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    last: Int = null
+  ): NotificationSeverityNodeListConnection!
+
+  """
+  Get all notifications for the current user, ordered by creation date (newest first).
+  ACCESS LEVELS: OWNER
+  LICENCE FREE
+  """
+  allNotifications(
+    isRead: Boolean = null
+    severityId: String = null
+
+    """
+    Sort results by field. Available: created_at. Use true for ASC, false for DESC
+    """
+    orderBy: NotificationNodeOderByType = null
+
+    """Maximum number of results to return"""
+    limit: Int = null
+
+    """Returns the items in the list that come before the specified cursor."""
+    before: String = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    after: String = null
+
+    """Returns the first n items from the list."""
+    first: Int = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    last: Int = null
+  ): NotificationNodeListConnection!
+
+  """
+  Get the count of unread notifications for the current user.
+  ACCESS LEVELS: CONNECTED
+  LICENCE FREE
+  """
+  unreadNotificationsCount: UnreadNotificationsCountNode!
+
+  """
+  Get all webservices with optional filters.
+  ACCESS LEVELS: INTERNAL_SERVICE
+  LICENCE FREE
+  """
+  allWebservices(
+    isAiTool: Boolean = null
+    enabled: Boolean = null
+    appName: String = null
+
+    """
+    Sort results by field. Available: code, created_at. Use true for ASC, false for DESC
+    """
+    orderBy: WebserviceNodeOderByType = null
+
+    """Maximum number of results to return"""
+    limit: Int = null
+
+    """Returns the items in the list that come before the specified cursor."""
+    before: String = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    after: String = null
+
+    """Returns the first n items from the list."""
+    first: Int = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    last: Int = null
+  ): WebserviceNodeListConnection!
+
+  """
+  List all access level types (PUBLIC, CONNECTED, OWNER, etc.). Use to understand permission system.
+  PUBLIC
+  LICENCE FREE
+  """
+  allAccessLevels(
+    enabled: Boolean = null
+
+    """
+    Sort results by field. Available: code, created_at. Use true for ASC, false for DESC
+    """
+    orderBy: AccessLevelNodeOderByType = null
+
+    """Maximum number of results to return"""
+    limit: Int = null
+
+    """Returns the items in the list that come before the specified cursor."""
+    before: String = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    after: String = null
+
+    """Returns the first n items from the list."""
+    first: Int = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    last: Int = null
+  ): AccessLevelNodeListConnection!
+
+  """
+  Search system logs by date range (start_date, end_date) and file name. For debugging and monitoring.
+  ONLY FOR SUPER USER
+  LICENCE FREE
+  """
+  allLogs(
+    startDate: DateTime = null
+    endDate: DateTime = null
+    fileName: String = null
+
+    """
+    Sort results by field. Available: created_at. Use true for ASC, false for DESC
+    """
+    orderBy: LogNodeOderByType = null
+
+    """Maximum number of results to return"""
+    limit: Int = null
+
+    """Returns the items in the list that come before the specified cursor."""
+    before: String = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    after: String = null
+
+    """Returns the first n items from the list."""
+    first: Int = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    last: Int = null
+  ): LogNodeListConnection!
+
+  """
+  List all supported languages. Filter by 'enabled' status. Use to get valid language codes for user settings.
+  PUBLIC
+  LICENCE FREE
+  """
+  allLanguages(
+    enabled: Boolean = null
+
+    """
+    Sort results by field. Available: code, created_at. Use true for ASC, false for DESC
+    """
+    orderBy: LanguageNodeOderByType = null
+
+    """Maximum number of results to return"""
+    limit: Int = null
+
+    """Returns the items in the list that come before the specified cursor."""
+    before: String = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    after: String = null
+
+    """Returns the first n items from the list."""
+    first: Int = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    last: Int = null
+  ): LanguageNodeListConnection!
+}
+
+type RegisterWebservicesNode {
+  success: Boolean!
+  registeredCount: Int!
+  message: String!
+}
+
+input RequestPasswordResetInput {
+  """Email address of the account requesting a password reset"""
+  email: String!
+}
+
+input ResetPasswordInput {
+  """One-time reset token from email"""
+  token: String!
+
+  """
+  New password (min 8 chars, must contain at least one letter and one digit)
+  """
+  newPassword: String!
+}
+
+type ResetPasswordNode {
+  success: Boolean!
+  message: String!
+}
+
+type RoleNode implements Node {
+  """The Globally Unique ID of this object"""
+  id: ID!
+  code: String!
+  enabled: Boolean!
+  description: String
+  createdAt: DateTime!
+  updatedAt: DateTime
+}
+
+"""An edge in a connection."""
+type RoleNodeEdge {
+  """A cursor for use in pagination"""
+  cursor: String!
+
+  """The item at the end of the edge"""
+  node: RoleNode!
+}
+
+type RoleNodeListConnection {
+  """Pagination data for this connection"""
+  pageInfo: LysPageInfo!
+
+  """Contains the nodes in this connection"""
+  edges: [RoleNodeEdge!]!
+}
+
+input RoleNodeOderByType @oneOf {
+  code: Boolean
+  createdAt: Boolean
+}
+
+type SSOProviderNode {
+  providerId: String!
+  name: String!
+  loginUrl: String!
+}
+
+type SSOProvidersNode {
+  providers: [SSOProviderNode!]!
+}
+
+type SSOSessionNode {
+  email: String!
+  firstName: String
+  lastName: String
+  provider: String!
+}
+
+input SetEventPreferenceInput {
+  eventType: String!
+  channel: String!
+  enabled: Boolean!
+}
+
+input SetPlanVersionRuleInput {
+  planVersionId: ID!
+  ruleId: String!
+  limitValue: Int = null
+}
+
+type StoredFileNode implements Node {
+  """The Globally Unique ID of this object"""
+  id: ID!
+  originalName: String!
+  size: Int!
+  mimeType: String!
+  typeId: String!
+  createdAt: DateTime!
+  updatedAt: DateTime
+}
+
+input SubscribeManuallyInput {
+  planVersionPriceId: ID!
+  discountId: String = null
+}
+
+input SubscribeToPlanInput {
+  planVersionId: ID!
+  billingPeriod: BillingPeriod!
+  successUrl: String!
+  currencyId: String! = "EUR"
+  commitmentId: String! = "NO_COMMITMENT"
+  discountId: String = null
+}
+
+type SubscribeToPlanResultNode {
+  success: Boolean!
+  checkoutUrl: String
+  effectiveDate: DateTime
+  prorataAmount: Int
+  error: String
+}
+
+type SubscriptionDiscountNode implements Node {
+  """The Globally Unique ID of this object"""
+  id: ID!
+  value: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime
+
+  """Discount granted"""
+  discount: LicenseDiscountNode!
+
+  """Unit the granted value is read in"""
+  unit: LicenseDiscountUnitNode!
+}
+
+type SubscriptionNode implements Node {
+  """The Globally Unique ID of this object"""
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime
+
+  """The client that owns this subscription"""
+  clientId: ID!
+
+  """The current plan version ID"""
+  planVersionId: ID!
+
+  """Pending plan version ID for scheduled downgrade"""
+  pendingPlanVersionId: ID
+
+  """The current plan version"""
+  planVersion: LicensePlanVersionNode!
+
+  """Pending plan version for scheduled downgrade"""
+  pendingPlanVersion: LicensePlanVersionNode
+
+  """Whether a downgrade is scheduled"""
+  hasPendingDowngrade: Boolean!
+
+  """Whether nothing is owed for this subscription"""
+  isFree: Boolean!
+
+  """How this subscription is collected"""
+  billingMode: LicenseBillingModeNode!
+
+  """Whether collection happens outside the application"""
+  isManuallyBilled: Boolean!
+
+  """
+  Discount granted on this subscription, with the value as granted — which can differ from the discount's current value
+  """
+  grantedDiscount: SubscriptionDiscountNode
+
+  """The price subscribed to, carrying periodicity, currency and commitment"""
+  planVersionPrice: LicensePlanVersionPriceNode
+
+  """
+  Amount actually owed per period, in the price's minor units; null when nothing is owed. Differs from the catalogue price when a discount was granted
+  """
+  amountDue: Int
+
+  """
+  Snapshot of the commercial terms agreed to: plan, price, discount, commitment. Reads on its own, without following any reference
+  """
+  receipt: JSON
+
+  """End of the contractual commitment, null when not committed"""
+  commitmentEndDate: DateTime
+
+  """Whether the client is still bound by a commitment"""
+  isCommitted: Boolean!
+
+  """
+  Last date a cancellation is accepted for the current term; past it the commitment is tacitly renewed
+  """
+  noticeDeadline: DateTime
+
+  """Whether a cancellation can still be requested for this term"""
+  canBeCancelledNow: Boolean!
+
+  """Date a scheduled plan change takes effect"""
+  effectiveChangeDate: DateTime
+}
+
+type SuccessNode {
+  succeed: Boolean!
+  message: String
+}
+
+type UnreadNotificationsCountNode {
+  unreadCount: Int!
+}
+
+input UpdateClientInput {
+  """New name of the client organization"""
+  name: String!
+}
+
+input UpdateClientUserEmailInput {
+  """New email address (will be set to unverified state)"""
+  newEmail: String!
+}
+
+input UpdateClientUserPrivateDataInput {
+  """First name (GDPR-protected)"""
+  firstName: String = null
+
+  """Last name (GDPR-protected)"""
+  lastName: String = null
+
+  """Gender code (MALE, FEMALE, OTHER)"""
+  genderCode: String = null
+
+  """Language code to update in format 'en' or 'en-US'"""
+  languageCode: String = null
+}
+
+input UpdateClientUserRolesInput {
+  """
+  List of role codes to assign to the user (empty list removes all roles)
+  """
+  roleCodes: [String!]!
+}
+
+input UpdatePasswordInput {
+  """Current password for verification"""
+  currentPassword: String!
+
+  """
+  New password (min 8 chars, must contain at least one letter and one digit)
+  """
+  newPassword: String!
+}
+
+input UpdateUserAuditLogInput {
+  """Updated observation message (min 10 characters)"""
+  message: String!
+}
+
+input UpdateUserEmailInput {
+  """New email address (will be set to unverified state)"""
+  newEmail: String!
+}
+
+input UpdateUserPrivateDataInput {
+  """First name (GDPR-protected)"""
+  firstName: String = null
+
+  """Last name (GDPR-protected)"""
+  lastName: String = null
+
+  """Gender code (MALE, FEMALE, OTHER)"""
+  genderCode: String = null
+
+  """Language code to update in format 'en' or 'en-US'"""
+  languageCode: String = null
+}
+
+input UpdateUserRolesInput {
+  """
+  List of role codes to assign to the user (empty list removes all roles)
+  """
+  roleCodes: [String!]!
+}
+
+input UpdateUserStatusInput {
+  """
+  New status code (ACTIVE, INACTIVE, SUSPENDED). Cannot be DELETED - use anonymizeUser instead.
+  """
+  statusCode: String!
+
+  """Reason for status change (min 10 characters, required for audit trail)"""
+  reason: String!
+}
+
+type UserAuditLogNode implements Node {
+  """The Globally Unique ID of this object"""
+  id: ID!
+  message: String!
+  createdAt: DateTime!
+  updatedAt: DateTime
+  deletedAt: DateTime
+
+  """User targeted by this audit log"""
+  targetUser: UserNode!
+
+  """User who authored this audit log"""
+  authorUser: UserNode!
+
+  """Type of audit log entry"""
+  logType: UserAuditLogTypeNode!
+}
+
+"""An edge in a connection."""
+type UserAuditLogNodeEdge {
+  """A cursor for use in pagination"""
+  cursor: String!
+
+  """The item at the end of the edge"""
+  node: UserAuditLogNode!
+}
+
+type UserAuditLogNodeListConnection {
+  """Pagination data for this connection"""
+  pageInfo: LysPageInfo!
+
+  """Contains the nodes in this connection"""
+  edges: [UserAuditLogNodeEdge!]!
+}
+
+input UserAuditLogNodeOderByType @oneOf {
+  createdAt: Boolean
+  logType: Boolean
+}
+
+type UserAuditLogTypeNode implements Node {
+  """The Globally Unique ID of this object"""
+  id: ID!
+  code: String!
+  enabled: Boolean!
+  description: String
+  createdAt: DateTime!
+  updatedAt: DateTime
+}
+
+type UserEmailAddressNode implements Node {
+  """The Globally Unique ID of this object"""
+  id: ID!
+  address: String!
+  createdAt: DateTime
+  updatedAt: DateTime
+  validatedAt: DateTime
+  lastValidationRequestAt: DateTime
+}
+
+type UserEventPreferenceNode implements Node {
+  """The Globally Unique ID of this object"""
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime
+  userId: String!
+  eventType: String!
+  channel: String!
+  enabled: Boolean!
+}
+
+type UserEventPreferencesNode {
+  preferences: [UserEventPreferenceNode!]!
+}
+
+type UserNode implements Node {
+  """The Globally Unique ID of this object"""
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime
+
+  """Client organization ID (null for supervisors)"""
+  clientId: ID
+
+  """Client organization (null for supervisors)"""
+  client: ClientNode
+
+  """User email address"""
+  emailAddress: UserEmailAddressNode!
+
+  """User status"""
+  status: UserStatusNode!
+
+  """User preferred language"""
+  language: LanguageNode!
+
+  """User private data (GDPR protected)"""
+  privateData: UserPrivateDataNode
+
+  """Roles assigned to this user (supervisor roles)"""
+  roles: [RoleNode!]!
+
+  """Roles assigned to this user in their client organization"""
+  organizationRoles: [RoleNode!]!
+
+  """Whether this user has a license (is associated with a subscription)"""
+  isLicensed: Boolean!
+}
+
+"""An edge in a connection."""
+type UserNodeEdge {
+  """A cursor for use in pagination"""
+  cursor: String!
+
+  """The item at the end of the edge"""
+  node: UserNode!
+}
+
+type UserNodeListConnection {
+  """Pagination data for this connection"""
+  pageInfo: LysPageInfo!
+
+  """Contains the nodes in this connection"""
+  edges: [UserNodeEdge!]!
+}
+
+input UserNodeOderByType @oneOf {
+  createdAt: Boolean
+  emailAddress: Boolean
+  firstName: Boolean
+  lastName: Boolean
+}
+
+type UserOneTimeTokenNode implements Node {
+  """The Globally Unique ID of this object"""
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime
+  usedAt: DateTime
+  statusId: String!
+  typeId: String!
+
+  """User associated with this token"""
+  user: UserNode!
+}
+
+"""An edge in a connection."""
+type UserOneTimeTokenNodeEdge {
+  """A cursor for use in pagination"""
+  cursor: String!
+
+  """The item at the end of the edge"""
+  node: UserOneTimeTokenNode!
+}
+
+type UserOneTimeTokenNodeListConnection {
+  """Pagination data for this connection"""
+  pageInfo: LysPageInfo!
+
+  """Contains the nodes in this connection"""
+  edges: [UserOneTimeTokenNodeEdge!]!
+}
+
+input UserOneTimeTokenNodeOderByType @oneOf {
+  createdAt: Boolean
+}
+
+type UserPrivateDataNode implements Node {
+  """The Globally Unique ID of this object"""
+  id: ID!
+  firstName: String
+  lastName: String
+  createdAt: DateTime!
+  updatedAt: DateTime
+  anonymizedAt: DateTime
+
+  """User gender"""
+  gender: GenderNode
+}
+
+type UserSSOLinkNode implements Node {
+  """The Globally Unique ID of this object"""
+  id: ID!
+  provider: String!
+  externalEmail: String!
+  linkedAt: DateTime!
+  createdAt: DateTime!
+  updatedAt: DateTime
+  userId: ID!
+}
+
+type UserSSOLinksNode {
+  links: [UserSSOLinkNode!]!
+}
+
+type UserStatusNode implements Node {
+  """The Globally Unique ID of this object"""
+  id: ID!
+  code: String!
+  enabled: Boolean!
+  description: String
+  createdAt: DateTime!
+  updatedAt: DateTime
+}
+
+"""An edge in a connection."""
+type UserStatusNodeEdge {
+  """A cursor for use in pagination"""
+  cursor: String!
+
+  """The item at the end of the edge"""
+  node: UserStatusNode!
+}
+
+type UserStatusNodeListConnection {
+  """Pagination data for this connection"""
+  pageInfo: LysPageInfo!
+
+  """Contains the nodes in this connection"""
+  edges: [UserStatusNodeEdge!]!
+}
+
+input UserStatusNodeOderByType @oneOf {
+  code: Boolean
+  createdAt: Boolean
+}
+
+input VerifyEmailInput {
+  """One-time verification token from email"""
+  token: String!
+}
+
+type VerifyEmailNode {
+  success: Boolean!
+  message: String!
+}
+
+input WebserviceAttributesInput {
+  enabled: Boolean!
+  publicType: String
+  isLicenced: Boolean!
+  accessLevels: [String!]!
+
+  """GraphQL operation type (query or mutation)"""
+  operationType: String = null
+
+  """AI tool definition for LLM function calling"""
+  aiTool: JSON = null
+}
+
+input WebserviceFixturesInput {
+  id: String!
+  attributes: WebserviceAttributesInput!
+}
+
+type WebserviceNode implements Node {
+  """The Globally Unique ID of this object"""
+  id: ID!
+  code: String!
+  enabled: Boolean!
+  createdAt: DateTime!
+  updatedAt: DateTime
+  isPublic: Boolean!
+  appName: String
+  operationType: String
+  aiTool: JSON
+
+  """Access levels associated with this webservice"""
+  accessLevels: [AccessLevelNode!]!
+}
+
+"""An edge in a connection."""
+type WebserviceNodeEdge {
+  """A cursor for use in pagination"""
+  cursor: String!
+
+  """The item at the end of the edge"""
+  node: WebserviceNode!
+}
+
+type WebserviceNodeListConnection {
+  """Pagination data for this connection"""
+  pageInfo: LysPageInfo!
+
+  """Contains the nodes in this connection"""
+  edges: [WebserviceNodeEdge!]!
+}
+
+input WebserviceNodeOderByType @oneOf {
+  code: Boolean
+  createdAt: Boolean
+}
+
+scalar _Any
+
+type _Service {
+  sdl: String!
+}

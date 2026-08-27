@@ -1,0 +1,23 @@
+{% extends "_base.html" %}
+{% block lang %}en{% endblock %}
+{% block title %}Invitation to join the platform{% endblock %}
+{% block heading %}Welcome!{% endblock %}
+{% block greeting %}Hello {{ private_data.first_name }},{% endblock %}
+{% block intro %}You have been invited by <strong>{{ inviter_name }}</strong> to join our platform.{% endblock %}
+{% block body %}
+        <p>To activate your account and set your password, click the button below:</p>
+{% endblock %}
+{% block cta_url %}{{ front_url }}/activate?token={{ token }}{% endblock %}
+{% block cta_text %}Activate my account{% endblock %}
+{% block footer_section %}
+        <p>This link will expire in 7 days.</p>
+
+        <hr style="border: none; border-top: 1px solid #dee2e6; margin: 20px 0;">
+
+        <p style="font-size: 12px; color: #6c757d;">
+            If the button does not work, copy and paste this link into your browser:<br>
+            <a href="{{ front_url }}/activate?token={{ token }}" style="color: #0d6efd;">
+                {{ front_url }}/activate?token={{ token }}
+            </a>
+        </p>
+{% endblock %}

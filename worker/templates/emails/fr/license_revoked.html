@@ -1,0 +1,22 @@
+{% extends "_base.html" %}
+{% block title %}Licence révoquée{% endblock %}
+{% block theme_color %}#dc3545{% endblock %}
+{% block heading %}Licence révoquée{% endblock %}
+{% block greeting %}Bonjour {{ private_data.first_name }},{% endblock %}
+{% block intro %}Nous vous informons qu'une licence a été révoquée :{% endblock %}
+{% block info_box %}
+        <div style="background-color: #ffffff; padding: 15px; border-left: 4px solid #dc3545; margin: 20px 0;">
+            <p style="margin: 0;"><strong>Organisation :</strong> {{ client_name }}</p>
+            <p style="margin: 10px 0 0 0;"><strong>Licence :</strong> {{ license_name }}</p>
+        </div>
+{% endblock %}
+{% block body %}
+        <p>Vous n'avez plus accès aux fonctionnalités incluses dans cette licence.</p>
+
+        {% if reason %}
+        <p><strong>Raison :</strong> {{ reason }}</p>
+        {% endif %}
+{% endblock %}
+{% block cta_color %}#6c757d{% endblock %}
+{% block cta_text %}Accéder à la plateforme{% endblock %}
+{% block footer %}Si vous pensez qu'il s'agit d'une erreur ou si vous avez des questions, veuillez contacter votre administrateur.{% endblock %}

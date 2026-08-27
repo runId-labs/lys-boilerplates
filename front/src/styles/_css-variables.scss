@@ -1,0 +1,152 @@
+// CSS Custom Properties (CSS Variables)
+// These can be overridden at runtime for dynamic theming
+
+@import "tokens/design-tokens";
+
+// Light theme (default)
+:root,
+[data-theme="light"] {
+  // Colors
+  --lys-color-primary: #{$lys-color-primary};
+  --lys-color-secondary: #{$lys-color-secondary};
+  --lys-color-success: #{$lys-color-success};
+  --lys-color-danger: #{$lys-color-danger};
+  --lys-color-warning: #{$lys-color-warning};
+  --lys-color-info: #{$lys-color-info};
+  --lys-color-light: #{$lys-color-light};
+  --lys-color-dark: #{$lys-color-dark};
+  --lys-color-brand: #{$lys-color-brand};
+  --lys-color-accent: #{$lys-color-accent};
+  // Light tint of the primary, for active-item highlights
+  --lys-color-primary-tint: rgba(30, 58, 95, 0.08);
+
+  // Translucent surfaces (glass panels, e.g. the chatbot sidebar)
+  --lys-color-surface-glass: rgba(255, 255, 255, 0.75);
+  // Hover surface tint
+  --lys-color-surface-hover: rgba(30, 58, 95, 0.05);
+
+  // Background colors
+  --lys-color-bg-primary: #{$lys-color-bg-primary};
+  --lys-color-bg-secondary: #{$lys-color-bg-secondary}; // Always white (#FFFFFF)
+  --lys-color-bg-tertiary: #{$lys-color-bg-tertiary};
+  --lys-color-bg-dark: #{$lys-color-bg-dark};
+
+  // Text colors
+  --lys-color-text-primary: #{$lys-color-text-primary};
+  --lys-color-text-secondary: #{$lys-color-text-secondary};
+  --lys-color-text-muted: #{$lys-color-text-muted};
+  --lys-color-text-on-dark: #{$lys-color-text-on-dark};
+
+  // Border colors
+  --lys-color-border-default: #{$lys-color-border-default};
+  --lys-color-border-light: #{$lys-color-border-light};
+  --lys-color-border-dark: #{$lys-color-border-dark};
+  --lys-color-border-navbar: #{$lys-color-border-navbar};
+
+  // Link colors
+  --lys-color-link: #{$lys-color-link};
+  --lys-color-link-hover: #{$lys-color-link-hover};
+
+  // Spacing
+  --lys-spacing-xs: #{$lys-spacing-xs};
+  --lys-spacing-sm: #{$lys-spacing-sm};
+  --lys-spacing-md: #{$lys-spacing-md};
+  --lys-spacing-lg: #{$lys-spacing-lg};
+  --lys-spacing-xl: #{$lys-spacing-xl};
+  --lys-spacing-2xl: #{$lys-spacing-2xl};
+  --lys-spacing-3xl: #{$lys-spacing-3xl};
+  --lys-spacing-4xl: #{$lys-spacing-4xl};
+
+  // Border radius
+  --lys-radius-sm: #{$lys-radius-sm};
+  --lys-radius-default: #{$lys-radius-default};
+  --lys-radius-md: #{$lys-radius-md};
+  --lys-radius-lg: #{$lys-radius-lg};
+  --lys-radius-xl: #{$lys-radius-xl};
+  --lys-radius-2xl: #{$lys-radius-2xl};
+  --lys-radius-full: #{$lys-radius-full};
+
+  // Shadows
+  --lys-shadow-sm: #{$lys-shadow-sm};
+  --lys-shadow-default: #{$lys-shadow-default};
+  --lys-shadow-md: #{$lys-shadow-md};
+  --lys-shadow-lg: #{$lys-shadow-lg};
+  --lys-shadow-xl: #{$lys-shadow-xl};
+  --lys-shadow-card: 0 1px 2px rgba(20, 40, 60, 0.04), 0 6px 22px rgba(20, 40, 60, 0.06);
+  --lys-shadow-card-hover: 0 18px 50px rgba(20, 40, 60, 0.14);
+  --lys-shadow-navbar: 0 1px 12px rgba(20, 40, 60, 0.05);
+
+  // Typography
+  --lys-font-family-base: #{$lys-font-family-base};
+  --lys-font-family-monospace: #{$lys-font-family-monospace};
+  --lys-font-size-base: #{$lys-font-size-base};
+  --lys-line-height-base: #{$lys-line-height-base};
+
+  // Transitions
+  --lys-transition-duration-fast: #{$lys-transition-duration-fast};
+  --lys-transition-duration-base: #{$lys-transition-duration-base};
+  --lys-transition-duration-slow: #{$lys-transition-duration-slow};
+  --lys-transition-timing-default: #{$lys-transition-timing-default};
+}
+
+// Dark theme override - Option 3: Contemporary sophistication dark mode
+[data-theme="dark"] {
+  // Override colors for dark mode
+  --lys-color-bg-primary: #{$lys-color-gray-800};     // #2D3748
+  // --lys-color-bg-secondary stays white (#FFFFFF) in dark mode for contrast
+  --lys-color-bg-dark: #{$lys-color-gray-800};
+
+  --lys-color-text-primary: #{$lys-color-gray-100};   // #F7FAFC
+  --lys-color-text-secondary: #{$lys-color-gray-300}; // #E2E8F0
+  --lys-color-text-muted: #{$lys-color-gray-400};     // #CBD5E0
+
+  --lys-color-border-default: #{$lys-color-gray-700}; // #4A5568
+  --lys-color-border-light: #{$lys-color-gray-800};   // #2D3748
+  --lys-color-border-dark: #{$lys-color-gray-600};    // #718096
+
+  // Adjust colors for better visibility on dark backgrounds
+  --lys-color-primary: #4C7CB8;    // Lighter navy blue
+  --lys-color-accent: #D9975F;     // Lighter copper
+  --lys-color-link: #4C7CB8;
+  --lys-color-link-hover: #D9975F;
+  --lys-color-success: #52A885;
+  --lys-color-warning: #EDA754;
+  --lys-color-danger: #CC6B6B;
+
+  // Shadows — deeper for dark surfaces
+  --lys-shadow-card: 0 4px 24px rgba(0, 0, 0, 0.35);
+  --lys-shadow-card-hover: 0 12px 36px rgba(0, 0, 0, 0.45);
+
+  // Translucent surfaces — darker glass for dark mode
+  --lys-color-surface-glass: rgba(45, 55, 72, 0.85);
+  --lys-color-surface-hover: rgba(255, 255, 255, 0.07);
+}
+
+// High contrast theme (for accessibility)
+[data-theme="high-contrast"] {
+  --lys-color-text-primary: #{$lys-color-black};
+  --lys-color-bg-primary: #{$lys-color-white};
+  --lys-color-border-default: #{$lys-color-black};
+
+  // Increase contrast for all interactive elements
+  --lys-color-primary: #0052cc;
+  --lys-color-link: #0052cc;
+}
+
+// Prefers color scheme media query support
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    // Apply dark theme colors when system prefers dark mode
+    // and no explicit theme is set
+    --lys-color-bg-primary: #{$lys-color-gray-800};
+    // --lys-color-bg-secondary stays white (#FFFFFF) in dark mode for contrast
+    --lys-color-text-primary: #{$lys-color-gray-100};
+    --lys-color-text-secondary: #{$lys-color-gray-300};
+    --lys-color-text-muted: #{$lys-color-gray-400};
+    --lys-color-border-default: #{$lys-color-gray-700};
+    --lys-color-primary: #4C7CB8;
+    --lys-color-accent: #D9975F;
+    --lys-color-link: #4C7CB8;
+    --lys-color-link-hover: #D9975F;
+  }
+}

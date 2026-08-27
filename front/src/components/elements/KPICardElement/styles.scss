@@ -1,0 +1,49 @@
+.kpi-card-element {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    background-color: var(--bs-gray-100);
+    border-radius: var(--bs-border-radius);
+    text-align: center;
+    min-width: 140px;
+
+    &__value {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--bs-body-color);
+        line-height: 1.2;
+    }
+
+    &__label {
+        font-size: 0.875rem;
+        color: var(--lys-color-text-muted);
+        margin-top: 0.25rem;
+    }
+
+    &__variation {
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+        font-size: 0.875rem;
+        font-weight: 500;
+        margin-top: 0.5rem;
+
+        i {
+            font-size: 0.75rem;
+        }
+
+        &--positive {
+            color: var(--bs-success);
+        }
+
+        &--negative {
+            color: var(--bs-danger);
+        }
+
+        &--neutral {
+            color: var(--lys-color-text-muted);
+        }
+    }
+}

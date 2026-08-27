@@ -1,0 +1,130 @@
+@import "../../../styles/tokens/design-tokens";
+
+.tab-element {
+  // Tab navigation styling - Higher specificity to override Bootstrap
+  .nav.nav-tabs {
+    border-bottom: 3px solid var(--lys-color-border-light) !important;
+    gap: 0 !important;
+    padding-bottom: 0;
+
+    .nav-item {
+      margin-bottom: 0 !important;
+      margin-right: 0 !important;
+
+      .nav-link {
+        color: var(--lys-color-text-secondary) !important;
+        border: none !important;
+        border-bottom: 3px solid transparent !important;
+        background-color: transparent !important;
+        padding: 0.75rem 2rem !important;
+        font-weight: 600 !important;
+        font-size: 1rem !important;
+        transition: all 0.2s ease !important;
+        border-radius: 0 !important;
+        margin-bottom: -3px !important;
+        position: relative !important;
+
+        i {
+          color: var(--lys-color-text-muted) !important;
+          transition: color 0.2s ease !important;
+          font-size: 1.1rem !important;
+        }
+
+        // Remove Bootstrap focus/active backgrounds
+        &:hover,
+        &:focus,
+        &:active,
+        &.show {
+          color: var(--lys-color-accent) !important;
+          background-color: transparent !important;
+          border-color: transparent !important;
+          border-bottom-color: var(--lys-color-accent) !important;
+          outline: none !important;
+          box-shadow: none !important;
+
+          i {
+            color: var(--lys-color-accent) !important;
+          }
+        }
+
+        // Active state with highest specificity
+        &.active,
+        &.active:hover,
+        &.active:focus,
+        &.active:active {
+          color: var(--lys-color-primary) !important;
+          background-color: transparent !important;
+          border-color: transparent !important;
+          border-bottom-color: var(--lys-color-primary) !important;
+          font-weight: 700 !important;
+          outline: none !important;
+          box-shadow: none !important;
+
+          i {
+            color: var(--lys-color-primary) !important;
+          }
+        }
+      }
+    }
+  }
+
+  // Tab content styling
+  .tab-content {
+    padding: var(--lys-spacing-4) 0 0 0 !important;
+    background-color: transparent !important;
+
+    .tab-pane {
+      animation: fadeIn 0.2s ease;
+    }
+  }
+
+  // Dark theme support
+  [data-theme="dark"] & {
+    .nav.nav-tabs {
+      border-bottom-color: var(--lys-color-border-dark) !important;
+
+      .nav-item .nav-link {
+        color: var(--lys-color-text-on-dark) !important;
+
+        i {
+          color: var(--lys-color-text-muted) !important;
+        }
+
+        &:hover {
+          color: var(--lys-color-accent) !important;
+          border-bottom-color: var(--lys-color-accent) !important;
+
+          i {
+            color: var(--lys-color-accent) !important;
+          }
+        }
+
+        &.active,
+        &.active:hover,
+        &.active:focus,
+        &.active:active {
+          color: var(--lys-color-accent) !important;
+          background-color: transparent !important;
+          border-color: transparent !important;
+          border-bottom-color: var(--lys-color-accent) !important;
+
+          i {
+            color: var(--lys-color-accent) !important;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Fade in animation for tab content
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -1,0 +1,66 @@
+.accordion-element {
+    .accordion-item {
+        background-color: inherit;
+    }
+
+    .accordion-button {
+        background-color: inherit;
+
+        &:not(.collapsed) {
+            background-color: inherit;
+            box-shadow: none;
+        }
+    }
+
+    .accordion-body {
+        background-color: inherit;
+
+        // Embedded table: a touch more vertical breathing room per row than
+        // table-sm gives, and drop the trailing row border so it doesn't draw a
+        // line above the body's bottom padding.
+        .table > :not(caption) > * > * {
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+        }
+
+        .table tbody tr:last-child > * {
+            border-bottom-width: 0;
+        }
+    }
+
+    &__header {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        width: 100%;
+    }
+
+    &__title {
+        font-weight: 600;
+        font-size: 0.875rem;
+    }
+
+    &__count-badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 1.5rem;
+        height: 1.5rem;
+        padding: 0 0.4rem;
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: var(--lys-color-text-muted);
+        background-color: var(--lys-color-bg-tertiary);
+        border-radius: 50rem;
+    }
+
+    // Free header slot (e.g. status badge): takes the remaining width and
+    // right-aligns its content, with a gap before the chevron.
+    &__extra {
+        flex: 1 1 auto;
+        min-width: 0;
+        display: flex;
+        justify-content: flex-end;
+        padding-right: 0.75rem;
+    }
+}

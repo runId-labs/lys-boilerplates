@@ -1,0 +1,285 @@
+// Custom utility classes
+// Extends Bootstrap utilities with custom helpers
+
+@import "tokens/design-tokens";
+
+// Responsive width utilities
+// Used by OffCanvasElement and available for general use
+@each $breakpoint-name, $breakpoint-value in $lys-breakpoints {
+  @if $breakpoint-value > 0 {
+    @media (min-width: $breakpoint-value) {
+      @each $size-name, $size-value in ("25": 25%, "33": 33%, "50": 50%, "66": 66%, "75": 75%, "100": 100%) {
+        .w-#{$breakpoint-name}-#{$size-name} {
+          width: $size-value !important;
+        }
+      }
+    }
+  }
+}
+
+// Text utilities using design tokens
+.text-brand {
+  color: var(--lys-color-brand) !important;
+}
+
+.text-accent {
+  color: var(--lys-color-accent) !important;
+}
+
+.text-on-dark {
+  color: var(--lys-color-text-on-dark) !important;
+}
+
+// Background utilities
+.bg-brand {
+  background-color: var(--lys-color-brand) !important;
+}
+
+.bg-accent {
+  background-color: var(--lys-color-accent) !important;
+}
+
+// Border utilities
+.border-brand {
+  border-color: var(--lys-color-brand) !important;
+}
+
+.border-accent {
+  border-color: var(--lys-color-accent) !important;
+}
+
+// Custom radius utilities
+.rounded-2xl {
+  border-radius: var(--lys-radius-2xl) !important;
+}
+
+.rounded-full {
+  border-radius: var(--lys-radius-full) !important;
+}
+
+// Shadow utilities using design tokens
+.shadow-xs {
+  box-shadow: var(--lys-shadow-sm) !important;
+}
+
+.shadow-default {
+  box-shadow: var(--lys-shadow-default) !important;
+}
+
+.shadow-xl {
+  box-shadow: var(--lys-shadow-xl) !important;
+}
+
+// Spacing utilities (extended)
+.gap-xs {
+  gap: var(--lys-spacing-xs) !important;
+}
+
+.gap-sm {
+  gap: var(--lys-spacing-sm) !important;
+}
+
+.gap-md {
+  gap: var(--lys-spacing-md) !important;
+}
+
+.gap-lg {
+  gap: var(--lys-spacing-lg) !important;
+}
+
+.gap-xl {
+  gap: var(--lys-spacing-xl) !important;
+}
+
+// Transition utilities
+.transition-fast {
+  transition: all var(--lys-transition-duration-fast) var(--lys-transition-timing-default) !important;
+}
+
+.transition-base {
+  transition: all var(--lys-transition-duration-base) var(--lys-transition-timing-default) !important;
+}
+
+.transition-slow {
+  transition: all var(--lys-transition-duration-slow) var(--lys-transition-timing-default) !important;
+}
+
+// Typography utilities
+.font-heading {
+  font-family: var(--lys-font-family-base) !important;
+  font-weight: $lys-font-weight-heading !important;
+}
+
+.font-mono {
+  font-family: var(--lys-font-family-monospace) !important;
+}
+
+.leading-tight {
+  line-height: $lys-line-height-tight !important;
+}
+
+.leading-normal {
+  line-height: $lys-line-height-normal !important;
+}
+
+.leading-relaxed {
+  line-height: $lys-line-height-relaxed !important;
+}
+
+// Flexbox utilities (enhanced)
+.flex-center {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.flex-between {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+}
+
+.flex-start {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+}
+
+.flex-end {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+}
+
+// Position utilities
+.absolute-center {
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+}
+
+.absolute-center-x {
+  position: absolute !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+}
+
+.absolute-center-y {
+  position: absolute !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+}
+
+// Aspect ratio utilities
+.aspect-square {
+  aspect-ratio: 1 / 1 !important;
+}
+
+.aspect-video {
+  aspect-ratio: 16 / 9 !important;
+}
+
+.aspect-portrait {
+  aspect-ratio: 3 / 4 !important;
+}
+
+// Truncate text
+.truncate {
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+
+.line-clamp-1 {
+  display: -webkit-box !important;
+  -webkit-line-clamp: 1 !important;
+  -webkit-box-orient: vertical !important;
+  overflow: hidden !important;
+}
+
+.line-clamp-2 {
+  display: -webkit-box !important;
+  -webkit-line-clamp: 2 !important;
+  -webkit-box-orient: vertical !important;
+  overflow: hidden !important;
+}
+
+.line-clamp-3 {
+  display: -webkit-box !important;
+  -webkit-line-clamp: 3 !important;
+  -webkit-box-orient: vertical !important;
+  overflow: hidden !important;
+}
+
+// Focus utilities for accessibility
+.focus-visible-ring {
+  &:focus-visible {
+    outline: 2px solid var(--lys-color-primary) !important;
+    outline-offset: 2px !important;
+  }
+}
+
+// Screen reader only
+.sr-only-focusable {
+  &:not(:focus):not(:focus-within) {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border-width: 0 !important;
+  }
+}
+
+// Print utilities
+@media print {
+  .print-hidden {
+    display: none !important;
+  }
+
+  .print-break-before {
+    break-before: page !important;
+  }
+
+  .print-break-after {
+    break-after: page !important;
+  }
+
+  .print-avoid-break {
+    break-inside: avoid !important;
+  }
+}
+
+// Query loading overlay
+.lys-query-loading {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.3);
+  z-index: 10;
+  min-height: 100px;
+}
+
+// Page layout utilities
+.lys-page {
+  height: 100%;
+  overflow-y: auto;
+}
+
+.lys-page-centered {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lys-page-full {
+  height: 100%;
+  overflow: hidden;
+}

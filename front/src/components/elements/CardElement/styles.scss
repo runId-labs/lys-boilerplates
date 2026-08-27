@@ -1,0 +1,119 @@
+@import "@/styles/tokens/design-tokens";
+
+.card-element {
+  border-radius: $lys-radius-md;
+  background-color: var(--lys-color-bg-secondary);
+  transition: all $lys-transition-duration-base $lys-transition-timing-default;
+  overflow: hidden;
+
+  // Full height support - push footer to bottom
+  &.h-100 {
+    display: flex;
+    flex-direction: column;
+
+    .card-element__body {
+      flex-grow: 1;
+    }
+  }
+
+  // Variants
+  &--default {
+    box-shadow: $lys-shadow-default;
+    border: 1px solid var(--lys-color-border-light);
+  }
+
+  &--elevated {
+    box-shadow: $lys-shadow-lg;
+    border: none;
+  }
+
+  &--bordered {
+    border: 1px solid var(--lys-color-border-default);
+    box-shadow: none;
+  }
+
+  &--flat {
+    box-shadow: none;
+    border: none;
+  }
+
+  &--widget {
+    box-shadow: $lys-shadow-lg;
+    border: none;
+    // Widget-specific optimizations can go here
+  }
+
+  // Padding variants
+  &--padding-none {
+    .card-element__body {
+      padding: 0;
+    }
+  }
+
+  &--padding-sm {
+    .card-element__header,
+    .card-element__footer {
+      padding: $lys-spacing-xs $lys-spacing-sm;
+    }
+
+    .card-element__body {
+      padding: $lys-spacing-sm;
+    }
+  }
+
+  &--padding-md {
+    .card-element__header,
+    .card-element__footer {
+      padding: $lys-spacing-sm $lys-spacing-md;
+    }
+
+    .card-element__body {
+      padding: $lys-spacing-md;
+    }
+  }
+
+  &--padding-lg {
+    .card-element__header,
+    .card-element__footer {
+      padding: $lys-spacing-md $lys-spacing-lg;
+    }
+
+    .card-element__body {
+      padding: $lys-spacing-lg;
+    }
+  }
+
+  // Hoverable effect
+  &--hoverable {
+    cursor: pointer;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: $lys-shadow-md;
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+  }
+
+  // Header section
+  &__header {
+    border-bottom: 1px solid var(--lys-color-border-light);
+    background-color: var(--lys-color-bg-secondary);
+    font-weight: $lys-font-weight-semibold;
+    color: var(--lys-color-text-primary);
+  }
+
+  // Body section
+  &__body {
+    background-color: var(--lys-color-bg-secondary);
+  }
+
+  // Footer section
+  &__footer {
+    border-top: 1px solid var(--lys-color-border-light);
+    background-color: var(--lys-color-bg-secondary);
+    color: var(--lys-color-text-secondary);
+  }
+}

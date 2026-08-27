@@ -1,0 +1,15 @@
+# Build context hygiene (root context of api/Dockerfile and worker/Dockerfile)
+.git
+.idea
+data
+certs
+front/node_modules
+front/dist
+front/storybook-static
+**/__pycache__
+**/.venv
+**/*.pyc
+api/.env
+worker/.env
+front/.env
+.env

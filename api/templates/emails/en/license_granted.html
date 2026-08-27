@@ -1,0 +1,17 @@
+{% extends "_base.html" %}
+{% block lang %}en{% endblock %}
+{% block title %}License Granted{% endblock %}
+{% block heading %}New License Granted{% endblock %}
+{% block greeting %}Hello {{ private_data.first_name }},{% endblock %}
+{% block intro %}Good news! A new license has been granted to you:{% endblock %}
+{% block info_box %}
+        <div style="background-color: #ffffff; padding: 15px; border-left: 4px solid #0d6efd; margin: 20px 0;">
+            <p style="margin: 0;"><strong>Organization:</strong> {{ client_name }}</p>
+            <p style="margin: 10px 0 0 0;"><strong>License:</strong> {{ license_name }}</p>
+        </div>
+{% endblock %}
+{% block body %}
+        <p>You now have access to all features included in this license.</p>
+{% endblock %}
+{% block cta_text %}Access the platform{% endblock %}
+{% block footer %}If you have any questions, please contact your administrator.{% endblock %}

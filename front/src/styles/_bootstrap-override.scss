@@ -1,0 +1,180 @@
+// Bootstrap variable overrides
+// Import design tokens first, then override Bootstrap variables
+
+@import "tokens/design-tokens";
+
+// Color system
+$primary: $lys-color-primary;
+$secondary: $lys-color-secondary;
+$success: $lys-color-success;
+$info: $lys-color-info;
+$warning: $lys-color-warning;
+$danger: $lys-color-danger;
+$light: $lys-color-light;
+$dark: $lys-color-dark;
+
+// Merge custom colors into Bootstrap theme colors
+$theme-colors: (
+  "primary": $primary,
+  "secondary": $secondary,
+  "success": $success,
+  "info": $info,
+  "warning": $warning,
+  "danger": $danger,
+  "light": $light,
+  "dark": $dark,
+  "brand": $lys-color-brand,
+  "accent": $lys-color-accent,
+);
+
+// Grays
+$white: $lys-color-white;
+$black: $lys-color-black;
+$grays: $lys-grays;
+
+// Body
+$body-bg: $lys-color-bg-primary;
+$body-color: $lys-color-text-primary;
+
+// Links
+$link-color: $lys-color-link;
+$link-hover-color: $lys-color-link-hover;
+$link-decoration: none;
+$link-hover-decoration: underline;
+
+// Typography
+$font-family-sans-serif: $lys-font-family-base;
+$font-family-monospace: $lys-font-family-monospace;
+$font-family-base: $lys-font-family-base;
+$font-size-root: $lys-font-size-root;
+$font-size-base: $lys-font-size-base;
+$font-weight-base: $lys-font-weight-base;
+$line-height-base: $lys-line-height-base;
+
+// Headings
+$headings-font-family: $lys-font-family-heading;
+$headings-font-weight: $lys-font-weight-heading;
+$headings-line-height: $lys-line-height-heading;
+
+$h1-font-size: $lys-font-size-h1;
+$h2-font-size: $lys-font-size-h2;
+$h3-font-size: $lys-font-size-h3;
+$h4-font-size: $lys-font-size-h4;
+$h5-font-size: $lys-font-size-h5;
+$h6-font-size: $lys-font-size-h6;
+
+// Spacing
+$spacer: $lys-spacing-base;
+$spacers: $lys-spacers;
+
+// Grid
+$grid-gutter-width: $lys-spacing-grid-gutter;
+
+// Borders
+$border-width: $lys-border-width-default;
+$border-color: $lys-color-border-default;
+
+$border-radius: $lys-radius-default;
+$border-radius-sm: $lys-radius-sm;
+$border-radius-lg: $lys-radius-lg;
+$border-radius-xl: $lys-radius-xl;
+$border-radius-2xl: $lys-radius-2xl;
+
+// Shadows
+$box-shadow: $lys-shadow-default;
+$box-shadow-sm: $lys-shadow-sm;
+$box-shadow-lg: $lys-shadow-lg;
+
+// Components
+$component-active-bg: $lys-color-primary;
+$component-active-color: $lys-color-white;
+
+// Transitions
+$transition-base: all $lys-transition-duration-base $lys-transition-timing-default;
+$transition-fade: opacity $lys-transition-duration-fast $lys-transition-timing-linear;
+$transition-collapse: height $lys-transition-duration-slow $lys-transition-timing-default;
+
+// Breakpoints
+$grid-breakpoints: $lys-breakpoints;
+
+// Container max widths
+$container-max-widths: $lys-container-max-widths;
+
+// Z-index
+$zindex-dropdown: $lys-z-index-dropdown;
+$zindex-sticky: $lys-z-index-sticky;
+$zindex-fixed: $lys-z-index-fixed;
+$zindex-modal-backdrop: $lys-z-index-modal-backdrop;
+$zindex-offcanvas: $lys-z-index-offcanvas;
+$zindex-modal: $lys-z-index-modal;
+$zindex-popover: $lys-z-index-popover;
+$zindex-tooltip: $lys-z-index-tooltip;
+$zindex-toast: $lys-z-index-toast;
+
+// Buttons
+$btn-padding-y: $lys-spacing-sm;
+$btn-padding-x: $lys-spacing-md;
+$btn-font-size: $lys-font-size-base;
+$btn-border-radius: $lys-radius-default;
+
+$btn-padding-y-sm: $lys-spacing-xs;
+$btn-padding-x-sm: $lys-spacing-sm;
+$btn-font-size-sm: $lys-font-size-sm;
+$btn-border-radius-sm: $lys-radius-sm;
+
+$btn-padding-y-lg: $lys-spacing-md;
+$btn-padding-x-lg: $lys-spacing-lg;
+$btn-font-size-lg: $lys-font-size-lg;
+$btn-border-radius-lg: $lys-radius-lg;
+
+// Forms
+$input-padding-y: $lys-spacing-sm;
+$input-padding-x: $lys-spacing-md;
+$input-font-size: $lys-font-size-base;
+$input-border-color: $lys-color-border-default;
+$input-border-radius: $lys-radius-default;
+$input-focus-border-color: $lys-color-primary;
+$input-placeholder-color: $lys-color-text-muted;
+
+// Modals
+$modal-content-border-radius: $lys-radius-lg;
+$modal-content-box-shadow-xs: $lys-shadow-lg;
+$modal-content-box-shadow-sm-up: $lys-shadow-xl;
+$modal-backdrop-opacity: $lys-opacity-50;
+
+// Offcanvas
+$offcanvas-border-width: 0;
+$offcanvas-horizontal-width: 400px;
+
+// Cards
+$card-border-radius: $lys-radius-default;
+$card-border-color: $lys-color-border-light;
+$card-spacer-y: $lys-spacing-md;
+$card-spacer-x: $lys-spacing-md;
+
+// Badges
+$badge-font-size: $lys-font-size-xs;
+$badge-font-weight: $lys-font-weight-semibold;
+$badge-padding-y: $lys-spacing-xs;
+$badge-padding-x: $lys-spacing-sm;
+$badge-border-radius: $lys-radius-default;
+
+// Alerts
+$alert-padding-y: $lys-spacing-md;
+$alert-padding-x: $lys-spacing-md;
+$alert-border-radius: $lys-radius-default;
+
+// Dropdowns
+$dropdown-border-radius: $lys-radius-default;
+$dropdown-box-shadow: $lys-shadow-md;
+
+// Tooltips
+$tooltip-font-size: $lys-font-size-sm;
+$tooltip-border-radius: $lys-radius-sm;
+
+// Popovers
+$popover-border-radius: $lys-radius-default;
+$popover-box-shadow: $lys-shadow-lg;
+
+// Import Bootstrap after overrides
+@import "bootstrap/scss/bootstrap";

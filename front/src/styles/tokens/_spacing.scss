@@ -1,0 +1,73 @@
+// Spacing tokens - Option 2: Minimalisme Luxueux
+// Clean, precise spacing for minimalist aesthetic
+
+// Base spacing unit
+$lys-spacing-base: 1rem !default; // 16px by default
+
+// Spacing scale (based on base unit) - Minimalist precision
+$lys-spacing-0: 0 !default;
+$lys-spacing-1: calc($lys-spacing-base * 0.25) !default; // 0.25rem = 4px
+$lys-spacing-2: calc($lys-spacing-base * 0.5) !default;  // 0.5rem = 8px
+$lys-spacing-3: $lys-spacing-base !default;              // 1rem = 16px
+$lys-spacing-4: calc($lys-spacing-base * 2) !default;    // 2rem = 32px
+$lys-spacing-5: calc($lys-spacing-base * 3) !default;    // 3rem = 48px
+$lys-spacing-6: calc($lys-spacing-base * 4) !default;    // 4rem = 64px
+$lys-spacing-7: calc($lys-spacing-base * 6) !default;    // 6rem = 96px
+$lys-spacing-8: calc($lys-spacing-base * 8) !default;    // 8rem = 128px
+
+// Named spacing (semantic naming) - Precise spacing
+$lys-spacing-xs: $lys-spacing-1 !default;  // 0.25rem
+$lys-spacing-sm: $lys-spacing-2 !default;  // 0.5rem
+$lys-spacing-md: $lys-spacing-3 !default;  // 1rem
+$lys-spacing-lg: $lys-spacing-4 !default;  // 2rem
+$lys-spacing-xl: $lys-spacing-5 !default;  // 3rem
+$lys-spacing-2xl: $lys-spacing-6 !default; // 4rem
+$lys-spacing-3xl: $lys-spacing-7 !default; // 6rem
+$lys-spacing-4xl: $lys-spacing-8 !default; // 8rem
+
+// Component-specific spacing
+$lys-spacing-component-padding: $lys-spacing-md !default;
+$lys-spacing-component-gap: $lys-spacing-sm !default;
+$lys-spacing-section-padding: $lys-spacing-lg !default;
+$lys-spacing-page-padding: $lys-spacing-xl !default;
+
+// Grid gutter
+$lys-spacing-grid-gutter: $lys-spacing-md !default;
+
+// Export spacing map for Bootstrap integration
+$lys-spacers: (
+  0: $lys-spacing-0,
+  1: $lys-spacing-1,
+  2: $lys-spacing-2,
+  3: $lys-spacing-3,
+  4: $lys-spacing-4,
+  5: $lys-spacing-5,
+  6: $lys-spacing-6,
+  7: $lys-spacing-7,
+  8: $lys-spacing-8,
+) !default;
+
+// Border radius - Option 2: Minimal, sharp corners
+$lys-radius-none: 0 !default;
+$lys-radius-sm: 0.125rem !default;     // Minimal small radius (2px)
+$lys-radius-default: 0.25rem !default; // Minimal default radius (4px)
+$lys-radius-md: 0.5rem !default;       // Medium minimal radius (8px)
+$lys-radius-lg: 0.75rem !default;      // Large radius (12px)
+$lys-radius-xl: 1rem !default;         // Extra large radius (16px)
+$lys-radius-2xl: 1.5rem !default;      // 2XL radius (24px)
+$lys-radius-full: 9999px !default;     // Full rounded (pills)
+
+// Border width
+$lys-border-width-none: 0 !default;
+$lys-border-width-thin: 1px !default;
+$lys-border-width-default: 1px !default;
+$lys-border-width-medium: 2px !default;
+$lys-border-width-thick: 3px !default;
+
+// Shadows - Minimal shadows with navy blue tint (from Option 3)
+$lys-shadow-none: none !default;
+$lys-shadow-sm: 0 0.0625rem 0.125rem rgba(30, 58, 95, 0.08) !default;   // Subtle elevation
+$lys-shadow-default: 0 0.125rem 0.25rem rgba(30, 58, 95, 0.1) !default;  // Standard cards
+$lys-shadow-md: 0 0.25rem 0.5rem rgba(30, 58, 95, 0.12) !default;        // Elevated elements
+$lys-shadow-lg: 0 0.5rem 1rem rgba(30, 58, 95, 0.15) !default;           // Modals, dropdowns
+$lys-shadow-xl: 0 1rem 2rem rgba(30, 58, 95, 0.18) !default;             // High elevation

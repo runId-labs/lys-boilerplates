@@ -1,0 +1,70 @@
+/**
+ * TableElement styles
+ * Provides clean table styling with responsive support
+ */
+
+.table-element {
+    margin-bottom: 0;
+
+    // Ensure row class works properly with Bootstrap table
+    thead tr.row,
+    tbody tr.row {
+        margin: 0;
+    }
+
+    // White background on all rows (overrides Bootstrap striped/hover state variables)
+    tbody td {
+        background-color: var(--lys-color-bg-secondary);
+    }
+
+    // Column alignment
+    th, td {
+        vertical-align: middle;
+        padding: 0.75rem 0.5rem;
+    }
+
+    // Header styling
+    thead th {
+        font-weight: 600;
+        color: var(--bs-body-color);
+        background-color: var(--lys-color-bg-secondary);
+        border-bottom: 2px solid var(--bs-border-color);
+    }
+
+    // Action column: vertically and horizontally centered
+    &__actions {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    // Empty state
+    .text-muted {
+        font-style: italic;
+    }
+}
+
+// Responsive table wrapper
+.table-responsive {
+    .table-element {
+        min-width: 100%;
+    }
+}
+
+// Carded table: rounded corners + soft shadow, harmonized with the other blocks
+.table-element-wrapper {
+    background: var(--lys-color-bg-secondary);
+    border: 1px solid var(--lys-color-border-default);
+    border-radius: var(--lys-radius-lg);
+    box-shadow: var(--lys-shadow-card);
+    overflow: hidden; // clip the rounded corners
+
+    .table-element {
+        margin-bottom: 0;
+
+        // Let the header/first/last cells sit flush inside the rounded card
+        thead th {
+            border-top: none;
+        }
+    }
+}

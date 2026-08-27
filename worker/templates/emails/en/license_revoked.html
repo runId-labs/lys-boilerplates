@@ -1,0 +1,23 @@
+{% extends "_base.html" %}
+{% block lang %}en{% endblock %}
+{% block title %}License Revoked{% endblock %}
+{% block theme_color %}#dc3545{% endblock %}
+{% block heading %}License Revoked{% endblock %}
+{% block greeting %}Hello {{ private_data.first_name }},{% endblock %}
+{% block intro %}We inform you that a license has been revoked:{% endblock %}
+{% block info_box %}
+        <div style="background-color: #ffffff; padding: 15px; border-left: 4px solid #dc3545; margin: 20px 0;">
+            <p style="margin: 0;"><strong>Organization:</strong> {{ client_name }}</p>
+            <p style="margin: 10px 0 0 0;"><strong>License:</strong> {{ license_name }}</p>
+        </div>
+{% endblock %}
+{% block body %}
+        <p>You no longer have access to the features included in this license.</p>
+
+        {% if reason %}
+        <p><strong>Reason:</strong> {{ reason }}</p>
+        {% endif %}
+{% endblock %}
+{% block cta_color %}#6c757d{% endblock %}
+{% block cta_text %}Access the platform{% endblock %}
+{% block footer %}If you believe this is an error or have questions, please contact your administrator.{% endblock %}

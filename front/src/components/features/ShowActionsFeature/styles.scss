@@ -1,0 +1,14 @@
+.show-actions-feature {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 0.5rem;
+
+    &__primary-btn {
+        // Primary button styling handled by ButtonElement
+    }
+
+    &__secondary-dropdown {
+        // Dropdown styling handled by DropDownMenuElement
+    }
+}

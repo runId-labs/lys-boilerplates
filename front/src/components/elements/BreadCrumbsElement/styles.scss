@@ -1,0 +1,15 @@
+/**
+ * BreadCrumbsElement styles
+ * Provides clean breadcrumb navigation styling
+ */
+
+.breadcrumbs-element {
+    margin: 0;
+    padding: 0.75rem 1rem 0.75rem 1.5rem;
+    background-color: transparent;
+
+    .breadcrumb {
+        margin-bottom: 0;
+        font-weight: 700;
+    }
+}

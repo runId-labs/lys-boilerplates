@@ -1,0 +1,69 @@
+.info-tooltip-element {
+    display: inline-flex;
+    align-items: center;
+    cursor: help;
+
+    &:focus {
+        outline: none;
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--bs-primary);
+        outline-offset: 2px;
+        border-radius: 2px;
+    }
+
+    &--with-children {
+        // Spacing between the wrapped content and the info icon.
+        // No underline: the trailing icon is the discoverability cue.
+        gap: 0.25rem;
+    }
+
+    &--standalone {
+        // No additional styles
+    }
+
+    &__icon {
+        color: var(--lys-color-text-muted);
+        transition: color 0.15s ease;
+
+        &--sm {
+            font-size: 0.75rem;
+        }
+
+        &--md {
+            font-size: 0.875rem;
+        }
+    }
+
+    &:hover &__icon {
+        color: var(--bs-primary);
+    }
+
+    &--inherit-color &__icon {
+        color: currentColor;
+        opacity: 0.7;
+    }
+
+    &--inherit-color:hover &__icon {
+        color: currentColor;
+        opacity: 1;
+    }
+
+    &__popover {
+        max-width: 300px;
+
+        .popover-header {
+            font-size: 0.875rem;
+            font-weight: 600;
+            background-color: var(--bs-gray-100);
+        }
+
+        .popover-body {
+            font-size: 0.8125rem;
+            line-height: 1.5;
+            color: var(--bs-body-color);
+            white-space: pre-line;
+        }
+    }
+}

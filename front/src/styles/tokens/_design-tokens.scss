@@ -1,0 +1,78 @@
+// Design tokens
+// Central export of all design tokens
+// Import this file to access all design system values
+
+@import "colors";
+@import "spacing";
+@import "typography";
+
+// Transitions and animations
+$lys-transition-duration-fast: 150ms !default;
+$lys-transition-duration-base: 250ms !default;
+$lys-transition-duration-slow: 350ms !default;
+$lys-transition-duration-slower: 500ms !default;
+
+$lys-transition-timing-default: ease-in-out !default;
+$lys-transition-timing-in: ease-in !default;
+$lys-transition-timing-out: ease-out !default;
+$lys-transition-timing-linear: linear !default;
+
+// Z-index scale
+$lys-z-index-dropdown: 1000 !default;
+$lys-z-index-sticky: 1020 !default;
+$lys-z-index-fixed: 1030 !default;
+$lys-z-index-modal-backdrop: 1040 !default;
+$lys-z-index-offcanvas: 1045 !default;
+$lys-z-index-modal: 1050 !default;
+$lys-z-index-popover: 1060 !default;
+$lys-z-index-tooltip: 1070 !default;
+$lys-z-index-toast: 1080 !default;
+
+// Breakpoints (aligned with Bootstrap)
+$lys-breakpoint-xs: 0 !default;
+$lys-breakpoint-sm: 576px !default;
+$lys-breakpoint-md: 768px !default;
+$lys-breakpoint-lg: 992px !default;
+$lys-breakpoint-xl: 1200px !default;
+$lys-breakpoint-xxl: 1400px !default;
+
+$lys-breakpoints: (
+  xs: $lys-breakpoint-xs,
+  sm: $lys-breakpoint-sm,
+  md: $lys-breakpoint-md,
+  lg: $lys-breakpoint-lg,
+  xl: $lys-breakpoint-xl,
+  xxl: $lys-breakpoint-xxl,
+) !default;
+
+// Container max widths
+$lys-container-max-width-sm: 540px !default;
+$lys-container-max-width-md: 720px !default;
+$lys-container-max-width-lg: 960px !default;
+$lys-container-max-width-xl: 1140px !default;
+$lys-container-max-width-xxl: 1320px !default;
+
+$lys-container-max-widths: (
+  sm: $lys-container-max-width-sm,
+  md: $lys-container-max-width-md,
+  lg: $lys-container-max-width-lg,
+  xl: $lys-container-max-width-xl,
+  xxl: $lys-container-max-width-xxl,
+) !default;
+
+// Opacity scale
+$lys-opacity-0: 0 !default;
+$lys-opacity-5: 0.05 !default;
+$lys-opacity-10: 0.1 !default;
+$lys-opacity-20: 0.2 !default;
+$lys-opacity-25: 0.25 !default;
+$lys-opacity-30: 0.3 !default;
+$lys-opacity-40: 0.4 !default;
+$lys-opacity-50: 0.5 !default;
+$lys-opacity-60: 0.6 !default;
+$lys-opacity-70: 0.7 !default;
+$lys-opacity-75: 0.75 !default;
+$lys-opacity-80: 0.8 !default;
+$lys-opacity-90: 0.9 !default;
+$lys-opacity-95: 0.95 !default;
+$lys-opacity-100: 1 !default;

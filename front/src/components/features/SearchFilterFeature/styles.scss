@@ -1,0 +1,22 @@
+.search-filter-feature {
+    background-color: transparent;
+    margin-left: calc(-1 * var(--bs-gutter-x) * 0.5);
+    margin-right: calc(-1 * var(--bs-gutter-x) * 0.5);
+
+    // Search + sort + filter toolbar as a card (shadow + radius), harmonized with the rest
+    &__bar {
+        background: var(--lys-color-bg-secondary);
+        border: 1px solid var(--lys-color-border-default);
+        border-radius: var(--lys-radius-lg);
+        box-shadow: var(--lys-shadow-card);
+        padding: 1rem 1.25rem;
+        margin-bottom: 1rem;
+    }
+
+    // Content (table, etc.) sits on the page background
+    > .page-container-element:last-child {
+        background-color: transparent;
+        margin-left: calc(-1 * var(--bs-gutter-x) * 0.5);
+        margin-right: calc(-1 * var(--bs-gutter-x) * 0.5);
+    }
+}

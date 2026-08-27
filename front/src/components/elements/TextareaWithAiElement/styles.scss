@@ -1,0 +1,25 @@
+.textarea-with-ai {
+    position: relative;
+
+    .textarea-ai-actions {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 0.5rem;
+        gap: 0.5rem;
+
+        .ai-improve-btn,
+        .ai-undo-btn,
+        .ai-redo-btn,
+        .ai-enlarge-btn {
+            font-size: 0.75rem;
+            border-radius: var(--lys-radius-sm);
+        }
+    }
+
+    .textarea-enlarged-wrapper {
+        .textarea-enlarged-input {
+            min-height: 350px;
+            resize: vertical;
+        }
+    }
+}

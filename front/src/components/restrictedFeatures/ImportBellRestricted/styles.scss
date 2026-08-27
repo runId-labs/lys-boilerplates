@@ -1,0 +1,55 @@
+.import-bell-restricted {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    .import-bell-button {
+        // Prototype .icon-btn — 34×34 box, centered 20px icon, hover teal background
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 34px;
+        height: 34px;
+        padding: 0;
+        background: transparent;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        color: var(--lys-color-text-secondary);
+        font-size: 1.4rem; // optically balanced with the other header glyphs (cloud reads small)
+        line-height: 1;
+        transition: background 0.18s ease, color 0.18s ease;
+
+        &:hover {
+            background: var(--lys-color-bg-primary);
+            color: var(--lys-color-text-primary);
+        }
+
+        &:focus {
+            outline: none;
+            box-shadow: 0 0 0 0.2rem rgba(var(--bs-primary-rgb), 0.25);
+            border-radius: 0.25rem;
+        }
+    }
+
+    .import-badge {
+        position: absolute;
+        top: 0;
+        right: 0;
+        min-width: 1.25rem;
+        height: 1.25rem;
+        padding: 0 0.25rem;
+        font-size: 0.7rem;
+        font-weight: 600;
+        line-height: 1.25rem;
+        text-align: center;
+        color: #fff;
+        background-color: var(--bs-primary);
+        border-radius: 0.625rem;
+        // Keep the badge within the button footprint so it doesn't eat the
+        // inter-icon gap (even spacing across the 4 header actions).
+        transform: translate(0, -30%);
+    }
+}

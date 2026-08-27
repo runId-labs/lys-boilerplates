@@ -1,0 +1,19 @@
+# IDE
+.idea/
+.vscode/
+
+# OS
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Environment (secrets)
+.env
+api/.env
+
+# Docker volumes (root compose.yaml)
+data/

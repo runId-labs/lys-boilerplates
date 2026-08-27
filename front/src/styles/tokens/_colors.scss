@@ -1,0 +1,86 @@
+// Color tokens - Option 2: Minimalisme Luxueux (with Option 3 button colors)
+// Minimalist luxury design with navy blue and copper accents
+
+// Primary brand colors - Minimalist luxury palette with professional colors
+$lys-color-primary: #1E3A5F !default;      // Deep navy blue (from Option 3)
+$lys-color-secondary: #4A5568 !default;    // Slate gray (from Option 3)
+$lys-color-success: #3C8C6C !default;      // Success green
+$lys-color-danger: #B84C4C !default;       // Danger red
+$lys-color-warning: #DB8B3D !default;      // Warning amber
+$lys-color-info: #5B8FA3 !default;         // Info blue
+$lys-color-light: #F6E1BD !default;        // Your beige background
+$lys-color-dark: #2D3748 !default;         // Dark slate (from Option 3)
+
+// Custom brand colors
+$lys-color-brand: $lys-color-primary !default;
+$lys-color-accent: #B87333 !default;       // Copper (from Option 3)
+
+// Neutral palette
+$lys-color-white: #FFFFFF !default;
+$lys-color-black: #0A0A0A !default;        // True black
+
+// Gray scale - Professional slate grays (from Option 3)
+$lys-color-gray-100: #F7FAFC !default;     // Very light slate
+$lys-color-gray-200: #EDF2F7 !default;     // Light slate
+$lys-color-gray-300: #E2E8F0 !default;     // Medium-light slate
+$lys-color-gray-400: #CBD5E0 !default;     // Medium slate
+$lys-color-gray-500: #A0AEC0 !default;     // Medium-dark slate
+$lys-color-gray-600: #718096 !default;     // Dark slate
+$lys-color-gray-700: #4A5568 !default;     // Very dark slate
+$lys-color-gray-800: #2D3748 !default;     // Almost black slate
+$lys-color-gray-900: #1A202C !default;     // Deep slate
+
+// Background colors
+$lys-color-bg-primary: #F6E1BD !default;   // Your warm beige
+$lys-color-bg-secondary: #FFFFFF !default; // Pure white for cards
+$lys-color-bg-tertiary: #C8B89A !default;  // Darker taupe beige for navbar
+$lys-color-bg-dark: #2D3748 !default;      // Dark slate background
+
+// Text colors
+$lys-color-text-primary: #2D3748 !default;     // Dark slate
+$lys-color-text-secondary: #4A5568 !default;   // Slate gray
+$lys-color-text-muted: #718096 !default;       // Medium slate
+$lys-color-text-on-dark: #F7FAFC !default;     // Very light slate
+
+// Border colors
+$lys-color-border-default: #CBD5E0 !default;   // Medium slate (more visible)
+$lys-color-border-light: #E2E8F0 !default;     // Medium-light slate
+$lys-color-border-dark: #A0AEC0 !default;      // Medium-dark slate
+$lys-color-border-navbar: #B5A586 !default;    // Darker taupe for navbar border
+
+// Link colors
+$lys-color-link: $lys-color-primary !default;
+$lys-color-link-hover: $lys-color-accent !default; // Aged gold on hover
+
+// Status colors (for alerts, badges, etc.)
+$lys-color-error: $lys-color-danger !default;
+$lys-color-success-alt: $lys-color-success !default;
+$lys-color-warning-alt: $lys-color-warning !default;
+$lys-color-info-alt: $lys-color-info !default;
+
+// Export colors map for Bootstrap integration
+$lys-colors: (
+  "primary": $lys-color-primary,
+  "secondary": $lys-color-secondary,
+  "success": $lys-color-success,
+  "danger": $lys-color-danger,
+  "warning": $lys-color-warning,
+  "info": $lys-color-info,
+  "light": $lys-color-light,
+  "dark": $lys-color-dark,
+  "brand": $lys-color-brand,
+  "accent": $lys-color-accent,
+) !default;
+
+// Gray colors map
+$lys-grays: (
+  "100": $lys-color-gray-100,
+  "200": $lys-color-gray-200,
+  "300": $lys-color-gray-300,
+  "400": $lys-color-gray-400,
+  "500": $lys-color-gray-500,
+  "600": $lys-color-gray-600,
+  "700": $lys-color-gray-700,
+  "800": $lys-color-gray-800,
+  "900": $lys-color-gray-900,
+) !default;

@@ -1,0 +1,77 @@
+@import "@/styles/tokens/design-tokens";
+
+.toast-container-element {
+    // Ensure proper z-index above most elements but below modals
+    z-index: 1090;
+
+    // Add padding for better spacing from screen edges
+    padding: $lys-spacing-md;
+
+    // Ensure container allows multiple toasts to stack
+    display: flex;
+    flex-direction: column;
+    gap: $lys-spacing-sm;
+
+    // Prevent container from blocking pointer events
+    pointer-events: none;
+
+    // Allow toasts inside to receive pointer events
+    > * {
+        pointer-events: auto;
+    }
+
+    // Position-specific adjustments
+    &.position-top-start,
+    &.position-top-center,
+    &.position-top-end {
+        top: 0;
+        align-items: flex-start;
+    }
+
+    &.position-middle-start,
+    &.position-middle-center,
+    &.position-middle-end {
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    &.position-bottom-start,
+    &.position-bottom-center,
+    &.position-bottom-end {
+        bottom: 0;
+        align-items: flex-end;
+    }
+
+    // Horizontal alignment
+    &.position-top-start,
+    &.position-middle-start,
+    &.position-bottom-start {
+        left: 0;
+    }
+
+    &.position-top-center,
+    &.position-middle-center,
+    &.position-bottom-center {
+        left: 50%;
+        transform: translateX(-50%);
+        align-items: center;
+    }
+
+    &.position-top-end,
+    &.position-middle-end,
+    &.position-bottom-end {
+        right: 0;
+        align-items: flex-end;
+    }
+
+    // Responsive adjustments for smaller screens
+    @media (max-width: 576px) {
+        padding: $lys-spacing-sm;
+
+        // Make toasts full width on mobile
+        > * {
+            max-width: 100%;
+            min-width: 100%;
+        }
+    }
+}

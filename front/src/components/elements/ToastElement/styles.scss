@@ -1,0 +1,148 @@
+@import "@/styles/tokens/design-tokens";
+
+.toast-element {
+    position: relative;
+    min-width: 250px;
+    max-width: 350px;
+    border-radius: $lys-radius-md;
+    box-shadow: $lys-shadow-lg;
+    margin-bottom: $lys-spacing-sm;
+    transition: all $lys-transition-duration-base $lys-transition-timing-default;
+
+    // Smooth appearance animation
+    animation: toast-slide-in $lys-transition-duration-base $lys-transition-timing-default;
+
+    &:hover {
+        box-shadow: $lys-shadow-xl;
+    }
+
+    // Occurrence count badge (bottom-left corner), colored to match the alert level
+    &__badge {
+        position: absolute;
+        bottom: -$lys-spacing-xs;
+        left: -$lys-spacing-xs;
+        min-width: 20px;
+        height: 20px;
+        padding: 0 $lys-spacing-xs;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 999px;
+        background-color: $lys-color-secondary;
+        color: $lys-color-white;
+        font-size: $lys-font-size-xs;
+        font-weight: $lys-font-weight-semibold;
+        line-height: 1;
+        box-shadow: $lys-shadow-sm;
+        z-index: 1;
+    }
+
+    // Header styling
+    &__header {
+        border-bottom: 1px solid rgba($lys-color-border-default, 0.2);
+        padding: $lys-spacing-sm $lys-spacing-md;
+        font-weight: $lys-font-weight-semibold;
+
+        strong {
+            font-size: $lys-font-size-base;
+        }
+
+        .btn-close {
+            margin: 0;
+            padding: $lys-spacing-xs;
+        }
+    }
+
+    // Body styling
+    &__body {
+        padding: $lys-spacing-md;
+        font-size: $lys-font-size-base;
+        line-height: $lys-line-height-base;
+    }
+
+    // Footer styling
+    &__footer {
+        margin-top: $lys-spacing-sm;
+        padding-top: $lys-spacing-sm;
+        border-top: 1px solid rgba($lys-color-border-default, 0.2);
+        font-size: $lys-font-size-sm;
+        opacity: 0.9;
+        color: inherit;
+        text-align: end;
+    }
+
+    // Variant-specific text colors for better readability
+    &.bg-light {
+        color: var(--lys-color-text-primary);
+        background-color: var(--lys-color-bg-secondary);
+        border: 1px solid var(--lys-color-border-default);
+    }
+
+    &.bg-success {
+        .toast-element__header,
+        .toast-element__body {
+            color: $lys-color-white;
+        }
+
+        .toast-element__badge {
+            background-color: $lys-color-success;
+        }
+    }
+
+    &.bg-danger {
+        .toast-element__header,
+        .toast-element__body {
+            color: $lys-color-white;
+        }
+
+        .toast-element__badge {
+            background-color: $lys-color-danger;
+        }
+    }
+
+    &.bg-warning {
+        .toast-element__header,
+        .toast-element__body {
+            color: var(--lys-color-text-primary);
+        }
+
+        .toast-element__badge {
+            background-color: $lys-color-warning;
+            color: var(--lys-color-text-primary);
+        }
+    }
+
+    &.bg-info {
+        .toast-element__header,
+        .toast-element__body {
+            color: $lys-color-white;
+        }
+
+        .toast-element__badge {
+            background-color: $lys-color-info;
+        }
+    }
+}
+
+// Slide-in animation
+@keyframes toast-slide-in {
+    from {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+// Dark theme support
+[data-theme="dark"] {
+    .toast-element {
+        &.bg-light {
+            background-color: $lys-color-gray-800;
+            color: var(--lys-color-text-on-dark);
+            border-color: var(--lys-color-border-dark);
+        }
+    }
+}

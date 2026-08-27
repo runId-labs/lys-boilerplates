@@ -1,0 +1,41 @@
+.color-picker {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+
+    &__swatch {
+        appearance: none;
+        -webkit-appearance: none;
+        width: 40px;
+        height: 40px;
+        border: 1px solid var(--bs-border-color);
+        border-radius: 0.375rem;
+        padding: 2px;
+        cursor: pointer;
+        flex-shrink: 0;
+
+        &::-webkit-color-swatch-wrapper {
+            padding: 0;
+        }
+
+        &::-webkit-color-swatch {
+            border: none;
+            border-radius: 0.25rem;
+        }
+
+        &::-moz-color-swatch {
+            border: none;
+            border-radius: 0.25rem;
+        }
+
+        &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    }
+
+    &__hex-input {
+        flex: 1;
+        max-width: 140px;
+    }
+}

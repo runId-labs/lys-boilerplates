@@ -1,0 +1,128 @@
+@import "../../../styles/tokens/design-tokens";
+
+.navbar-feature {
+  // Glass header — prototype: rgba(255,255,255,.92) + blur(8px)
+  background: var(--lys-color-bg-tertiary) !important;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--lys-color-border-default) !important;
+  box-shadow: var(--lys-shadow-navbar);
+  padding-block: 10px;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+
+  .navbar-brand {
+    padding: 0;
+    line-height: 1;
+    margin-right: 1.25rem;
+    transition: opacity var(--lys-transition-duration-base) var(--lys-transition-timing-default);
+
+    img {
+      display: block;
+      height: 34px; // prototype logo height
+      width: auto;
+    }
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+
+  // Pill nav items — direct links (Accueil, Résilience…) and section dropdown toggles
+  .navbar-nav .nav-link,
+  .nav-section-dropdown .dropdown-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--lys-color-text-secondary);
+    font-weight: 500;
+    font-size: 14px;
+    padding: 7px 12px;
+    border-radius: 8px;
+    border: 1.5px solid transparent;
+    background: transparent;
+    transition: color 0.18s ease, background 0.18s ease, border-color 0.18s ease;
+
+    &:hover,
+    &:focus {
+      color: var(--lys-color-text-primary);
+      background: var(--lys-color-bg-primary);
+    }
+  }
+
+  // Active state — teal text + teal outline (prototype .nav-item.active)
+  .navbar-nav .nav-link.active,
+  .navbar-nav .nav-link.show {
+    color: var(--lys-color-primary);
+    font-weight: 600;
+    border-color: var(--lys-color-primary);
+    background: transparent;
+  }
+
+  .nav-section-dropdown {
+    // Override DropDownMenuElement's position: static so dropdown positions relative to toggle
+    position: relative !important;
+
+    &.active .dropdown-toggle {
+      color: var(--lys-color-primary);
+      font-weight: 600;
+      border-color: var(--lys-color-primary);
+      background: transparent;
+    }
+
+    .dropdown-item.active {
+      color: var(--lys-color-primary);
+      background-color: var(--lys-color-primary-tint);
+      font-weight: 600;
+    }
+  }
+
+  // Theme toggle button — prototype .icon-btn (34×34, hover teal background)
+  .theme-toggle-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    border-radius: 8px;
+    color: var(--lys-color-text-secondary);
+    font-size: 1.2rem; // moon glyph — optically balanced with the bells & user
+    line-height: 1;
+    transition: background 0.18s ease, color 0.18s ease;
+
+    &:hover {
+      background: var(--lys-color-bg-primary);
+      color: var(--lys-color-text-primary);
+    }
+  }
+
+  // User menu dropdown toggle (right side) — same 34×34 icon-btn treatment.
+  // Uses a dedicated class (reliable) instead of a deep structural selector.
+  .navbar-user-menu .dropdown-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    padding: 0 !important; // override Bootstrap .btn padding so it matches the bells/theme
+    border: none;
+    border-radius: 8px;
+    background: transparent;
+    color: var(--lys-color-text-secondary);
+    transition: background 0.18s ease, color 0.18s ease;
+
+    &:hover,
+    &:focus {
+      color: var(--lys-color-text-primary);
+      background: var(--lys-color-bg-primary);
+    }
+
+    &::after {
+      display: none;
+    }
+  }
+
+  .bi-person-circle {
+    font-size: 1.15rem !important; // filled circle reads large — trimmed to match the line glyphs
+  }
+}

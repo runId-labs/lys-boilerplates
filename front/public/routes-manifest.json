@@ -1,0 +1,135 @@
+{
+  "version": "1.0",
+  "generatedAt": "2026-08-27T03:52:52.110Z",
+  "globalWebservices": [
+    "allAccessibleWebservices",
+    "connectedUser",
+    "login",
+    "logout",
+    "refreshAccessToken"
+  ],
+  "routes": [
+    {
+      "name": "ClientAdminPage",
+      "path": "/administration/client",
+      "description": "Client administration - view client details and manage subscription",
+      "webservices": [
+        "client",
+        "updateClient",
+        "user",
+        "updateUserPrivateData",
+        "improveText",
+        "allGenders",
+        "allLanguages",
+        "updateUserEmail",
+        "sendEmailVerification",
+        "subscription",
+        "allActiveLicensePlans",
+        "subscribeToPlan",
+        "allClientLegalAcceptances",
+        "subscribeClientManually",
+        "allLicensePlans",
+        "allLicensePlanVersions",
+        "allClaimableLicenseDiscounts",
+        "setSubscriptionBillingMode"
+      ]
+    },
+    {
+      "name": "ListClientUserPage",
+      "path": "/administration/client-users",
+      "description": "Client user management - list, search, and manage users across all clients",
+      "webservices": [
+        "allClientUsers",
+        "allRoles",
+        "improveText",
+        "clientUser",
+        "updateClientUserPrivateData",
+        "allGenders",
+        "allLanguages",
+        "updateClientUserEmail",
+        "updateClientUserRoles",
+        "addClientUserToSubscription",
+        "removeClientUserFromSubscription",
+        "createClientUser"
+      ]
+    },
+    {
+      "name": "HomePage",
+      "path": "/home",
+      "description": "Home page: welcome dashboard.",
+      "webservices": []
+    },
+    {
+      "name": "ListAdminPage",
+      "path": "/supervision/admins",
+      "description": "Administrator management - list, search, and manage admin users",
+      "webservices": [
+        "allUsers",
+        "allRoles",
+        "improveText",
+        "user",
+        "updateUserPrivateData",
+        "allGenders",
+        "allLanguages",
+        "updateUserEmail",
+        "sendEmailVerification",
+        "updateUserRoles",
+        "createUser"
+      ]
+    },
+    {
+      "name": "ListClientPage",
+      "path": "/supervision/clients",
+      "description": "Client management - list, search, and manage client organizations",
+      "webservices": [
+        "allClients",
+        "improveText",
+        "client",
+        "updateClient",
+        "user",
+        "updateUserPrivateData",
+        "allGenders",
+        "allLanguages",
+        "updateUserEmail",
+        "sendEmailVerification",
+        "subscription",
+        "allActiveLicensePlans",
+        "subscribeToPlan",
+        "allClientLegalAcceptances",
+        "subscribeClientManually",
+        "allLicensePlans",
+        "allLicensePlanVersions",
+        "allClaimableLicenseDiscounts",
+        "setSubscriptionBillingMode"
+      ]
+    },
+    {
+      "name": "ListPlanVersionPage",
+      "path": "/supervision/subscriptions",
+      "description": "Subscription management - list plan versions, their prices and availability",
+      "webservices": [
+        "allLicensePlanVersions",
+        "allLicensePlans",
+        "improveText",
+        "setLicensePlanVersionRule",
+        "setLicensePlanVersionEnabled",
+        "createLicensePlanVersion"
+      ]
+    },
+    {
+      "name": "ListSuperUserPage",
+      "path": "/supervision/super-users",
+      "description": "Super user management - list and manage super users",
+      "webservices": [
+        "allSuperUsers",
+        "improveText",
+        "superUser",
+        "updateSuperUserPrivateData",
+        "allGenders",
+        "allLanguages",
+        "updateSuperUserEmail",
+        "createSuperUser"
+      ]
+    }
+  ]
+}

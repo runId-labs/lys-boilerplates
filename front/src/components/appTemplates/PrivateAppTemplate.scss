@@ -1,0 +1,45 @@
+.private-app-template {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+
+    .navbar-feature {
+        position: relative;
+        z-index: 1030;
+    }
+
+    .container-fluid {
+        flex: 1;
+        overflow: hidden;
+    }
+
+    .row {
+        height: 100%;
+    }
+
+    .sidebar-column-container {
+        // Collapsed by design (width 0): the column only exists to host the chatbot
+        // panel when chatbot mode is on — the collapsed chatbot button is
+        // position:fixed and lives outside this column's flow.
+        flex: 0 0 0;
+        max-width: 0;
+        height: 100%;
+        position: relative;
+        z-index: 100;
+        overflow-x: hidden;
+
+        &.chatbot-mode {
+            flex: 0 0 33vw;
+            max-width: 500px;
+            min-width: 300px;
+            transition: all 0.3s ease;
+            z-index: 1050;
+        }
+    }
+
+    .content-column {
+        height: 100%;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+}

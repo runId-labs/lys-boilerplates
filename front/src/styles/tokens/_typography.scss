@@ -1,0 +1,95 @@
+// Typography tokens - Option 2: Minimalisme Luxueux
+// Minimalist luxury typography
+
+// Font families - Minimalist luxury fonts
+$lys-font-family-base: "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !default;
+$lys-font-family-monospace: "SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Consolas, "Courier New", monospace !default;
+$lys-font-family-heading: $lys-font-family-base !default;
+
+// Base font size (1rem = 16px by default in most browsers)
+$lys-font-size-root: 16px !default;
+$lys-font-size-base: 1rem !default; // 16px
+
+// Font size scale
+$lys-font-size-xs: 0.75rem !default;    // 12px
+$lys-font-size-sm: 0.875rem !default;   // 14px
+$lys-font-size-md: $lys-font-size-base !default; // 16px
+$lys-font-size-lg: 1.125rem !default;   // 18px
+$lys-font-size-xl: 1.25rem !default;    // 20px
+$lys-font-size-2xl: 1.5rem !default;    // 24px
+$lys-font-size-3xl: 1.875rem !default;  // 30px
+$lys-font-size-4xl: 2.25rem !default;   // 36px
+$lys-font-size-5xl: 3rem !default;      // 48px
+
+// Heading sizes
+$lys-font-size-h1: $lys-font-size-5xl !default;
+$lys-font-size-h2: $lys-font-size-4xl !default;
+$lys-font-size-h3: $lys-font-size-3xl !default;
+$lys-font-size-h4: $lys-font-size-2xl !default;
+$lys-font-size-h5: $lys-font-size-xl !default;
+$lys-font-size-h6: $lys-font-size-lg !default;
+
+// Font weights
+$lys-font-weight-thin: 100 !default;
+$lys-font-weight-light: 300 !default;
+$lys-font-weight-regular: 400 !default;
+$lys-font-weight-medium: 500 !default;
+$lys-font-weight-semibold: 600 !default;
+$lys-font-weight-bold: 700 !default;
+$lys-font-weight-extrabold: 800 !default;
+$lys-font-weight-black: 900 !default;
+
+$lys-font-weight-base: $lys-font-weight-regular !default;
+$lys-font-weight-heading: $lys-font-weight-semibold !default;
+
+// Line heights
+$lys-line-height-none: 1 !default;
+$lys-line-height-tight: 1.25 !default;
+$lys-line-height-snug: 1.375 !default;
+$lys-line-height-normal: 1.5 !default;
+$lys-line-height-relaxed: 1.625 !default;
+$lys-line-height-loose: 2 !default;
+
+$lys-line-height-base: $lys-line-height-normal !default;
+$lys-line-height-heading: $lys-line-height-tight !default;
+
+// Letter spacing
+$lys-letter-spacing-tighter: -0.05em !default;
+$lys-letter-spacing-tight: -0.025em !default;
+$lys-letter-spacing-normal: 0 !default;
+$lys-letter-spacing-wide: 0.025em !default;
+$lys-letter-spacing-wider: 0.05em !default;
+$lys-letter-spacing-widest: 0.1em !default;
+
+// Export typography maps
+$lys-font-sizes: (
+  "xs": $lys-font-size-xs,
+  "sm": $lys-font-size-sm,
+  "md": $lys-font-size-md,
+  "lg": $lys-font-size-lg,
+  "xl": $lys-font-size-xl,
+  "2xl": $lys-font-size-2xl,
+  "3xl": $lys-font-size-3xl,
+  "4xl": $lys-font-size-4xl,
+  "5xl": $lys-font-size-5xl,
+) !default;
+
+$lys-font-weights: (
+  "thin": $lys-font-weight-thin,
+  "light": $lys-font-weight-light,
+  "regular": $lys-font-weight-regular,
+  "medium": $lys-font-weight-medium,
+  "semibold": $lys-font-weight-semibold,
+  "bold": $lys-font-weight-bold,
+  "extrabold": $lys-font-weight-extrabold,
+  "black": $lys-font-weight-black,
+) !default;
+
+$lys-line-heights: (
+  "none": $lys-line-height-none,
+  "tight": $lys-line-height-tight,
+  "snug": $lys-line-height-snug,
+  "normal": $lys-line-height-normal,
+  "relaxed": $lys-line-height-relaxed,
+  "loose": $lys-line-height-loose,
+) !default;
