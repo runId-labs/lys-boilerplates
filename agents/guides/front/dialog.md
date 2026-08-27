@@ -53,10 +53,11 @@ openDialog({
   build the dialog with `useDialogWithUpdates({uniqueKey, title, body,
   bodyProps, deps})` and expose `dialog.open` — the panel re-renders the body
   with fresh props on `deps` change (reference: `useUserAccountDialog`).
-- **R5 — Panel-specific UI** (positioned relative to the panel, e.g. the chatbot
-  side button) goes through `LysDialogProvider`'s `renderExtra={(current) => …}`
-  — mounted once in `RouterAppTemplate`, it receives the current dialog config
-  (size included) so it can position itself (reference: `ChatbotDialogButtonFeature`).
+- **R5 — Panel-specific UI** (elements that must sit next to the open panel)
+  goes through `LysDialogProvider`'s `renderExtra={(current) => …}` prop —
+  mounted once in `RouterAppTemplate`, it receives the current dialog config
+  (size included) so the rendered element can position itself. Optional: the
+  prop is simply omitted when nothing needs it.
 - **R6 — Dialog-scoped URL state**: params namespaced `{uniqueKey}_myParam` are
   owned by that dialog and cleaned up when it leaves the stack
   (`DialogScopedUrlProvider`, mounted under `LysDialogProvider`). Never clean

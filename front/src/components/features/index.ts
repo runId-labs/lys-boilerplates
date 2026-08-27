@@ -30,7 +30,6 @@ import {clientAdminFeatureConfig} from "./ClientAdminFeature/translations";
 import {ssoButtonsFeatureConfig} from "./SSOButtonsFeature/translations";
 import {unifiedImportDropZoneFeatureConfig} from "./UnifiedImportDropZoneFeature/translations";
 import {notificationListFeatureConfig} from "./NotificationListFeature/translations";
-import {chatbotDialogButtonFeatureConfig} from "./ChatbotDialogButtonFeature/translations";
 import {sidebarMenuFeatureConfig} from "./SidebarMenuFeature/translations";
 
 const features = {
@@ -66,7 +65,6 @@ const features = {
     sSOButtonsFeature: ssoButtonsFeatureConfig,
     unifiedImportDropZoneFeature: unifiedImportDropZoneFeatureConfig,
     notificationListFeature: notificationListFeatureConfig,
-    chatbotDialogButtonFeature: chatbotDialogButtonFeatureConfig,
     sidebarMenuFeature: sidebarMenuFeatureConfig,
 };
 

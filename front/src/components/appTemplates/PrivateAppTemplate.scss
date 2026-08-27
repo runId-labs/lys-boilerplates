@@ -25,7 +25,13 @@
         max-width: 0;
         height: 100%;
         position: relative;
-        z-index: 100;
+        // Establishes a stacking context (position + z-index), which traps the z-index
+        // of any descendant — including the fixed-positioned collapsed chatbot button —
+        // no matter how high that descendant's own z-index is set. Must stay above the
+        // offcanvas dialog (panel 1045 / backdrop 1040, portaled to document.body outside
+        // this subtree) so the sidebar/chatbot toggle stays reachable while a dialog is open.
+        // 1060 = the next tier above offcanvas in the project's z-index scale.
+        z-index: 1060;
         overflow-x: hidden;
 
         &.chatbot-mode {
@@ -33,7 +39,7 @@
             max-width: 500px;
             min-width: 300px;
             transition: all 0.3s ease;
-            z-index: 1050;
+            z-index: 1060;
         }
     }
 

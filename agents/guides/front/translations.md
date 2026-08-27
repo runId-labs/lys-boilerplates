@@ -36,8 +36,9 @@ HARD RULES:
   (`lys.components.elements.tableElement.*`). A wrong suffix = key never resolves.
 - **R2 — en AND fr are both required**, TypeScript enforces it via `as const`.
 - **R3 — Register the config** in the layer registry (`elements/index.ts`, …) or
-  the strings never reach the message table. Configs with no strings yet still
-  export an empty config for the registry (reference: `ChatbotDialogButtonFeature`).
+  the strings never reach the message table. A component using only `common()`
+  keys still ships a `translations.ts` with an empty table — the hook and the
+  registry entry are part of the pattern.
 - **R4 — Every key used.** A key declared but never rendered is dead weight;
   delete it.
 - **R5 — Interpolation values are strings**: `t("showingRange", {values: {total: String(n)}})`.

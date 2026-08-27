@@ -13,9 +13,7 @@ import {
     FilterLabelsProvider,
     RouteProvider
 } from "lys-front/providers";
-import type {DialogConfig} from "lys-front/providers";
 import OffCanvasElement from "../elements/OffCanvasElement";
-import ChatbotDialogButtonFeature from "../features/ChatbotDialogButtonFeature";
 import DialogScopedUrlProvider from "../providers/DialogScopedUrlProvider";
 
 interface Props {
@@ -66,9 +64,6 @@ export const RouterAppTemplate: React.ComponentType<Props> = (
                                 </div>
                             }
                             backIcon={<i className="bi bi-arrow-left fs-5"></i>}
-                            renderExtra={(current: DialogConfig) => (
-                                <ChatbotDialogButtonFeature current={current} />
-                            )}
                         >
                             <DialogScopedUrlProvider>
                                 <Routes>
