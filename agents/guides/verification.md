@@ -32,7 +32,7 @@ manifest (`npm run generate:routes`) — the API chatbot consumes it.
 - [ ] The checklists above are green for the touched side(s).
 - [ ] New/changed behavior follows the layer guide(s) read for the task.
 - [ ] No hardcoded environment value, color, locale or secret (see
-  `front/style.md` and `back/rules.md`).
+  `front/style.md` and the lys rules guide (`back/FRAMEWORK-GUIDES.md` → package guides)).
 - [ ] Sibling files were used as the structural template (R8 of AGENTS.md).
 - [ ] The final report to the user states what was changed, what was verified,
   and anything left unverified.

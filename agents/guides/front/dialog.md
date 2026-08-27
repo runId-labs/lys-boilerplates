@@ -10,31 +10,22 @@ Reference implementations: `features/NavBarFeature/hooks/useUserAccountDialog.ts
 a dialog), `appTemplates/RouterAppTemplate` (wiring: dialogComponent, renderExtra),
 `providers/DialogScopedUrlProvider`.
 
-## The mechanics
+## Framework API
 
-- One global provider: `LysDialogProvider` (mounted in `RouterAppTemplate` with
-  `dialogComponent={OffCanvasElement}` — the panel renderer is injectable).
-- Opening = `openDialog(config)`; dialogs **stack** (`stack`, `current`); the
-  `dStack` URL param carries the stack when `syncWithUrl` is on (default) — a
-  refresh or a shared URL restores the open panels.
-- The body component is rendered by the panel with `bodyProps` — it receives
-  NO knowledge of the dialog itself. Close/update belong to the opener (or to
-  `useDialogWithUpdates`).
+The complete dialog mechanics (`DialogConfig` fields, stacking, URL sync,
+`useDialogWithUpdates`, the injectable panel renderer) are documented in the
+lys-front package guide: `node_modules/lys-front/agents/guides/dialog.md`
+(lys-front ≥ 0.11.0 — until published, `lys-front/agents/guides/dialog.md` in
+the framework repository).
 
-```tsx
-const {open: openDialog, close: closeDialog} = useLysDialog();
+The essential contracts for THIS project's components:
 
-openDialog({
-    uniqueKey: "create-client-user",        // stable identity (URL, stacking, updates)
-    title: t("createUser"),
-    body: CreateClientUserRestricted,       // the COMPONENT, not JSX
-    bodyProps: {clientId, onCompleted: closeDialog},
-    placement: "end",                        // start | end | top | bottom
-    size: "lg",                              // sm | md | lg | xl
-    // syncWithUrl: false,                   // opt out of URL restoration
-    // backdrop: "static",
-});
-```
+- open with `openDialog({uniqueKey, title, body: TheComponent, bodyProps})`
+  — the component, never JSX;
+- the body closes itself via the `onCompleted`/`onClose` prop the opener
+  passes — never via `useLysDialog` inside the body;
+- panel-mounted extras go through `LysDialogProvider`'s `renderExtra` (this
+  project currently mounts none).
 
 ## RULES
 
