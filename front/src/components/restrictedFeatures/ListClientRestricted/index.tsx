@@ -1,6 +1,7 @@
-import React, {useEffect, useMemo, useState} from "react";
+import React, {useCallback, useEffect, useMemo, useState} from "react";
 import {graphql} from "react-relay";
-import {ListClientRestrictedProps} from "./types";
+import {ListClientRestrictedProps, OpenRequestRow} from "./types";
+import InfoTooltipElement from "@/components/elements/InfoTooltipElement";
 import {getClientListSearchFilterConfig} from "./config";
 import {useListClientRestrictedTranslations} from "./translations";
 import {LysQueryProvider} from "lys-front/providers";
@@ -45,6 +46,12 @@ const AllClientsQuery = graphql`
                 node {
                     id
                     name
+                    openRequests {
+                        id
+                        typeId
+                        statusId
+                        createdAt
+                    }
                     licensePlan {
                         code
                     }
@@ -156,6 +163,35 @@ const ListClientRestricted: React.FC<ListClientRestrictedProps> = () => {
     // in the query and re-add the column.
 
     /**
+     * The badge, and what it stands for on hover.
+     *
+     * A number alone tells an administrator that something is waiting without saying
+     * what, which is one click away from being ignored. The tooltip carries the type
+     * and the date, so the column is actionable where it stands.
+     */
+    const generateOpenRequestsColumn = useCallback((row: TableRowData) => {
+        const requests = (row.openRequests || []) as OpenRequestRow[];
+
+        if (!requests.length) {
+            return <span className="text-muted">-</span>;
+        }
+
+        const content = requests
+            .map(request => [
+                common(request.typeId as never, {fallbackToKey: true}),
+                common(request.statusId as never, {fallbackToKey: true}),
+                new Date(request.createdAt).toLocaleDateString()
+            ].join(" · "))
+            .join("\n");
+
+        return (
+            <InfoTooltipElement content={content} title={t("openRequestsTooltipTitle")}>
+                <span className="badge bg-warning text-dark">{requests.length}</span>
+            </InfoTooltipElement>
+        );
+    }, [common, t]);
+
+    /**
      * Table columns configuration
      */
     const columns = useMemo<TableColumn[]>(() => [
@@ -176,6 +212,16 @@ const ListClientRestricted: React.FC<ListClientRestrictedProps> = () => {
             md: 2,
             lg: 2,
             xl: 2
+        },
+        {
+            dataName: "openRequestCount",
+            label: t("openRequestsColumn"),
+            generator: (row) => generateOpenRequestsColumn(row),
+            xs: "d-none",
+            sm: 1,
+            md: 1,
+            lg: 1,
+            xl: 1
         },
         {
             dataName: "billingMode",

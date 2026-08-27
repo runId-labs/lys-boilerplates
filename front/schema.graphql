@@ -169,6 +169,9 @@ type ClientNode implements Node {
   updatedAt: DateTime
   ownerId: ID!
 
+  """Requests from this client still waiting for an action, oldest first"""
+  openRequests: [ClientRequestNode!]!
+
   """Current subscription for this client"""
   subscription: SubscriptionNode
 
@@ -197,6 +200,42 @@ input ClientNodeOderByType @oneOf {
   createdAt: Boolean
   updatedAt: Boolean
   name: Boolean
+}
+
+type ClientRequestNode implements Node {
+  """The Globally Unique ID of this object"""
+  id: ID!
+  clientId: String!
+  userId: String
+  typeId: String!
+  statusId: String!
+  contactPhone: String
+  message: String
+  details: JSON
+  reasonCode: String
+  processedAt: DateTime
+  createdAt: DateTime!
+  updatedAt: DateTime
+
+  """What the client is asking for"""
+  type: ClientRequestTypeNode
+
+  """Lifecycle state (PENDING, PROCESSED, CANCELLED, ERROR)"""
+  status: ClientRequestStatusNode
+}
+
+type ClientRequestStatusNode implements Node {
+  """The Globally Unique ID of this object"""
+  id: ID!
+  enabled: Boolean!
+  description: String
+}
+
+type ClientRequestTypeNode implements Node {
+  """The Globally Unique ID of this object"""
+  id: ID!
+  enabled: Boolean!
+  description: String
 }
 
 type ConfigurableEventChannelNode {
@@ -2577,12 +2616,6 @@ type UserNode implements Node {
   createdAt: DateTime!
   updatedAt: DateTime
 
-  """Client organization ID (null for supervisors)"""
-  clientId: ID
-
-  """Client organization (null for supervisors)"""
-  client: ClientNode
-
   """User email address"""
   emailAddress: UserEmailAddressNode!
 
@@ -2597,6 +2630,12 @@ type UserNode implements Node {
 
   """Roles assigned to this user (supervisor roles)"""
   roles: [RoleNode!]!
+
+  """Client organization ID (null for supervisors)"""
+  clientId: ID
+
+  """Client organization (null for supervisors)"""
+  client: ClientNode
 
   """Roles assigned to this user in their client organization"""
   organizationRoles: [RoleNode!]!

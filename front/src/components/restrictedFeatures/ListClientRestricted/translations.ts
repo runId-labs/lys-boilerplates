@@ -75,6 +75,14 @@ const translations = {
     next: {
         en: "Next",
         fr: "Suivant"
+    },
+    openRequestsColumn: {
+        en: "Requests",
+        fr: "Demandes"
+    },
+    openRequestsTooltipTitle: {
+        en: "Waiting for an action",
+        fr: "En attente de traitement"
     }
 } as const;
 
