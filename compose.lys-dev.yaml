@@ -1,0 +1,26 @@
+# Opt-in overlay to develop the lys FRAMEWORK alongside this project:
+#
+#   docker compose -f compose.yaml -f compose.lys-dev.yaml up -d
+#
+# - Mounts the local lys source over the PyPI-installed package (lys is pure
+#   Python — the overlay trick is safe). Default location: ../../runid/lys
+#   relative to this repository; override with LYS_SRC=/absolute/path/to/lys.
+# - Extends the reload watchers to the lys source: editing lys restarts the
+#   api (uvicorn reload-dirs) and the worker (watchfiles paths) automatically.
+# - No image rebuild involved.
+#
+# Without this file, the stack runs the lys version pinned from PyPI.
+
+services:
+  api:
+    volumes:
+      - ./api:/app/api
+      - ./front/schema.graphql:/app/schema.graphql
+      - ${LYS_SRC:-../../runid/lys}/src/lys:/usr/local/lib/python3.13/site-packages/lys
+    command: ["sh", "-c", "python main.py migrate && exec uvicorn src.app:app --host 0.0.0.0 --port 8000 --reload --reload-dir /app/api --reload-dir /usr/local/lib/python3.13/site-packages/lys"]
+
+  worker:
+    volumes:
+      - ./worker:/app/worker
+      - ${LYS_SRC:-../../runid/lys}/src/lys:/usr/local/lib/python3.13/site-packages/lys
+    command: ["sh", "-c", "watchfiles 'celery -A worker worker --loglevel=info' /app/worker /usr/local/lib/python3.13/site-packages/lys"]
