@@ -17,3 +17,6 @@ api/.env
 
 # Docker volumes (root compose.yaml)
 data/
+
+# Claude Code local shim (imports @AGENTS.md — dev-machine only)
+CLAUDE.md

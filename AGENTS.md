@@ -30,8 +30,15 @@ conventions, workflows and verification checklist.
   English.
 - **R2 — Style.** Python: PEP 8, max 120 chars, 4 spaces, double quotes, type
   hints. TypeScript/React: match the existing files (4 spaces, double quotes).
-- **R3 — Never commit or push without an explicit user instruction.** Implementing
-  is not committing.
+- **R3 — ⛔ NO COMMIT. NO PUSH. NO DB DELETE. NO DB MODIFY. ⛔**
+  **WITHOUT AN EXPLICIT, UNAMBIGUOUS "COMMIT" OR "PUSH" INSTRUCTION FROM THE USER.**
+  Implementing is NOT committing. A compliment is NOT a commit order.
+  A nod of approval is NOT a push order. A design agreement is NOT a push order.
+  If you are unsure whether the user just gave you permission to commit or
+  push: **ASK. DO NOT GUESS. DO NOT ASSUME.**
+  This rule has ZERO tolerance. Violating it is a breach of trust.
+  Applies to: git commit, git push, database DROP/DELETE/TRUNCATE/ALTER,
+  file deletion outside the current task scope.
 - **R4 — No secrets.** Never commit `.env` files or any credential. Values that
   vary per environment go through `.env` / settings.
 - **R5 — Production-ready only.** No shortcuts, no "good enough for now".
