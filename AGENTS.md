@@ -52,6 +52,28 @@ conventions, workflows and verification checklist.
   sibling of the same type and mirror its structure, naming and idioms. The
   reference implementations pointed to by the guides compile and pass tests —
   imitate them.
+- **R9 — Trace the full chain.** Before reporting a change done, walk the ENTIRE
+  chain that the subject touches — not just the file or layer you edited. A
+  change on the front may break the API contract, a task payload, an email
+  template, a signal consumer, or an external automation. The implementation
+  is organic: every piece feeds others, and a change that looks local can
+  introduce bugs three layers away.
+
+  **What to check, at minimum:**
+
+  | You changed… | Also check… |
+  |--------------|-------------|
+  | Front component (props, data shape) | The GraphQL query/fragment that feeds it, the backend webservice's return shape, any signal consumer that refreshes it |
+  | Front GraphQL query/mutation | The backend node/webservice signature, the Relay generated types, every component that shares the fragment |
+  | Backend entity (column, type, constraint) | Every service that reads/writes it, every node that exposes it, every front query that selects it, the migration |
+  | Backend webservice (signature, permission) | Every front restrictedFeature that calls it, the routes manifest, the permission chain |
+  | Backend task / signal | Every front subscriber (`useSignalSubscription`), the notification list/bell formatters |
+  | Email template / event type | The worker's `templates/emails/` (both api AND worker), the translations.json, the front notification formatters |
+  | Any `.env` variable | Both `api/settings.py` AND `worker/settings.py`, the compose services, the `.env.example` documentation |
+
+  If you cannot confidently say "I checked every consumer of what I changed",
+  you are not done. List what you did NOT check in your report — the user
+  decides whether the gap is acceptable, not you.
 
 ## ROUTING — read the guide before the task
 
