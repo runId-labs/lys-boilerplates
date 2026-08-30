@@ -98,3 +98,69 @@ docker compose exec api python main.py makemigrations -m "…"   # after entity 
 ```
 
 Host-side front checks (tests, typecheck, storybook): `cd front && npm run test / npx tsc --noEmit / npm run build`.
+
+## Quality bar — the three-lens review (MANDATORY)
+
+Every piece of code produced, every business rule implemented, every review
+delivered is held to **industry-grade standard** — not student-project level.
+When writing, reviewing, or discussing an implementation, evaluate through
+these three lenses, in this order:
+
+### Lens 1 — Cleanliness (structural quality)
+
+Does the code meet the structural standards of the industry and this stack?
+
+- Framework conventions respected (lys registration, layer separation,
+  naming, i18n, no raw values — see the guides).
+- Industry code standards: PEP 8 / TypeScript strict, separation of
+  responsibilities, single-responsibility functions, no dead code, no
+  copy-paste duplication.
+- Architecture: the right concern in the right layer, no lateral
+  dependencies between modules that should be independent.
+- A reviewer seeing this code in a premium product would not flag it.
+
+### Lens 2 — Correctness (industry-grade logic)
+
+Is the logic what the industry expects from a **paid, production-grade
+application** — no more, no less?
+
+- **No simplistic shortcuts**: school-project patterns (hardcoded edge
+  cases, single-user assumptions, happy-path-only logic) are unacceptable.
+- **No over-engineering either**: speculative abstractions, unnecessary
+  configurability, gold-plating are equally unacceptable. The equilibrium
+  IS the industry standard.
+- **Use existing wheels**: if the framework, the language, or a established
+  library already solves the problem, use it. Reinventing a (worse) version
+  of a solved problem is a defect, not a contribution.
+- **No atypical behavior**: the logic should behave the way a competent
+  practitioner in the domain expects it to. Surprising behavior (even if
+  technically correct) is a design flaw.
+- **If the developer (or agent) is drifting** toward either extreme
+  (naive or baroque), the review must say so explicitly.
+
+### Lens 3 — Safety (attack surface AND data integrity)
+
+Is the code safe against both malicious input AND its own failure paths?
+
+- **Attack surface**: the strict industry definition — injection, access
+  control, information leakage, authentication/authorization bypass. Every
+  input validated; every output that varies by user checked.
+- **Data integrity** (the one reviews forget): read the code as a sequence
+  of state changes and ask *"if an exception hits HERE, what does the
+  database look like?"*
+  - Is the ordering of writes correct? (Save A then B, not B then A.)
+  - Is there a window where half the data is saved and the other half
+    is lost?
+  - Does a rollback leave the system in a coherent state?
+  - Are concurrent accesses to the same data serialized or guarded?
+  - If the answer to any of these is "half the data is gone" or "both
+    halves written twice", that is a safety defect, not a style issue.
+
+### Applying the lenses
+
+| Situation | What to do |
+|-----------|------------|
+| Writing new code | Self-check all three lenses before reporting done |
+| Reviewing code | Evaluate through each lens explicitly; a review that only checks cleanliness is incomplete |
+| Designing a feature | Discuss correctness (lens 2) first; safety (lens 3) shapes the design; cleanliness (lens 1) shapes the implementation |
+| User asks "is this good?" | Answer per-lens, not with a global "yes" or "no" |
