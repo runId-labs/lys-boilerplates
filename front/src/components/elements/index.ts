@@ -7,6 +7,7 @@ import {colorPickerElementConfig} from "./ColorPickerElement/translations";
 import {quickSearchInputElementConfig} from "./QuickSearchInputElement/translations";
 import {tableElementConfig} from "./TableElement/translations";
 import {fileDropZoneElementConfig} from "./FileDropZoneElement/translations";
+import {realtimeStatusElementConfig} from "./RealtimeStatusElement/translations";
 
 const elements = {
     activeFilterBadgesElement: activeFilterBadgesElementConfig,
@@ -17,7 +18,8 @@ const elements = {
     colorPickerElement: colorPickerElementConfig,
     quickSearchInputElement: quickSearchInputElementConfig,
     tableElement: tableElementConfig,
-    fileDropZoneElement: fileDropZoneElementConfig
+    fileDropZoneElement: fileDropZoneElementConfig,
+    realtimeStatusElement: realtimeStatusElementConfig
 };
 
 export default elements;

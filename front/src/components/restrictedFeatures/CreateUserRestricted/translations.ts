@@ -6,8 +6,8 @@ const translations = {
         fr: "Créer un utilisateur"
     },
     successMessage: {
-        en: "User created successfully",
-        fr: "Utilisateur créé avec succès"
+        en: "User created, an invitation email has been sent",
+        fr: "Utilisateur créé, un email d'invitation a été envoyé"
     }
 } as const;
 

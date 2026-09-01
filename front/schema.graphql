@@ -266,11 +266,11 @@ input CreateClientInput {
   """Email address for the new user (will be normalized to lowercase)"""
   email: String!
 
-  """Password (min 8 chars, must contain at least one letter and one digit)"""
-  password: String!
-
   """Language code in format 'en' or 'en-US'"""
   languageCode: String!
+
+  """Password (min 8 chars, must contain at least one letter and one digit)"""
+  password: String!
 
   """Name of the client organization"""
   clientName: String!
@@ -288,9 +288,6 @@ input CreateClientUserInput {
 
   """Email address for the new user (will be normalized to lowercase)"""
   email: String!
-
-  """Password (min 8 chars, must contain at least one letter and one digit)"""
-  password: String!
 
   """Language code in format 'en' or 'en-US'"""
   languageCode: String!
@@ -352,9 +349,6 @@ input CreateSuperUserInput {
   """Email address for the new user (will be normalized to lowercase)"""
   email: String!
 
-  """Password (min 8 chars, must contain at least one letter and one digit)"""
-  password: String!
-
   """Language code in format 'en' or 'en-US'"""
   languageCode: String!
 }
@@ -379,9 +373,6 @@ input CreateUserWithRolesInput {
 
   """Email address for the new user (will be normalized to lowercase)"""
   email: String!
-
-  """Password (min 8 chars, must contain at least one letter and one digit)"""
-  password: String!
 
   """Language code in format 'en' or 'en-US'"""
   languageCode: String!
@@ -844,6 +835,28 @@ type LicenseRuleNode implements Node {
   updatedAt: DateTime
 }
 
+"""An edge in a connection."""
+type LicenseRuleNodeEdge {
+  """A cursor for use in pagination"""
+  cursor: String!
+
+  """The item at the end of the edge"""
+  node: LicenseRuleNode!
+}
+
+type LicenseRuleNodeListConnection {
+  """Pagination data for this connection"""
+  pageInfo: LysPageInfo!
+
+  """Contains the nodes in this connection"""
+  edges: [LicenseRuleNodeEdge!]!
+}
+
+input LicenseRuleNodeOderByType @oneOf {
+  code: Boolean
+  createdAt: Boolean
+}
+
 type LogNode implements Node {
   """The Globally Unique ID of this object"""
   id: ID!
@@ -1077,14 +1090,14 @@ type Mutation {
   updateClientUserRoles(id: ID!, inputs: UpdateClientUserRolesInput!): UserNode!
 
   """
-  Create a new user in an organization. Required: client_id, email, password, language_code. Optional: first_name, last_name, gender_code, role_codes.
+  Create a new user in an organization, invited by email. Required: client_id, email, language_code. Optional: first_name, last_name, gender_code, role_codes.
   ACCESS LEVELS: ROLE, ORGANIZATION_ROLE
   LICENCE FREE
   """
   createClientUser(inputs: CreateClientUserInput!): UserNode!
 
   """
-  Create a new user with global roles. Required: email, password, language_code. Optional: first_name, last_name, gender_code, role_codes.
+  Create a new user with global roles, invited by email. Required: email, language_code. Optional: first_name, last_name, gender_code, role_codes.
   ACCESS LEVELS: ROLE
   LICENCE FREE
   """
@@ -1175,7 +1188,7 @@ type Mutation {
   sendEmailVerification(id: ID!): UserNode!
 
   """
-  Create a new super user. Required: email, password, language_code. Optional: first_name, last_name, gender_code. Super users only.
+  Create a new super user, invited by email. Required: email, language_code. Optional: first_name, last_name, gender_code. Super users only.
   ONLY FOR SUPER USER
   LICENCE FREE
   """
@@ -1666,6 +1679,36 @@ type Query {
     """Returns the items in the list that come after the specified cursor."""
     last: Int = null
   ): LicensePlanVersionNodeListConnection!
+
+  """
+  List the rules a plan version can be limited by. Use 'enabled' to filter by whether the rule is still enforced.
+  ACCESS LEVELS: ROLE
+  LICENCE FREE
+  """
+  allLicenseRules(
+    """Filter by whether the rule is enforced"""
+    enabled: Boolean = null
+
+    """
+    Sort results by field. Available: code, created_at. Use true for ASC, false for DESC
+    """
+    orderBy: LicenseRuleNodeOderByType = null
+
+    """Maximum number of results to return"""
+    limit: Int = null
+
+    """Returns the items in the list that come before the specified cursor."""
+    before: String = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    after: String = null
+
+    """Returns the first n items from the list."""
+    first: Int = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    last: Int = null
+  ): LicenseRuleNodeListConnection!
 
   """
   List SSO links for the connected user.

@@ -13,6 +13,7 @@ import {menuSections, MenuSection} from "@/services/navigation/menuSections";
 import {NAVIGATION_TRANS_PREFIX} from "@/services/navigation";
 import SelectClientRestricted from "@/components/restrictedFeatures/SelectClientRestricted";
 import LinkRestricted from "@/components/restrictedFeatures/LinkRestricted";
+import RealtimeStatusFeature from "@/components/features/RealtimeStatusFeature";
 import NotificationBellRestricted from "@/components/restrictedFeatures/NotificationBellRestricted";
 import DropDownMenuElement from "@/components/elements/DropDownMenuElement";
 import {DropDownMenu} from "@/components/elements/DropDownMenuElement/types";
@@ -232,6 +233,7 @@ const NavBarFeature: React.FC<NavBarFeatureProps> = () => {
                                 nullable
                             />
                         )}
+                        <RealtimeStatusFeature />
                         <NotificationBellRestricted />
                         <button
                             className="btn btn-link theme-toggle-btn"

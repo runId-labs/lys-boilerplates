@@ -6,8 +6,8 @@ const translations = {
         fr: "Créer un super utilisateur"
     },
     successMessage: {
-        en: "Super user created successfully",
-        fr: "Super utilisateur créé avec succès"
+        en: "Super user created, an invitation email has been sent",
+        fr: "Super utilisateur créé, un email d'invitation a été envoyé"
     }
 } as const;
 

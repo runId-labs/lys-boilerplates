@@ -6,10 +6,6 @@ const translations = {
         en: "Email address",
         fr: "Adresse email"
     },
-    password: {
-        en: "Password",
-        fr: "Mot de passe"
-    },
     firstName: {
         en: "First name",
         fr: "Prénom"

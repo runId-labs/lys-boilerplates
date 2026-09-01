@@ -120,8 +120,7 @@ const CreateClientUserRestricted = forwardRef<CreateClientUserRestrictedRefInter
                     inputs: {
                         clientId: clientId,
                         email: data.email,
-                        password: data.password,
-                        languageCode: data.languageCode,
+                                                languageCode: data.languageCode,
                         firstName: data.firstName || null,
                         lastName: data.lastName || null,
                         genderCode: data.genderCode || null,

@@ -13,7 +13,8 @@ import SelectLanguageRestricted from "@/components/restrictedFeatures/SelectLang
  *
  * Feature component (Layer 2) that provides:
  * - User creation form
- * - Email, password, language (required) + first name, last name, gender (optional)
+ * - Email, language (required) + first name, last name, gender (optional)
+ * - No password: the created user receives an invitation email and sets their own
  * - Optional role selection with checkboxes
  * - Validation rules matching backend requirements
  *
@@ -59,14 +60,6 @@ const UserCreationFormFeature = forwardRef<UserCreationFormFeatureRef, UserCreat
                     isFloatingLabel: true,
                     required: true,
                     validator: validators.email(t("emailInvalid")),
-                    xs: 12
-                },
-                {
-                    label: t("password"),
-                    type: "password_edit" as const,
-                    valueKey: "password",
-                    isFloatingLabel: true,
-                    required: true,
                     xs: 12
                 }
             ]
@@ -164,7 +157,6 @@ const UserCreationFormFeature = forwardRef<UserCreationFormFeatureRef, UserCreat
     const handleSubmit = useCallback((params: Record<string, any>) => {
         const formData: UserCreationFormData = {
             email: params.email,
-            password: params.password,
             languageCode: params.languageCode,
             firstName: params.firstName || undefined,
             lastName: params.lastName || undefined,

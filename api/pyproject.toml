@@ -36,3 +36,7 @@ name = "Project code must not import lys components directly (use app_manager)"
 type = "forbidden"
 source_modules = ["src"]
 forbidden_modules = ["lys.apps.*.modules.*.entities", "lys.apps.*.modules.*.services"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "strict"

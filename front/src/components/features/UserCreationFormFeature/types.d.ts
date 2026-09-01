@@ -11,7 +11,6 @@ export interface RoleOption {
  */
 export interface UserCreationFormData {
     email: string;
-    password: string;
     languageCode: string;
     firstName?: string;
     lastName?: string;

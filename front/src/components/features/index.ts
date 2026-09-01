@@ -31,12 +31,14 @@ import {ssoButtonsFeatureConfig} from "./SSOButtonsFeature/translations";
 import {unifiedImportDropZoneFeatureConfig} from "./UnifiedImportDropZoneFeature/translations";
 import {notificationListFeatureConfig} from "./NotificationListFeature/translations";
 import {sidebarMenuFeatureConfig} from "./SidebarMenuFeature/translations";
+import {realtimeStatusFeatureConfig} from "./RealtimeStatusFeature/translations";
 
 const features = {
     loginFeature: loginFeatureConfig,
     requestForgottenPasswordResetFeature: requestForgottenPasswordResetFeatureConfig,
     alertMessageFeature: alertMessageFeatureConfig,
     formFeature: formFeatureConfig,
+    realtimeStatusFeature: realtimeStatusFeatureConfig,
     navBarFeature: navBarFeatureConfig,
     connectedUserManagementTabsFeature: connectedUserManagementTabsFeatureConfig,
     userEmailFormFeature: userEmailFormFeatureConfig,

@@ -15,6 +15,7 @@ from sqlalchemy import text
 from lys.core.managers.app import LysAppManager
 
 from settings import configure_app, sentry_dsn, sentry_traces_sample_rate, SERVICE_NAME
+from src.sse import signal_stream
 
 MAX_CHAT_MESSAGE_LENGTH = 10_000
 MAX_PAGE_CONTEXT_PARAMS = 20
@@ -116,8 +117,8 @@ async def signal_event_generator(request: Request, channel: str) -> AsyncGenerat
     """
     Generate SSE events from Redis PubSub.
 
-    Uses a timeout-based approach to periodically check for client disconnect
-    and allow graceful server shutdown.
+    Owns the subscription and its cleanup; what is written on the wire lives in
+    ``sse.signal_stream``.
     """
     if not app_manager.pubsub:
         raise HTTPException(status_code=503, detail="PubSub not configured")
@@ -128,42 +129,15 @@ async def signal_event_generator(request: Request, channel: str) -> AsyncGenerat
     full_channel = app_manager.pubsub._build_channel(channel)
     pubsub = app_manager.pubsub._async_redis.pubsub()
 
+    async def get_message(timeout: float):
+        return await pubsub.get_message(ignore_subscribe_messages=True, timeout=timeout)
+
     try:
         await pubsub.subscribe(full_channel)
         logging.info(f"SSE client subscribed to: {full_channel}")
 
-        while True:
-            # Check if client disconnected
-            if await request.is_disconnected():
-                logging.info(f"SSE client disconnected from: {full_channel}")
-                break
-
-            try:
-                # Use timeout to allow periodic disconnect checks
-                message = await asyncio.wait_for(
-                    pubsub.get_message(ignore_subscribe_messages=True, timeout=1.0),
-                    timeout=15.0  # Check disconnect every 15s max
-                )
-
-                if message and message["type"] == "message":
-                    data = message["data"]
-                    if isinstance(data, bytes):
-                        data = data.decode("utf-8")
-
-                    try:
-                        parsed = json.loads(data)
-                        event_data = json.dumps({
-                            "channel": channel,
-                            "signal": parsed.get("signal", ""),
-                            "params": parsed.get("params")
-                        })
-                        yield f"data: {event_data}\n\n"
-                    except json.JSONDecodeError:
-                        logging.warning(f"Invalid JSON in channel {full_channel}: {data}")
-
-            except asyncio.TimeoutError:
-                # Send heartbeat to keep connection alive and check client status
-                yield ": heartbeat\n\n"
+        async for event in signal_stream(channel, get_message, request.is_disconnected):
+            yield event
 
     except asyncio.CancelledError:
         logging.info(f"SSE connection cancelled for: {full_channel}")

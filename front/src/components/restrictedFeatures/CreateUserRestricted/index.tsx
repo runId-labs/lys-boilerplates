@@ -116,8 +116,7 @@ const CreateUserRestricted = forwardRef<CreateUserRestrictedRefInterface, Create
                 variables: {
                     inputs: {
                         email: data.email,
-                        password: data.password,
-                        languageCode: data.languageCode,
+                                                languageCode: data.languageCode,
                         firstName: data.firstName || null,
                         lastName: data.lastName || null,
                         genderCode: data.genderCode || null,

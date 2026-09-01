@@ -1,0 +1,8 @@
+.realtime-status-element {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--lys-spacing-xs, 0.25rem);
+    color: var(--bs-warning-text-emphasis, var(--bs-warning));
+    font-size: var(--lys-font-size-sm, 0.875rem);
+    white-space: nowrap;
+}

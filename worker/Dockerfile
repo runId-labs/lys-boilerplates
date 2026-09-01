@@ -10,7 +10,7 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 RUN pip install --no-cache-dir \
-    "runid-lys[all]>=0.42.0,<1.0.0" \
+    "runid-lys[all]>=0.44.1,<1.0.0" \
     python-json-logger \
     "sentry-sdk[celery]>=2.0.0,<3.0.0" \
     watchfiles
