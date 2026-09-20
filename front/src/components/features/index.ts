@@ -32,6 +32,7 @@ import {unifiedImportDropZoneFeatureConfig} from "./UnifiedImportDropZoneFeature
 import {notificationListFeatureConfig} from "./NotificationListFeature/translations";
 import {sidebarMenuFeatureConfig} from "./SidebarMenuFeature/translations";
 import {realtimeStatusFeatureConfig} from "./RealtimeStatusFeature/translations";
+import {aiConversationListFeatureConfig} from "./AiConversationListFeature/translations";
 
 const features = {
     loginFeature: loginFeatureConfig,
@@ -39,6 +40,7 @@ const features = {
     alertMessageFeature: alertMessageFeatureConfig,
     formFeature: formFeatureConfig,
     realtimeStatusFeature: realtimeStatusFeatureConfig,
+    aiConversationListFeature: aiConversationListFeatureConfig,
     navBarFeature: navBarFeatureConfig,
     connectedUserManagementTabsFeature: connectedUserManagementTabsFeatureConfig,
     userEmailFormFeature: userEmailFormFeatureConfig,

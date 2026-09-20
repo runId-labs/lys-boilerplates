@@ -51,6 +51,17 @@
         flex-direction: column;
         gap: 0.75rem;
 
+        // The `display` above wins over the hidden attribute's UA rule, so hiding the
+        // conversation behind the history has to be restated here. Kept mounted rather
+        // than unmounted so the scroll position survives a trip through the history.
+        &[hidden] {
+            display: none;
+        }
+
+        &.chatbot-history {
+            gap: 0;
+        }
+
         .chatbot-message {
             padding: 0.75rem 1rem;
             border-radius: 14px;
@@ -212,11 +223,32 @@
     }
 }
 
-// Header action buttons (expand + close)
+// Header action buttons (new conversation, history, expand + close)
 .chatbot-header-actions {
     display: flex;
     align-items: center;
     gap: 0.25rem;
+
+    // These are icon buttons: Bootstrap's .btn-link hover only shifts the text colour,
+    // which reads as no feedback at all on a glyph. A background gives them a target.
+    .btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 2rem;
+        height: 2rem;
+        padding: 0;
+        border-radius: var(--bs-border-radius);
+
+        &:hover,
+        &:focus-visible {
+            background: var(--lys-color-surface-hover);
+        }
+
+        &[aria-pressed="true"] {
+            background: var(--lys-color-surface-hover);
+        }
+    }
 }
 
 // Enlarged "dialog" mode: the chatbot floats over the page, centered and large,

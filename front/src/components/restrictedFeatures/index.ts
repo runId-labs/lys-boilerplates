@@ -22,6 +22,8 @@ import {updateClientRestrictedConfig} from "./UpdateClientRestricted/translation
 import {getUserRestrictedConfig} from "./GetUserRestricted/translations";
 import {listSuperUserRestrictedConfig} from "./ListSuperUserRestricted/translations";
 import {chatbotRestrictedConfig} from "./ChatbotRestricted/translations";
+import {listAiConversationRestrictedConfig} from "./ListAiConversationRestricted/translations";
+import {loadAiConversationRestrictedConfig} from "./LoadAiConversationRestricted/translations";
 import {updateSuperUserPrivateDataRestrictedConfig} from "./UpdateSuperUserPrivateDataRestricted/translations";
 import {updateSuperUserEmailRestrictedConfig} from "./UpdateSuperUserEmailRestricted/translations";
 import {getSuperUserRestrictedConfig} from "./GetSuperUserRestricted/translations";
@@ -77,6 +79,8 @@ const restrictedFeatures = {
     getUserRestricted: getUserRestrictedConfig,
     listSuperUserRestricted: listSuperUserRestrictedConfig,
     chatbotRestricted: chatbotRestrictedConfig,
+    listAiConversationRestricted: listAiConversationRestrictedConfig,
+    loadAiConversationRestricted: loadAiConversationRestrictedConfig,
     updateSuperUserPrivateDataRestricted: updateSuperUserPrivateDataRestrictedConfig,
     updateSuperUserEmailRestricted: updateSuperUserEmailRestrictedConfig,
     getSuperUserRestricted: getSuperUserRestrictedConfig,

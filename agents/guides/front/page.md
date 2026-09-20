@@ -18,7 +18,10 @@ mounting one restrictedFeature).
 - **R4 — Chatbot opt-in.** `chatbotBehaviour` (`prompt`, `contextTools`,
   `autoOpenOnEnter`, `showWelcomeMessage`) is optional; add it when the page is a
   chatbot-relevant destination. After changing it, regenerate the routes
-  manifest (`npm run generate:routes`) — verification F-manifest.
+  manifest (`npm run generate:routes`) — verification F-manifest. The manifest is
+  versioned as one document at API boot (lys `ai_prompt_version`): editing a page
+  prompt creates a new version, and past turns stay attributable to the manifest
+  that was in force when they ran.
 - **R5 — Registry.** Register the page config in `pages/index.ts`; the route
   table (`generateRouteTable(lys)`) and the manifest pick it up automatically.
 - **R6 — Navigation entries.** A new private page reachable from the menu needs

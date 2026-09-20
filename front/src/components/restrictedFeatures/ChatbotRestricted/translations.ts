@@ -17,6 +17,14 @@ const translations = {
         en: "Send",
         fr: "Envoyer"
     },
+    newConversation: {
+        en: "New conversation",
+        fr: "Nouvelle conversation"
+    },
+    history: {
+        en: "Conversation history",
+        fr: "Historique des conversations"
+    },
     close: {
         en: "Close",
         fr: "Fermer"

@@ -1,5 +1,77 @@
 directive @oneOf on INPUT_OBJECT
 
+type AIConversationMessageNode implements Node {
+  """The Globally Unique ID of this object"""
+  id: ID!
+  role: String!
+  content: String
+  createdAt: DateTime!
+
+  """Conversation this message belongs to."""
+  conversationId: ID!
+}
+
+"""An edge in a connection."""
+type AIConversationMessageNodeEdge {
+  """A cursor for use in pagination"""
+  cursor: String!
+
+  """The item at the end of the edge"""
+  node: AIConversationMessageNode!
+}
+
+type AIConversationMessageNodeListConnection {
+  """Pagination data for this connection"""
+  pageInfo: LysPageInfo!
+
+  """Contains the nodes in this connection"""
+  edges: [AIConversationMessageNodeEdge!]!
+}
+
+input AIConversationMessageNodeOderByType @oneOf {
+  createdAt: Boolean
+}
+
+type AIConversationNode implements Node {
+  """The Globally Unique ID of this object"""
+  id: ID!
+  purpose: String!
+  title: String
+  createdAt: DateTime!
+  updatedAt: DateTime
+  archivedAt: DateTime
+
+  """Owner of the conversation."""
+  userId: ID!
+
+  """
+  Title to show in a listing: the conversation title, falling back to the truncated opening message while no title has been set.
+  """
+  displayTitle: String
+}
+
+"""An edge in a connection."""
+type AIConversationNodeEdge {
+  """A cursor for use in pagination"""
+  cursor: String!
+
+  """The item at the end of the edge"""
+  node: AIConversationNode!
+}
+
+type AIConversationNodeListConnection {
+  """Pagination data for this connection"""
+  pageInfo: LysPageInfo!
+
+  """Contains the nodes in this connection"""
+  edges: [AIConversationNodeEdge!]!
+}
+
+input AIConversationNodeOderByType @oneOf {
+  createdAt: Boolean
+  updatedAt: Boolean
+}
+
 input AIMessageInput {
   message: String!
   conversationId: String = null
@@ -948,6 +1020,27 @@ type Mutation {
   sendAiMessage(inputs: AIMessageInput!): AIMessageNode!
 
   """
+  Rename a conversation. Required: id (conversation ID), inputs.title (new title).
+  ACCESS LEVELS: OWNER
+  LICENCE FREE
+  """
+  updateAiConversationTitle(id: ID!, inputs: UpdateAIConversationTitleInput!): AIConversationNode!
+
+  """
+  Archive a conversation, hiding it from the default listing. Required: id.
+  ACCESS LEVELS: OWNER
+  LICENCE FREE
+  """
+  archiveAiConversation(id: ID!): AIConversationNode!
+
+  """
+  Restore an archived conversation to the default listing. Required: id.
+  ACCESS LEVELS: OWNER
+  LICENCE FREE
+  """
+  unarchiveAiConversation(id: ID!): AIConversationNode!
+
+  """
   Record the connected user's consent for the specific version shown.
   ACCESS LEVELS: CONNECTED
   LICENCE FREE
@@ -1401,6 +1494,66 @@ input PlanVersionRuleInput {
 
 type Query {
   _service: _Service!
+
+  """
+  Replay the messages of a conversation, oldest first.
+  ACCESS LEVELS: OWNER, ROLE
+  LICENCE FREE
+  """
+  allAiConversationMessages(
+    conversationId: ID!
+
+    """
+    Sort results by field. Available: created_at. Use true for ASC, false for DESC
+    """
+    orderBy: AIConversationMessageNodeOderByType = null
+
+    """Maximum number of results to return"""
+    limit: Int = null
+
+    """Returns the items in the list that come before the specified cursor."""
+    before: String = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    after: String = null
+
+    """Returns the first n items from the list."""
+    first: Int = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    last: Int = null
+  ): AIConversationMessageNodeListConnection!
+
+  """
+  List AI conversations, newest first - active ones by default, the archive alone with archived=true, both with archived=null. Restricted to the connected user's own conversations unless a role grants full access.
+  ACCESS LEVELS: OWNER, ROLE
+  LICENCE FREE
+  """
+  allAiConversations(
+    userId: ID = null
+    purpose: String = null
+    archived: Boolean = false
+
+    """
+    Sort results by field. Available: created_at, updated_at. Use true for ASC, false for DESC
+    """
+    orderBy: AIConversationNodeOderByType = null
+
+    """Maximum number of results to return"""
+    limit: Int = null
+
+    """Returns the items in the list that come before the specified cursor."""
+    before: String = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    after: String = null
+
+    """Returns the first n items from the list."""
+    first: Int = null
+
+    """Returns the items in the list that come after the specified cursor."""
+    last: Int = null
+  ): AIConversationNodeListConnection!
 
   """
   List all file imports with optional filters, ordered by creation date (newest first).
@@ -2494,6 +2647,11 @@ type SuccessNode {
 
 type UnreadNotificationsCountNode {
   unreadCount: Int!
+}
+
+input UpdateAIConversationTitleInput {
+  """New title of the conversation"""
+  title: String!
 }
 
 input UpdateClientInput {

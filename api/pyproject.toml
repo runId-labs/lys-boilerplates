@@ -9,7 +9,7 @@ readme = "README.md"
 requires-python = ">=3.13"
 
 dependencies = [
-    "runid-lys[all]>=0.1.0,<1.0.0",
+    "runid-lys[all]>=0.48.0,<1.0.0",
     "python-json-logger>=3.0.0,<4.0.0",
     "sentry-sdk[fastapi]>=2.0.0,<3.0.0",
 ]

@@ -287,6 +287,12 @@ def configure_ai():
             "model": chatbot_model,
             "timeout": 60,
             # TODO: Customize the system prompt for your project
+            # Versioned: lys records each distinct prompt content in ai_prompt_version
+            # at boot and stamps every user turn with the version in force, so answers
+            # stay attributable to the prompt that produced them across prompt edits.
+            # Any other key of this endpoint that carries prompt text (e.g. a localised
+            # summary_header override) must be listed under "prompt_segments" to be
+            # versioned the same way.
             "system_prompt": """You are a helpful AI assistant.
 
 Rules:

@@ -19,6 +19,9 @@ import {LysMutationProvider} from "lys-front/providers";
 import {LysMutationRefInterface} from "lys-front/providers";
 import ChatbotProposalRestricted from "@/components/restrictedFeatures/ChatbotProposalRestricted";
 import {ProposalConfig} from "@/components/restrictedFeatures/ChatbotProposalRestricted/types";
+import ListAiConversationRestricted from "@/components/restrictedFeatures/ListAiConversationRestricted";
+import LoadAiConversationRestricted from "@/components/restrictedFeatures/LoadAiConversationRestricted";
+import {ChatMessage} from "lys-front/providers";
 import {useRouteInfo} from "lys-front/providers";
 import InputGroup from "react-bootstrap/InputGroup";
 import Form from "react-bootstrap/Form";
@@ -69,7 +72,7 @@ const ChatbotRestricted = forwardRef<ChatbotRestrictedRefInterface, ChatbotRestr
         const alertMessage = useAlertMessages();
         const {
             messages, conversationId, isStreaming,
-            addMessage, updateLastMessage, setConversationId,
+            addMessage, updateLastMessage, setConversationId, setMessages, clearConversation,
             setIsChatbotMode, setIsStreaming, triggerRefresh
         } = useChatbot();
         const {context: pageContext} = usePageContext();
@@ -90,6 +93,14 @@ const ChatbotRestricted = forwardRef<ChatbotRestrictedRefInterface, ChatbotRestr
          ******************************************************************************************************************/
 
         const [mutationRef, setMutationRef] = useState<LysMutationRefInterface | null>(null);
+
+        // Conversation being resumed from the history panel. Set on selection, cleared once
+        // its messages are in: the loader is mounted only for that window.
+        const [resumingConversationId, setResumingConversationId] = useState<string | null>(null);
+
+        // History replaces the conversation inside the chatbot rather than opening beside it:
+        // browsing past conversations is a move within the chat, not a separate screen.
+        const [isHistoryOpen, setIsHistoryOpen] = useState(false);
         const [message, setMessage] = useState("");
         // What the assistant is doing while it works. Between the question and the first token
         // the user otherwise faces a blank screen for 25-35 s (measured), with no clue whether
@@ -340,6 +351,46 @@ const ChatbotRestricted = forwardRef<ChatbotRestrictedRefInterface, ChatbotRestr
         }, [abortStreaming]);
 
         /**
+         * Resume a conversation picked in the history list.
+         *
+         * The list only reports which conversation was chosen; replaying its messages and
+         * returning to the conversation view happen here.
+         */
+        const handleConversationSelected = useCallback((selectedConversationId: string) => {
+            setIsHistoryOpen(false);
+            setResumingConversationId(selectedConversationId);
+        }, []);
+
+        const handleConversationLoaded = useCallback((loadedMessages: ChatMessage[]) => {
+            setMessages(loadedMessages);
+            // The id travels as a GlobalID everywhere a client handles it - the chat stream
+            // hands out the same reference the listing returns - so it is stored as received.
+            setConversationId(resumingConversationId);
+            setResumingConversationId(null);
+            // Land on the latest exchange, where the conversation was left off, rather than
+            // at its top. Deferred like the other scrolls here: the container has no height
+            // to scroll until the replayed messages have rendered.
+            setTimeout(scrollToBottom, 100);
+        }, [resumingConversationId, setMessages, setConversationId, scrollToBottom]);
+
+        const toggleHistory = useCallback(() => {
+            setIsHistoryOpen((open) => !open);
+        }, []);
+
+        /**
+         * Start a fresh conversation.
+         *
+         * Only clears what the client holds: with no conversation id, the next message makes
+         * the server open a new one. The previous conversation is left untouched and stays
+         * reachable from the history.
+         */
+        const startNewConversation = useCallback(() => {
+            clearConversation();
+            setIsHistoryOpen(false);
+            setResumingConversationId(null);
+        }, [clearConversation]);
+
+        /**
          * Expose hasPermission via ref
          */
         useImperativeHandle(ref, () => ({
@@ -380,6 +431,13 @@ const ChatbotRestricted = forwardRef<ChatbotRestrictedRefInterface, ChatbotRestr
                     <div className={`chatbot-restricted ${isExpanded ? "chatbot-restricted--expanded" : ""}`}>
                         {/* Chat content */}
                         <div className="chatbot-content">
+                        {resumingConversationId && (
+                            <LoadAiConversationRestricted
+                                conversationId={resumingConversationId}
+                                onLoaded={handleConversationLoaded}
+                            />
+                        )}
+
                         {/* Header */}
                         {!hideHeader && (
                             <div className="chatbot-header">
@@ -388,6 +446,26 @@ const ChatbotRestricted = forwardRef<ChatbotRestrictedRefInterface, ChatbotRestr
                                     <p className="chatbot-subtitle">{t("subtitle")}</p>
                                 </div>
                                 <div className="chatbot-header-actions">
+                                    <ButtonElement
+                                        variant="link"
+                                        size="sm"
+                                        onClick={startNewConversation}
+                                        aria-label={t("newConversation")}
+                                        title={t("newConversation")}
+                                        disabled={isStreaming}
+                                    >
+                                        <i className="bi bi-pencil-square"></i>
+                                    </ButtonElement>
+                                    <ButtonElement
+                                        variant="link"
+                                        size="sm"
+                                        onClick={toggleHistory}
+                                        aria-label={t("history")}
+                                        title={t("history")}
+                                        aria-pressed={isHistoryOpen}
+                                    >
+                                        <i className="bi bi-clock-history"></i>
+                                    </ButtonElement>
                                     {onToggleExpand && (
                                         <ButtonElement
                                             variant="link"
@@ -411,8 +489,22 @@ const ChatbotRestricted = forwardRef<ChatbotRestrictedRefInterface, ChatbotRestr
                             </div>
                         )}
 
+                        {/* History browsing takes the conversation's place */}
+                        {isHistoryOpen && (
+                            <div className="chatbot-messages chatbot-history">
+                                <ListAiConversationRestricted
+                                    onConversationSelected={handleConversationSelected}
+                                    activeConversationId={conversationId}
+                                />
+                            </div>
+                        )}
+
                         {/* Messages */}
-                        <div className="chatbot-messages" ref={messagesContainerRef}>
+                        <div
+                            className="chatbot-messages"
+                            ref={messagesContainerRef}
+                            hidden={isHistoryOpen}
+                        >
                             {/* Welcome message when conversation is empty */}
                             {messages.length === 0 && welcomeMessage && (
                                 <div className="chatbot-message assistant welcome">
@@ -476,8 +568,8 @@ const ChatbotRestricted = forwardRef<ChatbotRestrictedRefInterface, ChatbotRestr
                                 })}
                         </div>
 
-                        {/* Input or Proposal */}
-                        <div className="chatbot-input">
+                        {/* Input or Proposal - nothing to write while browsing history */}
+                        <div className="chatbot-input" hidden={isHistoryOpen}>
                             {activeProposal ? (
                                 <ChatbotProposalRestricted
                                     content={activeProposal.content}

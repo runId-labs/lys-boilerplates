@@ -1,40 +1,9 @@
 import {ReactNode} from "react";
 
-/**
- * Relay PageInfo structure (from GraphQL connections)
- */
-export interface RelayPageInfo {
-    hasNextPage: boolean;
-    hasPreviousPage: boolean;
-    startCursor?: string | null;
-    endCursor?: string | null;
-    totalCount?: number | null;
-}
-
-/**
- * Pagination change event data
- */
-export interface PaginationChangeEvent {
-    /**
-     * Page size for forward pagination (with `after`). Null on a backward page.
-     */
-    first?: number | null;
-
-    /**
-     * Page size for backward pagination (with `before`). Null on a forward page.
-     */
-    last?: number | null;
-
-    /**
-     * Cursor for next page (forward pagination).
-     */
-    after?: string | null;
-
-    /**
-     * Cursor for previous page (backward pagination).
-     */
-    before?: string | null;
-}
+// The connection shapes are the framework's: a page of a Relay connection looks the same
+// in every application, only the pager rendering it is this project's.
+export type {RelayPageInfo, PaginationChangeEvent} from "lys-front/types";
+import type {RelayPageInfo, PaginationChangeEvent} from "lys-front/types";
 
 /**
  * PaginationElement component props

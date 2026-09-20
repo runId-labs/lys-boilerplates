@@ -1,7 +1,6 @@
 import asyncio
 import json
 import logging
-import uuid
 from datetime import datetime, UTC
 from typing import AsyncGenerator
 
@@ -180,11 +179,16 @@ async def sse_chat(request: Request):
     if len(message_text) > MAX_CHAT_MESSAGE_LENGTH:
         raise HTTPException(status_code=400, detail=f"Message exceeds maximum length of {MAX_CHAT_MESSAGE_LENGTH}")
 
+    # Clients only ever handle GlobalIDs - the stream hands one out, the conversation
+    # listing returns the same - so the raw entity id is resolved here, at the boundary.
+    # Imported in the handler like PageContextModel below: lys models load after configure_app().
+    from lys.apps.ai.modules.conversation.models import extract_conversation_id
+
     conversation_id = body.get("conversationId")
     if conversation_id is not None:
         try:
-            uuid.UUID(conversation_id)
-        except (ValueError, AttributeError):
+            conversation_id = extract_conversation_id(conversation_id)
+        except ValueError:
             raise HTTPException(status_code=400, detail="Invalid conversation ID format")
 
     context_raw = body.get("context")

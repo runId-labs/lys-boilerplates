@@ -123,29 +123,53 @@ def configure_core():
                     "mistral": os.getenv("MISTRAL_API_KEY"),
                     "anthropic": os.getenv("ANTHROPIC_API_KEY"),
                 },
-                # Conversation compaction runs in the worker (summarize_conversation
-                # task). Cheap model; the prompt preserves the conversation language
-                # and attributes each fact to its subject.
+                # Conversation compaction runs in the worker (summarize_conversation task).
+                # Cheap model; the system prompt is left to lys's locale-neutral default,
+                # which preserves the conversation language and attributes each fact to
+                # its subject.
                 "conversation_summary": {
                     "provider": os.getenv("CONVERSATION_SUMMARY_PROVIDER", "mistral"),
                     "model": os.getenv("CONVERSATION_SUMMARY_MODEL", "mistral-small-latest"),
                     "timeout": 60,
-                    "system_prompt": (
-                        "Tu maintiens un résumé continu du début d'une conversation pour qu'elle "
-                        "tienne dans un contexte limité. À partir du résumé précédent (s'il existe) "
-                        "et du lot de messages suivant, produis un résumé unique et mis à jour qui "
-                        "conserve chaque fait utile à la décision, chaque question ouverte et chaque "
-                        "intention de l'utilisateur. Rattache chaque fait à son sujet précis "
-                        "(société, année, thème) pour ne jamais confondre deux sujets distincts. "
-                        "Garde les noms, chiffres et identifiants à l'identique. Rédige le résumé "
-                        "dans la langue de la conversation. Ne produis que le résumé, sans préambule."
-                    ),
                     "options": {
                         "temperature": 0.2,
                     },
                 },
+                # Conversation titling runs in the worker (generate_conversation_title task),
+                # once per conversation from its opening message. The output is a handful of
+                # words, so the cheapest model is enough; a listing falls back to the truncated
+                # opening message while the title is missing.
+                "conversation_title": {
+                    "provider": os.getenv("CONVERSATION_TITLE_PROVIDER", "mistral"),
+                    "model": os.getenv("CONVERSATION_TITLE_MODEL", "mistral-small-latest"),
+                    "timeout": 30,
+                    "options": {
+                        "temperature": 0.2,
+                    },
+                },
+                # Semantic indexing of conversation messages. Mistral-only: no fallback is
+                # wired on purpose - two providers do not embed into the same space, so
+                # answering with a second one would store vectors that cannot be compared
+                # with those already indexed. A failure has to surface, not be papered over.
+                "embedding": {
+                    "provider": os.getenv("EMBEDDING_PROVIDER", "mistral"),
+                    "model": os.getenv("EMBEDDING_MODEL", "mistral-embed"),
+                    "timeout": 60,
+                    "options": {},
+                },
                 # TODO: Add worker-side AI endpoints here (analysis, extraction...),
                 # resolved per purpose from {PURPOSE}_PROVIDER / {PURPOSE}_MODEL env vars.
+                #
+                # Prompt contract (lys AIService versions prompts at boot, in
+                # ai_prompt_version, and stamps every user turn with the version in
+                # force so answers stay attributable to the prompt that produced them):
+                # - "system_prompt" is versioned automatically.
+                # - Any OTHER key of the endpoint that carries prompt text (a
+                #   user-prompt template, a segment header) must be listed under
+                #   "prompt_segments" to be versioned too, and is read at call time
+                #   with ai_service.get_prompt_segment(purpose, key).
+                # - One purpose per distinct prompt: never override system_prompt at
+                #   runtime on a shared purpose — each version has to stay traceable.
             },
             "pubsub": {
                 "redis_url": os.getenv("REDIS_URL", "redis://localhost:6379/0"),
@@ -204,6 +228,14 @@ def configure_celery():
         "apply-pending-plan-changes-daily": {
             "task": "lys.apps.licensing.tasks.apply_pending_plan_changes",
             "schedule": crontab(hour=1, minute=0),
+        },
+        # Fills the search vectors of conversation messages. Every ten minutes rather than
+        # daily: the pass is cheap and bounded, and a message left unindexed until the next
+        # night would be invisible to a search made the same day. Also picks up whatever was
+        # written while the worker was down, and the messages that predate the feature.
+        "index-pending-ai-messages": {
+            "task": "lys.apps.ai.tasks.index_pending_messages",
+            "schedule": crontab(minute="*/10"),
         },
     }
 
